@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -17,5 +18,11 @@ public class MovieService {
                 .stream()
                 .map(MovieDtoMapper::map)
                 .toList();
+    }
+
+    public Optional<MovieDto> findMovieById(Long id){
+        return movieRepository
+                .findById(id)
+                .map(MovieDtoMapper::map);
     }
 }

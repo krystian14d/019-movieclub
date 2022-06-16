@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"
+<html lang="pl"
       xmlns:th="https://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Tytuł filmu - MovieClub</title>
+<!--    Ustawiamy tytuł-->
+    <title th:text="|${movie.title} - MovieClub">Tytuł filmu - MovieClub</title>
 </head>
 <body>
 <div class="container">
@@ -12,15 +13,20 @@
         <section class="movie">
             <div class="movie-summary">
                 <img src="../static/img/poster-placeholder.png"
+                     th:src="@{/img/poster-placeholder.png}"
                      alt="tytuł filmu"
+                     th:alt="${movie.title}"
                      class="movie-summary-cover"/>
 <!--                Informacje o filmie-->
                 <div class="movie-summary-info">
-                    <h1 class="movie-summary-title">Władca Pierścieni</h1>
-                    <p class="movie-summary-original-title">Lord of the rings</p>
-                    <p class="movie-summary-item">Rok: 2001</p>
-                    <p class="movie-summary-item">Gatunek:<a href="#">Fantasy</a> </p>
-                    <p class="movie-summary-item" >
+                    <h1 class="movie-summary-title" th:text="${movie.title}">Władca Pierścieni</h1>
+                    <p class="movie-summary-original-title" th:text="${movie.originalTitle}">Lord of the rings</p>
+                    <p class="movie-summary-item" th:text="|Rok: ${movie.releaseYear}">Rok: 2001</p>
+                    <!-- Ustawiamy link do strony gatunku filmowego, np. /gatunek/fantasy -->
+                    <p class="movie-summary-item">Gatunek:<a href="#"
+                    th:href="@{|/gatunek/${movie.genre}|}"
+                    th:text="${movie.genre}">Fantasy</a> </p>
+                    <p class="movie-summary-item" th:text="${movie.shortDescription}">
                         Podróż odważnego hobbita i jego towarzyszy w poszukiwaniu pierścienia.
                     </p>
                 </div>
@@ -53,12 +59,13 @@
             <h2 class="movie-section-heading">Trailer</h2>
             <iframe width="560" height="315" class="movie-trailer"
                     src="https://www.youtube.com/embed/V75dMMIW2B4"
+                    th:src="|https://www.youtube.com/embed/${movie.youtubeTrailerId}|"
                     frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </section>
         <!-- opis -->
         <section class="movie-section">
             <h2 class="movie-section-heading">Opis</h2>
-            <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at,
+            <p th:text="${movie.description}">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at,
                 tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
         </section>
     </main>
