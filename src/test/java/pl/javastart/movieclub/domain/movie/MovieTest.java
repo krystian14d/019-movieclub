@@ -27,6 +27,10 @@ class MovieTest {
         //GIVEN
         long id = 1L;
         String title = "Forrest Gump";
+        String originalTitle = "Original title of Forrest Gump";
+        String shortDesciption = "Short description about movie Forrest Gump.";
+        String description = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId = "linkToYouTube";
         int releaseYear = 1997;
         boolean promoted = false;
         long genreId = 1L;
@@ -40,7 +44,10 @@ class MovieTest {
         underTest = new Movie();
         underTest.setId(id);
         underTest.setTitle(title);
-        underTest.setOriginalTitle(title);
+        underTest.setOriginalTitle(originalTitle);
+        underTest.setShortDescription(shortDesciption);
+        underTest.setDescription(description);
+        underTest.setYoutubeTrailerId(youtubeTrailerId);
         underTest.setReleaseYear(releaseYear);
         underTest.setGenre(genre);
         underTest.setPromoted(promoted);
@@ -49,7 +56,10 @@ class MovieTest {
         assertThat(underTest.getGenre()).usingRecursiveComparison().isEqualTo(genre);
         assertThat(underTest.getId()).isEqualTo(id);
         assertThat(underTest.getTitle()).isEqualTo(title);
-        assertThat(underTest.getOriginalTitle()).isEqualTo(title);
+        assertThat(underTest.getOriginalTitle()).isEqualTo(originalTitle);
+        assertThat(underTest.getShortDescription()).isEqualTo(shortDesciption);
+        assertThat(underTest.getDescription()).isEqualTo(description);
+        assertThat(underTest.getYoutubeTrailerId()).isEqualTo(youtubeTrailerId);
         assertThat(underTest.getReleaseYear()).isEqualTo(releaseYear);
         assertThat(underTest.isPromoted()).isEqualTo(promoted);
     }

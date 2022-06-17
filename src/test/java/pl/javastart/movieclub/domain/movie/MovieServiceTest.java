@@ -31,6 +31,10 @@ class MovieServiceTest {
         //GIVEN
         long id1 = 1L;
         String title1 = "Forrest Gump";
+        String originalTitle1 = "Original title of Forrest Gump";
+        String shortDesciption1 = "Short description about movie Forrest Gump.";
+        String description1 = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId1 = "linkToYouTube";
         int releaseYear1 = 1997;
         boolean promoted1 = true;
         long genre1Id = 1L;
@@ -43,13 +47,20 @@ class MovieServiceTest {
         Movie movie1 = new Movie();
         movie1.setId(id1);
         movie1.setTitle(title1);
-        movie1.setOriginalTitle(title1);
+        movie1.setOriginalTitle(originalTitle1);
+        movie1.setShortDescription(shortDesciption1);
+        movie1.setDescription(description1);
+        movie1.setYoutubeTrailerId(youtubeTrailerId1);
         movie1.setReleaseYear(releaseYear1);
         movie1.setGenre(genre1);
         movie1.setPromoted(promoted1);
 
         long id2 = 2L;
         String title2 = "Home Alone";
+        String originalTitle2 = "Original title of Home Alone";
+        String shortDesciption2 = "Short description about movie Home Alone.";
+        String description2 = "Long description of movie Home ALone.";
+        String youtubeTrailerId2 = "linkToYouTube2";
         int releaseYear2 = 2002;
         boolean promoted2 = true;
         long genre2Id = 2L;
@@ -62,7 +73,10 @@ class MovieServiceTest {
         Movie movie2 = new Movie();
         movie2.setId(id2);
         movie2.setTitle(title2);
-        movie2.setOriginalTitle(title2);
+        movie2.setOriginalTitle(originalTitle2);
+        movie2.setShortDescription(shortDesciption2);
+        movie2.setDescription(description2);
+        movie2.setYoutubeTrailerId(youtubeTrailerId2);
         movie2.setReleaseYear(releaseYear2);
         movie2.setGenre(genre2);
         movie2.setPromoted(promoted2);

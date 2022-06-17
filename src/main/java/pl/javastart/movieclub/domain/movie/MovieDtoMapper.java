@@ -14,6 +14,6 @@ class MovieDtoMapper {
                 movie.getReleaseYear(),
                 movie.getGenre().getName(),
                 movie.isPromoted()
-                );
+        );
     }
 }

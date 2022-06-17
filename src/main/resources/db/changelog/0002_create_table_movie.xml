@@ -4,14 +4,11 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.2.xsd">
-
-    <changeSet id="0001-1" author="krystian">
+    <changeSet id="0002-1" author="javastart/krystian">
         <createTable tableName="movie">
-
             <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-
             <column name="title" type="VARCHAR(100)"/>
             <column name="original_title" type="VARCHAR(100)"/>
             <column name="release_year" type="INT"/>
@@ -25,8 +22,6 @@
                              referencedTableName="genre"
                              referencedColumnNames="id"/>
             </column>
-
         </createTable>
     </changeSet>
-
 </databaseChangeLog>

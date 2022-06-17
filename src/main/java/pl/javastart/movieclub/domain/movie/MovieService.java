@@ -13,16 +13,15 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
 
+
     public List<MovieDto> findAllPromotedMovies() {
-        return movieRepository.findAllByPromotedIsTrue()
-                .stream()
+        return movieRepository.findAllByPromotedIsTrue().stream()
                 .map(MovieDtoMapper::map)
                 .toList();
     }
 
-    public Optional<MovieDto> findMovieById(Long id){
-        return movieRepository
-                .findById(id)
-                .map(MovieDtoMapper::map);
+    public Optional<MovieDto> findMovieById(Long id) {
+        return movieRepository.findById(id).map(MovieDtoMapper::map);
     }
 }
+
