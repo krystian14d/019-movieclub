@@ -9,14 +9,19 @@ import pl.javastart.movieclub.domain.movie.dto.MovieDto;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
 class MovieServiceTest {
 
     @Mock
     private MovieRepository movieRepository;
+
+    @Mock
+    private MovieDtoMapper movieDtoMapper;
 
     private MovieService underTest;
 
@@ -99,5 +104,53 @@ class MovieServiceTest {
         List<MovieDto> allPromotedMovies = underTest.findAllPromotedMovies();
         //THEN
         assertThat(allPromotedMovies).isEmpty();
+    }
+
+    @Test
+    void itShouldFindMovieById() {
+        //GIVEN
+        long id = 1L;
+        String title = "Forrest Gump";
+        String originalTitle = "Original title of Forrest Gump";
+        String shortDesciption = "Short description about movie Forrest Gump.";
+        String description = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId = "linkToYouTube";
+        int releaseYear = 1997;
+        boolean promoted = false;
+        long genreId = 1L;
+
+        Genre genre = new Genre();
+        genre.setId(genreId);
+        String genreName = "Drama";
+        genre.setName(genreName);
+
+        Movie movie = new Movie();
+        movie.setId(id);
+        movie.setTitle(title);
+        movie.setOriginalTitle(originalTitle);
+        movie.setShortDescription(shortDesciption);
+        movie.setDescription(description);
+        movie.setYoutubeTrailerId(youtubeTrailerId);
+        movie.setReleaseYear(releaseYear);
+        movie.setGenre(genre);
+        movie.setPromoted(promoted);
+
+        MovieDto movieDto1 = MovieDtoMapper.map(movie);
+
+        //WHEN
+        given(movieRepository.findById(id)).willReturn(Optional.of(movie));
+
+        //dlaczego nie można zrobić tak:
+//        given(movieRepository.findById(id).map(MovieDtoMapper::map)).willReturn(Optional.of(movieDto1));
+
+        Optional<MovieDto> optionalFoundMovie = underTest.findMovieById(1L);
+
+        //THEN
+        assertThat(optionalFoundMovie)
+                .isPresent();
+
+        assertThat(optionalFoundMovie.get())
+                .usingRecursiveComparison()
+                .isEqualTo(movieDto1);
     }
 }
