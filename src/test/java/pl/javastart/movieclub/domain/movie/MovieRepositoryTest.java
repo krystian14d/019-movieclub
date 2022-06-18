@@ -67,6 +67,7 @@ class MovieRepositoryTest {
         given(genreRepository.findById(genreId)).willReturn(Optional.of(genre));
 
         //WHEN
+        //TODO: check how to test .save() method
         underTest.save(movie);
 
         //THEN

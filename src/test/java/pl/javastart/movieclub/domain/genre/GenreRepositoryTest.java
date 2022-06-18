@@ -34,8 +34,13 @@ class GenreRepositoryTest {
         Optional<Genre> genreOptional = underTest.findByNameIgnoreCase(genreName);
 
         //THEN
-        assertThat(genreOptional).isPresent();
-        assertThat(genreOptional.get()).usingRecursiveComparison().ignoringFields("id").isEqualTo(genre);
+        assertThat(genreOptional).isPresent()
+                .hasValueSatisfying(
+                        g -> assertThat(g)
+                                .usingRecursiveComparison()
+                                .ignoringFields("id")
+                                .isEqualTo(genre));
+//        assertThat(genreOptional.get()).usingRecursiveComparison().ignoringFields("id").isEqualTo(genre);
 
     }
 }
