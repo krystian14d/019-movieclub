@@ -19,12 +19,14 @@ class MovieDtoMapperTest {
         String youtubeTrailerId = "linkToYouTube";
         int releaseYear = 1997;
         boolean promoted = false;
-        long genreId = 1L;
 
+        long genreId = 1L;
         Genre genre = new Genre();
         genre.setId(genreId);
         String genreName = "Drama";
         genre.setName(genreName);
+        String genreDescription = "Genre Description";
+        genre.setDescription(genreDescription);
 
         Movie movie = new Movie();
         movie.setId(id);

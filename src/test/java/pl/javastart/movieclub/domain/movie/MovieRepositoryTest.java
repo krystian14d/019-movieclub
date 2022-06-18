@@ -1,14 +1,19 @@
 package pl.javastart.movieclub.domain.movie;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import pl.javastart.movieclub.domain.genre.Genre;
+import pl.javastart.movieclub.domain.genre.GenreRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
 @DataJpaTest(
         properties = {
@@ -19,6 +24,14 @@ class MovieRepositoryTest {
 
     @Autowired
     private MovieRepository underTest;
+
+    @Mock
+    private GenreRepository genreRepository;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void itShouldSaveMovie() {
@@ -35,7 +48,7 @@ class MovieRepositoryTest {
         long genreId = 100L;
         Genre genre = new Genre();
         genre.setId(genreId);
-        String genreName = "Drama";
+        String genreName = "Genre name";
         genre.setName(genreName);
         String genreDescription = "Genre description";
         genre.setDescription(genreDescription);
@@ -50,6 +63,8 @@ class MovieRepositoryTest {
         movie.setReleaseYear(releaseYear);
         movie.setGenre(genre);
         movie.setPromoted(promoted);
+
+        given(genreRepository.findById(genreId)).willReturn(Optional.of(genre));
 
         //WHEN
         underTest.save(movie);
@@ -73,12 +88,14 @@ class MovieRepositoryTest {
         String youtubeTrailerId = "linkToYouTube";
         int releaseYear = 1997;
         boolean promoted = true;
-        long genreId = 1L;
 
+        long genreId = 1L;
         Genre genre = new Genre();
         genre.setId(genreId);
-        String genreName = "Drama";
+        String genreName = "Genre name";
         genre.setName(genreName);
+        String genreDescription = "Genre Description";
+        genre.setDescription(genreDescription);
 
         Movie movie = new Movie();
         movie.setId(id);
