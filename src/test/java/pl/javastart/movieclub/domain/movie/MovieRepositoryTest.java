@@ -23,7 +23,7 @@ class MovieRepositoryTest {
     @Test
     void itShouldSaveMovie() {
         //GIVEN
-        long id = 1L;
+        long id = 100L;
         String title = "Forrest Gump";
         String originalTitle = "Original title of Forrest Gump";
         String shortDesciption = "Short description about movie Forrest Gump.";
@@ -31,12 +31,14 @@ class MovieRepositoryTest {
         String youtubeTrailerId = "linkToYouTube";
         int releaseYear = 1997;
         boolean promoted = false;
-        long genreId = 1L;
 
+        long genreId = 100L;
         Genre genre = new Genre();
         genre.setId(genreId);
         String genreName = "Drama";
         genre.setName(genreName);
+        String genreDescription = "Genre description";
+        genre.setDescription(genreDescription);
 
         Movie movie = new Movie();
         movie.setId(id);
