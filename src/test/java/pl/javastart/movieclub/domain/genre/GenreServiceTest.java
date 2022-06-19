@@ -1,17 +1,14 @@
 package pl.javastart.movieclub.domain.genre;
 
-import liquibase.pro.packaged.G;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 class GenreServiceTest {
