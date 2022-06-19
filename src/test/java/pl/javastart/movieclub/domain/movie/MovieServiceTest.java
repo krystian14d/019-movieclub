@@ -140,7 +140,7 @@ class MovieServiceTest {
         //WHEN
         given(movieRepository.findById(id)).willReturn(Optional.of(movie));
 
-        //dlaczego nie można zrobić tak:
+        //TODO: dlaczego nie można zrobić tak:
 //        given(movieRepository.findById(id).map(MovieDtoMapper::map)).willReturn(Optional.of(movieDto1));
 
         Optional<MovieDto> optionalFoundMovie = underTest.findMovieById(1L);
