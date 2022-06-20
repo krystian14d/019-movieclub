@@ -67,7 +67,7 @@ class MovieRepositoryTest {
 //        given(genreRepository.findById(genreId)).willReturn(Optional.of(genre));
 //
 //        //WHEN
-//        //TODO: check how to test .save() method
+//        //TODO: check how to test .save() method: org.springframework.orm.jpa.JpaObjectRetrievalFailureException: Unable to find pl.javastart.movieclub.domain.genre.Genre with id 100; nested exception is javax.persistence.EntityNotFoundException: Unable to find pl.javastart.movieclub.domain.genre.Genre with id 100
 //        underTest.save(movie);
 //
 //        //THEN
