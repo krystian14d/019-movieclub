@@ -4,9 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.ui.Model;
 import org.springframework.web.server.ResponseStatusException;
-import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.genre.GenreService;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
 import pl.javastart.movieclub.domain.movie.MovieService;
@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 class GenreControllerTest {
@@ -64,7 +63,6 @@ class GenreControllerTest {
         assertThat(returnedValue).isNotEmpty();
         assertThat(returnedValue).isNotBlank();
         assertThat(returnedValue).isEqualTo(viewName);
+
     }
-
-
 }

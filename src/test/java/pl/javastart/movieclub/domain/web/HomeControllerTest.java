@@ -26,22 +26,6 @@ class HomeControllerTest {
         underTest = new HomeController(movieService);
     }
 
-    //TODO: org.mockito.exceptions.misusing.InvalidUseOfMatchersException: Invalid use of argument matchers!
-
-//    @Test
-//    void itShouldAddAttributesToModel() {
-//        //GIVEN
-//        ArgumentCaptor<Model> modelArgumentCaptor = ArgumentCaptor.forClass(Model.class);
-//
-//        //WHEN
-//        underTest.home(modelArgumentCaptor.capture());
-//
-//        //THEN
-//        Model modelArgumentCaptorValue = modelArgumentCaptor.getValue();
-//        Object headingAttributeValue = modelArgumentCaptorValue.getAttribute("heading");
-//        assertThat(headingAttributeValue).isEqualTo("Promowane filmy");
-//    }
-
     @Test
     void itShouldReturnMovieListing() {
         //GIVEN

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -23,5 +24,13 @@ public class GenreService {
         return StreamSupport.stream(genreRepository.findAll().spliterator(), false)
                 .map(GenreDtoMapper::map)
                 .toList();
+    }
+
+    @Transactional
+    public void addGenre(GenreDto genre){
+        Genre genreToSave = new Genre();
+        genreToSave.setName(genre.getName());
+        genreToSave.setDescription(genre.getDescription());
+        genreRepository.save(genreToSave);
     }
 }
