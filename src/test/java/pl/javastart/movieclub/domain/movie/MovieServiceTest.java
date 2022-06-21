@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pl.javastart.movieclub.domain.genre.Genre;
+import pl.javastart.movieclub.domain.genre.GenreRepository;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
+import pl.javastart.movieclub.storage.FileStorageService;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,6 +23,12 @@ class MovieServiceTest {
     private MovieRepository movieRepository;
 
     @Mock
+    private GenreRepository genreRepository;
+
+    @Mock
+    private FileStorageService fileStorageService;
+
+    @Mock
     private MovieDtoMapper movieDtoMapper;
 
     private MovieService underTest;
@@ -28,7 +36,7 @@ class MovieServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        underTest = new MovieService(movieRepository);
+        underTest = new MovieService(movieRepository, genreRepository, fileStorageService);
     }
 
     @Test

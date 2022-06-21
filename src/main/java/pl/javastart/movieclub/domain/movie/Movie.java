@@ -26,7 +26,6 @@ public class Movie {
     private String description;
     private String youtubeTrailerId;
     private Integer releaseYear;
-
     @ManyToOne
     @JoinColumn(
             name = "genre_id",
@@ -34,4 +33,5 @@ public class Movie {
     )
     private Genre genre;
     private boolean promoted;
+    private String poster;
 }

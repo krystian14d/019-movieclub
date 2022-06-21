@@ -1,15 +1,13 @@
 package pl.javastart.movieclub.domain.movie.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class MovieDto {
+public class MovieSaveDto {
 
-    private Long id;
     private String title;
     private String originalTitle;
     private String shortDescription;
@@ -18,6 +16,5 @@ public class MovieDto {
     private Integer releaseYear;
     private String genre;
     private boolean promoted;
-    private String poster;
-
+    private MultipartFile poster;
 }

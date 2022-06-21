@@ -1,4 +1,4 @@
-package pl.javastart.movieclub.domain.web.admin;
+package pl.javastart.movieclub.web.admin;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,6 +28,7 @@ public class GenreManagementController {
         redirectAttributes.addFlashAttribute(
                 AdminController.NOTIFICATION_ATTRIBUTE,
                 "Gatunek %s został zapisany".formatted(genre.getName())
-        )
+        );
+        return "redirect:/admin";
     }
 }

@@ -15,7 +15,7 @@
             <div class="movie-summary">
                 <!-- Ustawiamy adres i opis plakatu -->
                 <img src="../static/img/poster-placeholder.png"
-                     th:src="@{/img/poster-placeholder.png}"
+                     th:src="${movie.poster ne null} ? @{|/img/${movie.poster}|} : @{/img/poster-placeholder.png}"
                      alt="tytuł filmu"
                      th:alt="${movie.title}"
                      class="movie-summary-cover"

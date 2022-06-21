@@ -1,4 +1,4 @@
-package pl.javastart.movieclub.domain.web;
+package pl.javastart.movieclub.web;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
