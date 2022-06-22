@@ -14,11 +14,13 @@ class GenreTest {
         Long id = 1L;
         String name = "Comedy";
         String description = "Comedy description";
-        underTest = new Genre();
+
         //WHEN
+        underTest = new Genre();
         underTest.setId(id);
         underTest.setName(name);
         underTest.setDescription(description);
+
         //THEN
         assertThat(underTest.getId()).isEqualTo(id);
         assertThat(underTest.getName()).isEqualTo(name);

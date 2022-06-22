@@ -1,18 +1,29 @@
 package pl.javastart.movieclub.domain.movie.dto;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.web.multipart.MultipartFile;
+import pl.javastart.movieclub.domain.genre.Genre;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class MovieDtoTest {
+class MovieSaveDtoTest {
 
-    private MovieDto underTest;
+    @Mock
+    private Genre genre;
+
+    private MovieSaveDto underTest;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
-    void itShouldCreateMovieDto() {
-        //GIVEN
-        long id = 1L;
+    void itShouldCreateMovieSaveDto() {
+        //given
         String title = "Forrest Gump";
         String originalTitle = "Original title of Forrest Gump";
         String shortDesciption = "Short description about movie Forrest Gump.";
@@ -20,25 +31,24 @@ class MovieDtoTest {
         String youtubeTrailerId = "linkToYouTube";
         int releaseYear = 1997;
         boolean promoted = false;
+        long genreId = 1L;
+        MultipartFile poster = null;
+
         String genreName = "Drama";
-        String poster = "poster.png";
 
-        //WHEN
-        underTest = new MovieDto(
-                id,
-                title,
-                originalTitle,
-                shortDesciption,
-                description,
-                youtubeTrailerId,
-                releaseYear,
-                genreName,
-                promoted,
-                poster
-        );
+        //when
+        underTest = new MovieSaveDto();
+        underTest.setTitle(title);
+        underTest.setOriginalTitle(originalTitle);
+        underTest.setShortDescription(shortDesciption);
+        underTest.setDescription(description);
+        underTest.setYoutubeTrailerId(youtubeTrailerId);
+        underTest.setReleaseYear(releaseYear);
+        underTest.setGenre(genreName);
+        underTest.setPromoted(promoted);
+        underTest.setPoster(null);
 
-        //THEN
-        assertThat(underTest.getId()).isEqualTo(id);
+        //then
         assertThat(underTest.getTitle()).isEqualTo(title);
         assertThat(underTest.getOriginalTitle()).isEqualTo(originalTitle);
         assertThat(underTest.getShortDescription()).isEqualTo(shortDesciption);
@@ -46,7 +56,7 @@ class MovieDtoTest {
         assertThat(underTest.getYoutubeTrailerId()).isEqualTo(youtubeTrailerId);
         assertThat(underTest.getReleaseYear()).isEqualTo(releaseYear);
         assertThat(underTest.isPromoted()).isEqualTo(promoted);
-        assertThat(underTest.getGenre()).isEqualTo(genreName);
         assertThat(underTest.getPoster()).isEqualTo(poster);
+        assertThat(underTest.getGenre()).isEqualTo(genreName);
     }
 }

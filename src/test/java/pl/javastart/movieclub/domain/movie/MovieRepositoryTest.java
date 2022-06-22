@@ -81,33 +81,6 @@ class MovieRepositoryTest {
     @Test
     void itShouldFindPromotedMovies() {
         //GIVEN
-        long id = 1L;
-        String title = "Forrest Gump";
-        String originalTitle = "Original title of Forrest Gump";
-        String shortDesciption = "Short description about movie Forrest Gump.";
-        String description = "Long description about movie Forrest Gump.";
-        String youtubeTrailerId = "linkToYouTube";
-        int releaseYear = 1997;
-        boolean promoted = true;
-
-        long genreId = 1L;
-        Genre genre = new Genre();
-        genre.setId(genreId);
-        String genreName = "Genre name";
-        genre.setName(genreName);
-        String genreDescription = "Genre Description";
-        genre.setDescription(genreDescription);
-
-        Movie movie = new Movie();
-        movie.setId(id);
-        movie.setTitle(title);
-        movie.setOriginalTitle(originalTitle);
-        movie.setShortDescription(shortDesciption);
-        movie.setDescription(description);
-        movie.setYoutubeTrailerId(youtubeTrailerId);
-        movie.setReleaseYear(releaseYear);
-        movie.setGenre(genre);
-        movie.setPromoted(promoted);
 
         //WHEN
         List<Movie> promotedMovies = underTest.findAllByPromotedIsTrue();
@@ -115,5 +88,22 @@ class MovieRepositoryTest {
 
         //THEN
         assertThat(promotedMovies).isNotEmpty();
+    }
+
+    @Test
+    void itShouldFindAllMoviesByGenreName() {
+        //given
+        String genreName = "Drama";
+        //when
+        List<Movie> foundMovies = underTest.findAllByGenre_NameIgnoreCase(genreName);
+        System.out.println(foundMovies.size());
+        //then
+        assertThat(foundMovies).isNotEmpty();
+        List<Genre> genreList = foundMovies.stream()
+                .map(movie -> movie.getGenre())
+                .distinct()
+                .toList();
+        assertThat(genreList).hasSize(1);
+
     }
 }

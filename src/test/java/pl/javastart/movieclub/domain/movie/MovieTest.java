@@ -34,6 +34,7 @@ class MovieTest {
         int releaseYear = 1997;
         boolean promoted = false;
         long genreId = 1L;
+        String poster = "poster.png";
 
         Genre genre = new Genre();
         genre.setId(genreId);
@@ -51,6 +52,7 @@ class MovieTest {
         underTest.setReleaseYear(releaseYear);
         underTest.setGenre(genre);
         underTest.setPromoted(promoted);
+        underTest.setPoster(poster);
 
         //THEN
         assertThat(underTest.getGenre()).usingRecursiveComparison().isEqualTo(genre);
@@ -62,5 +64,6 @@ class MovieTest {
         assertThat(underTest.getYoutubeTrailerId()).isEqualTo(youtubeTrailerId);
         assertThat(underTest.getReleaseYear()).isEqualTo(releaseYear);
         assertThat(underTest.isPromoted()).isEqualTo(promoted);
+        assertThat(underTest.getPoster()).isEqualTo(poster);
     }
 }

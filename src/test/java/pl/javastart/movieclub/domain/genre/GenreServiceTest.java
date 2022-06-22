@@ -1,18 +1,26 @@
 package pl.javastart.movieclub.domain.genre;
 
+import liquibase.repackaged.org.apache.commons.collections4.IteratorUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.Spliterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
+import static java.util.Arrays.asList;
+import static java.util.Arrays.spliterator;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.when;
 
 class GenreServiceTest {
 
@@ -80,4 +88,26 @@ class GenreServiceTest {
     }
 
     //TODO: test findAllGenres() method
+//    @Test
+//    void itShouldFindAllGenres() {
+//        //given
+//        Genre genre1 = new Genre();
+//        genre1.setId(1L);
+//        genre1.setName("genre1");
+//        genre1.setDescription("description1");
+//
+//        Genre genre2 = new Genre();
+//        genre1.setId(2L);
+//        genre1.setName("genre2");
+//        genre1.setDescription("description2");
+//
+//        List<Genre> genres = List.of(genre1, genre2);
+//
+////        given(genreRepository.findAll()).willReturn(genres);
+//        when(genreRepository.findAll().spliterator()).then(invocation -> Arrays.spliterator(genre1, genre2));
+//        //when
+//        List<GenreDto> allGenres = underTest.findAllGenres();
+//        //then
+//        assertThat(allGenres).hasSize(2);
+//    }
 }

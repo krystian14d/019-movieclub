@@ -2,11 +2,14 @@ package pl.javastart.movieclub.domain.movie;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.web.multipart.MultipartFile;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.genre.GenreRepository;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
+import pl.javastart.movieclub.domain.movie.dto.MovieSaveDto;
 import pl.javastart.movieclub.storage.FileStorageService;
 
 import java.util.Collections;
@@ -15,21 +18,21 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 
 class MovieServiceTest {
 
     @Mock
     private MovieRepository movieRepository;
-
     @Mock
     private GenreRepository genreRepository;
-
     @Mock
     private FileStorageService fileStorageService;
-
     @Mock
     private MovieDtoMapper movieDtoMapper;
+    @Mock
+    private MultipartFile file;
 
     private MovieService underTest;
 
@@ -160,5 +163,93 @@ class MovieServiceTest {
         assertThat(optionalFoundMovie.get())
                 .usingRecursiveComparison()
                 .isEqualTo(movieDto1);
+    }
+
+    @Test
+    void itShouldFindMovieByGenreNameAndMapToDto() {
+        //given
+        long id = 1L;
+        String title = "Forrest Gump";
+        String originalTitle = "Original title of Forrest Gump";
+        String shortDesciption = "Short description about movie Forrest Gump.";
+        String description = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId = "linkToYouTube";
+        int releaseYear = 1997;
+        boolean promoted = false;
+        long genreId = 1L;
+        String poster = "poster.png";
+
+        Genre genre = new Genre();
+        genre.setId(genreId);
+        String genreName = "Drama";
+        genre.setName(genreName);
+
+        Movie movie = new Movie();
+        movie.setId(id);
+        movie.setTitle(title);
+        movie.setOriginalTitle(originalTitle);
+        movie.setShortDescription(shortDesciption);
+        movie.setDescription(description);
+        movie.setYoutubeTrailerId(youtubeTrailerId);
+        movie.setReleaseYear(releaseYear);
+        movie.setGenre(genre);
+        movie.setPromoted(promoted);
+        movie.setPoster(poster);
+
+        given(movieRepository.findAllByGenre_NameIgnoreCase(genreName))
+                .willReturn(List.of(movie));
+
+        //when
+        List<MovieDto> moviesByGenreName = underTest.findMoviesByGenreName(genreName);
+
+        //then
+        assertThat(moviesByGenreName)
+                .isNotEmpty()
+                .isInstanceOf(List.class);
+        assertThat(moviesByGenreName.get(0)).isInstanceOf(MovieDto.class);
+    }
+
+    @Test
+    void itShouldSaveMovie() {
+        //given
+        String title = "Forrest Gump";
+        String originalTitle = "Original title of Forrest Gump";
+        String shortDesciption = "Short description about movie Forrest Gump.";
+        String description = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId = "linkToYouTube";
+        int releaseYear = 1997;
+        boolean promoted = false;
+        long genreId = 1L;
+        String poster = "poster.png";
+
+        Genre genre = new Genre();
+        genre.setId(genreId);
+        String genreName = "Drama";
+        genre.setName(genreName);
+
+        MovieSaveDto movieToSave = new MovieSaveDto();
+        movieToSave.setTitle(title);
+        movieToSave.setOriginalTitle(originalTitle);
+        movieToSave.setPromoted(promoted);
+        movieToSave.setReleaseYear(releaseYear);
+        movieToSave.setShortDescription(shortDesciption);
+        movieToSave.setYoutubeTrailerId(youtubeTrailerId);
+        movieToSave.setDescription(description);
+        movieToSave.setGenre(genreName);
+        movieToSave.setPoster(file);
+
+        given(genreRepository.findByNameIgnoreCase(movieToSave.getGenre())).willReturn(Optional.of(genre));
+        given(fileStorageService.saveImage(movieToSave.getPoster())).willReturn("poster0.png");
+
+        //when
+        underTest.addMovie(movieToSave);
+        //then
+        ArgumentCaptor<Movie> movieArgumentCaptor = ArgumentCaptor.forClass(Movie.class);
+        then(movieRepository).should().save(movieArgumentCaptor.capture());
+
+        Movie movieArgumentCaptorValue = movieArgumentCaptor.getValue();
+
+        assertThat(movieArgumentCaptorValue).usingRecursiveComparison()
+                .ignoringFields("id", "genre", "poster").isEqualTo(movieToSave);
     }
 }
