@@ -350,4 +350,9 @@ textarea {
     padding: 8px 0;
 }
 
+/*Tekst nad formularzem*/
+.mc-form-message {
+    color: #ffc107;
+    text-align: center;
+}
 /*Listing END*/
