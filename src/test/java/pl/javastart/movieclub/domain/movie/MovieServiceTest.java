@@ -248,5 +248,7 @@ class MovieServiceTest {
 
         assertThat(movieArgumentCaptorValue).usingRecursiveComparison()
                 .ignoringFields("id", "genre", "poster").isEqualTo(movieToSave);
+        assertThat(movieArgumentCaptorValue.getGenre()).usingRecursiveComparison().isEqualTo(genre);
+        assertThat(movieArgumentCaptorValue.getPoster()).isInstanceOf(String.class);
     }
 }
