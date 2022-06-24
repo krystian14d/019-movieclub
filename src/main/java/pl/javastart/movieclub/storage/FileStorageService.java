@@ -15,6 +15,7 @@ import java.nio.file.StandardCopyOption;
 
 @Service
 public class FileStorageService {
+
     private final String fileStorageLocation;
     private final String imageStorageLocation;
 
