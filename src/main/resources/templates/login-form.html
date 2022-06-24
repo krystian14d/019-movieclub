@@ -13,6 +13,10 @@
             <p th:if="${param.error}" th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
                class="mc-form-message">Błąd logowania</p>
 
+            <p th:if="${param.logout}" class="mc-form-message">
+                Wylogowanie przebiegło poprawnie. Możesz zalogować się ponownie.
+            </p>
+
             <label for="username">Adres email</label>
             <input id="username" name="username" placeholder="Nazwa użytkownika">
             <label for="password">Hasło</label>
