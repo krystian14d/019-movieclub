@@ -5,7 +5,6 @@ spring:
     password: admin
   liquibase:
     contexts: dev
-    change-log: classpath:db/changelog/master.xml
   web:
     resources:
       static-locations: classpath:/static/,file:./uploads/
