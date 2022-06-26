@@ -22,6 +22,8 @@ class MovieDtoTest {
         boolean promoted = false;
         String genreName = "Drama";
         String poster = "poster.png";
+        double avgRating = 4.5;
+        int ratingCount = 123;
 
         //WHEN
         underTest = new MovieDto(
@@ -34,7 +36,9 @@ class MovieDtoTest {
                 releaseYear,
                 genreName,
                 promoted,
-                poster
+                poster,
+                avgRating,
+                ratingCount
         );
 
         //THEN
@@ -48,5 +52,7 @@ class MovieDtoTest {
         assertThat(underTest.isPromoted()).isEqualTo(promoted);
         assertThat(underTest.getGenre()).isEqualTo(genreName);
         assertThat(underTest.getPoster()).isEqualTo(poster);
+        assertThat(underTest.getAvgRating()).isEqualTo(avgRating);
+        assertThat(underTest.getRatingCount()).isEqualTo(ratingCount);
     }
 }
