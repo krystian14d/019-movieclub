@@ -12,20 +12,20 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class HomeControllerTest {
+class MovieControllerTest {
 
     @Mock
     private MovieService movieService;
 
     @Autowired
-    private HomeController underTest;
+    private MovieController underTest;
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,12 +33,12 @@ class HomeControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        underTest = new HomeController(movieService);
+        underTest = new MovieController(movieService);
         mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
     }
 
     @Test
-    void itShouldReturnMovieListingAndLoadPromotedMovies() throws Exception {
+    void itShouldReturnMovieViewNameAndAddMovieAsAttribute() throws Exception {
         //given
         long id = 1L;
         String title = "Forrest Gump";
@@ -53,7 +53,7 @@ class HomeControllerTest {
         double avgRating = 4.5;
         int ratingCount = 123;
 
-        MovieDto movieDto1 = new MovieDto(
+        MovieDto movie = new MovieDto(
                 id,
                 title,
                 originalTitle,
@@ -68,34 +68,24 @@ class HomeControllerTest {
                 ratingCount
         );
 
-        long id2 = 2L;
+        given(movieService.findMovieById(id)).willReturn(Optional.of(movie));
+        //when
+        //then
 
-        MovieDto movieDto2 = new MovieDto(
-                id2,
-                title,
-                originalTitle,
-                shortDesciption,
-                description,
-                youtubeTrailerId,
-                releaseYear,
-                genreName,
-                promoted,
-                poster,
-                avgRating,
-                ratingCount
-        );
+        mockMvc.perform(MockMvcRequestBuilders.get("/film/1"))
+                .andExpect(MockMvcResultMatchers.view().name("movie"))
+                .andExpect(model().attribute("movie", movie))
+                .andExpect(model().attribute("movie", instanceOf(MovieDto.class)));
+    }
 
-        List<MovieDto> promotedMovies = new ArrayList<>();
-        promotedMovies.add(movieDto1);
-        promotedMovies.add(movieDto2);
-
-        given(movieService.findAllPromotedMovies()).willReturn(promotedMovies);
+    @Test
+    void itShouldThrowAnExceptionWhenMovieNotFound() throws Exception {
+        //given
+        long id = 1L;
+        given(movieService.findMovieById(id)).willReturn(Optional.empty());
         //when
         //then
         mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andExpect(MockMvcResultMatchers.view().name("movie-listing"))
-                .andExpect(model().attribute("movies", hasSize(2)))
-                .andExpect(model().attribute("heading", "Promowane filmy"))
-                .andExpect(model().attribute("description", "Filmy polecane przez nasz zespół"));
+                .andExpect(status().isNotFound());
     }
 }
