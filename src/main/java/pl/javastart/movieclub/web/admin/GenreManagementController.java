@@ -22,7 +22,7 @@ public class GenreManagementController {
         return "admin/genre-form";
     }
 
-    @PostMapping
+    @PostMapping("/admin/dodaj-gatunek")
     public String addGenre(GenreDto genre, RedirectAttributes redirectAttributes){
         genreService.addGenre(genre);
         redirectAttributes.addFlashAttribute(
