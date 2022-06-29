@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.genre.GenreRepository;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
+import pl.javastart.movieclub.domain.movie.dto.MovieEditDto;
 import pl.javastart.movieclub.domain.movie.dto.MovieSaveDto;
 import pl.javastart.movieclub.storage.FileStorageService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,6 +63,25 @@ public class MovieService {
         return movieRepository.findTopByRating(page).stream()
                 .map(MovieDtoMapper::map)
                 .toList();
+    }
+
+    @Transactional
+    public void editMovie(Long movieId, MovieEditDto movieToEdit) {
+        Movie movie = movieRepository.findById(movieId).orElseThrow();
+        movie.setTitle(movieToEdit.getTitle());
+        movie.setOriginalTitle(movieToEdit.getOriginalTitle());
+        movie.setPromoted(movieToEdit.isPromoted());
+        movie.setReleaseYear(movieToEdit.getReleaseYear());
+        movie.setShortDescription(movieToEdit.getShortDescription());
+        movie.setDescription(movieToEdit.getDescription());
+        movie.setYoutubeTrailerId(movieToEdit.getYoutubeTrailerId());
+        Genre genre = genreRepository.findByNameIgnoreCase(movieToEdit.getGenre()).orElseThrow();
+        movie.setGenre(genre);
+        if (movieToEdit.getPoster() != null) {
+            String savedFileName = fileStorageService.saveImage(movieToEdit.getPoster());
+            movie.setPoster(savedFileName);
+        }
+        movieRepository.save(movie);
     }
 }
 

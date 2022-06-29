@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
+import pl.javastart.movieclub.domain.rating.RatingService;
 
 import java.util.Optional;
 
@@ -24,6 +25,9 @@ class MovieControllerTest {
     @Mock
     private MovieService movieService;
 
+    @Mock
+    private RatingService ratingService;
+
     @Autowired
     private MovieController underTest;
 
@@ -33,7 +37,7 @@ class MovieControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        underTest = new MovieController(movieService);
+        underTest = new MovieController(movieService, ratingService);
         mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
     }
 
