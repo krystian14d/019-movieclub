@@ -54,9 +54,9 @@ public class MovieManagementController {
         return "admin/edit-movie-form";
     }
 
-    @PutMapping("/admin/edytuj-film/{movieId}")
-    public String editMovie(@RequestParam Long movieId, MovieEditDto movie, RedirectAttributes redirectAttributes) {
-        movieService.editMovie(movieId, movie);
+    @PostMapping("/admin/edytuj-film")
+    public String editMovie(MovieEditDto movie, RedirectAttributes redirectAttributes) {
+        movieService.editMovie(movie.getId(), movie);
         redirectAttributes.addFlashAttribute(
                 AdminController.NOTIFICATION_ATTRIBUTE,
                 "Film %s został zmieniony.".formatted(movie.getTitle()));
