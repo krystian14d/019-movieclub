@@ -1,6 +1,7 @@
 package pl.javastart.movieclub.domain.movie;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.genre.GenreRepository;
@@ -30,14 +31,14 @@ public class MovieService {
         return movieRepository.findById(id).map(MovieDtoMapper::map);
     }
 
-    public List<MovieDto> findMoviesByGenreName(String genre){
+    public List<MovieDto> findMoviesByGenreName(String genre) {
         return movieRepository.findAllByGenre_NameIgnoreCase(genre)
                 .stream()
                 .map(MovieDtoMapper::map)
                 .toList();
     }
 
-    public void addMovie(MovieSaveDto movieToSave){
+    public void addMovie(MovieSaveDto movieToSave) {
         Movie movie = new Movie();
         movie.setTitle(movieToSave.getTitle());
         movie.setOriginalTitle(movieToSave.getOriginalTitle());
@@ -48,11 +49,18 @@ public class MovieService {
         movie.setYoutubeTrailerId(movieToSave.getYoutubeTrailerId());
         Genre genre = genreRepository.findByNameIgnoreCase(movieToSave.getGenre()).orElseThrow();
         movie.setGenre(genre);
-        if(movieToSave.getPoster() != null){
+        if (movieToSave.getPoster() != null) {
             String savedFileName = fileStorageService.saveImage(movieToSave.getPoster());
             movie.setPoster(savedFileName);
         }
         movieRepository.save(movie);
+    }
+
+    public List<MovieDto> findTopMovies(int size) {
+        Pageable page = Pageable.ofSize(size);
+        return movieRepository.findTopByRating(page).stream()
+                .map(MovieDtoMapper::map)
+                .toList();
     }
 }
 
