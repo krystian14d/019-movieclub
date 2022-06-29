@@ -33,4 +33,9 @@ public class GenreService {
         genreToSave.setDescription(genre.getDescription());
         genreRepository.save(genreToSave);
     }
+
+    public Optional<GenreDto> findGenreById(Long id){
+        return genreRepository.findById(id)
+                .map(GenreDtoMapper::map);
+    }
 }

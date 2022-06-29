@@ -31,4 +31,11 @@ public class GenreManagementController {
         );
         return "redirect:/admin";
     }
+
+    @GetMapping("/admin/edytuj-gatunek/{genreId}")
+    public String updateGenre(Long genreId, Model model){
+        GenreDto genre = genreService.findGenreById(genreId).orElseThrow();
+        model.addAttribute("genre", genre);
+        return "edit-genre-form";
+    }
 }

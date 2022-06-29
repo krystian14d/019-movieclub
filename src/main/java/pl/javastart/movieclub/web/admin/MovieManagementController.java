@@ -60,7 +60,7 @@ public class MovieManagementController {
         redirectAttributes.addFlashAttribute(
                 AdminController.NOTIFICATION_ATTRIBUTE,
                 "Film %s został zmieniony.".formatted(movie.getTitle()));
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
 

@@ -2,6 +2,7 @@
 <html lang="pl"
       xmlns:th="https://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{layout}">
 <head>
     <title>Gatunki filmowe - MovieClub</title>
@@ -10,16 +11,37 @@
     <main class="main-content" layout:fragment="content">
         <h2 class="list-heading">Gatunki filmowe</h2>
         <p class="list-description">
-            Poniżej znajdziesz listę gatunkó filmowych dostępnych w naszym serwisie.
+            Poniżej znajdziesz listę gatunków filmowych dostępnych w naszym serwisie.
         </p>
-        <ul class="list-border">
-            <li th:each="genre: ${genres}">
-                <a th:href="@{|/gatunek/${genre.name}|}"
-                   th:text="${genre.name}">
-                    Dramat
-                </a>
-            </li>
-        </ul>
+<!--        <ul class="list-border">-->
+<!--            <li th:each="genre: ${genres}">-->
+<!--                <a th:href="@{|/gatunek/${genre.name}|}"-->
+<!--                   th:text="${genre.name}">-->
+<!--                    Dramat-->
+<!--                </a>-->
+<!--            </li>-->
+<!--        </ul>-->
+        <table class="list-border">
+            <tr th:each="genre: ${genres}">
+                <td>
+                    <a th:href="@{|/gatunek/${genre.name}|}"
+                       th:text="${genre.name}">
+                        Dramat
+                    </a>
+                </td>
+                <td class="table-action-button">
+                    <a class="table-action-button-font"
+                       href="#"
+                       th:href="@{|/admin/edytuj-gatunek/${genre.id}|}"
+                       sec:authorize="hasAnyRole('ADMIN','EDITOR')">Edytuj</a>
+                </td>
+                <td class="table-action-button">
+                    <a class="table-action-button-font"
+                       href="#"
+                       sec:authorize="hasAnyRole('ADMIN','EDITOR')">Usuń</a>
+                </td>
+            </tr>
+        </table>
     </main>
 </body>
 </html>

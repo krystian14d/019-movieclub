@@ -297,11 +297,24 @@ i powinna zajmować większość dostępnej przestrzeni
     list-style: none;
 }
 
-.list-border > li {
+.list-border > li, td {
     font-size: 1.2rem;
     border: 1px #6d6d6d solid;
     padding: 16px;
     text-align: center;
+}
+.table-action-button {
+    font-size: 1rem;
+    border: 1px #6d6d6d solid;
+    padding: 5px;
+    text-align: center;
+}
+
+.table-action-button-font {
+    font-size: 1rem;
+    padding: 5px;
+    text-align: center;
+    color: white;
 }
 
 /*textarea domyślnie nie dziedziczy czcionki z body*/
