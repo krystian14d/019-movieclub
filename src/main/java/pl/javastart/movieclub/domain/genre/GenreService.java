@@ -53,7 +53,7 @@ public class GenreService {
 
     public void deleteGenre(Long id){
         Set<Movie> moviesByGenreId = movieRepository.findAllByGenre_Id(id);
-        moviesByGenreId.forEach(movie -> movie.setGenre(new Genre()));
+        moviesByGenreId.forEach(movie -> movie.setGenre(null));
         movieRepository.saveAll(moviesByGenreId);
         genreRepository.deleteById(id);
     }
