@@ -257,6 +257,12 @@ i powinna zajmować większość dostępnej przestrzeni
     margin: auto;
 }
 
+/*Przycisk usuń film*/
+.delete-movie {
+    margin-left: 1rem;
+    color: crimson;
+}
+
 /*Responsive movie.html*/
 @media only screen and (min-width: 992px) {
     /*Dodajemy rozkład elastyczny, elementy będą wyświetlane w jednym wierszu*/
@@ -321,7 +327,7 @@ i powinna zajmować większość dostępnej przestrzeni
     font-size: 1rem;
     padding: 5px;
     text-align: center;
-    color: darkred;
+    color: crimson;
 }
 
 /*textarea domyślnie nie dziedziczy czcionki z body*/

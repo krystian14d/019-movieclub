@@ -41,7 +41,9 @@ public class Movie {
     )
     private Genre genre;
 
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(mappedBy = "movie",
+//    orphanRemoval = true,
+    cascade = CascadeType.REMOVE)
     private Set<Rating> ratings = new HashSet<>();
     private boolean promoted;
     private String poster;

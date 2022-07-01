@@ -83,5 +83,9 @@ public class MovieService {
         }
         movieRepository.save(movie);
     }
+
+    public void deleteMovie(Long id){
+        movieRepository.deleteById(id);
+    }
 }
 

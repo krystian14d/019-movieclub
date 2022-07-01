@@ -60,5 +60,12 @@ public class MovieManagementController {
         return "redirect:/admin";
     }
 
-
+    @GetMapping("/admin/usun-film/{id}")
+    public String deleteMovie(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        movieService.deleteMovie(id);
+        redirectAttributes.addFlashAttribute(
+                AdminController.NOTIFICATION_ATTRIBUTE,
+                "Film został usunięty!");
+        return "redirect:/";
+    }
 }
