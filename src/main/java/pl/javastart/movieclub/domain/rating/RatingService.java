@@ -30,7 +30,7 @@ public class RatingService {
         ratingRepository.save(ratingToSaveOrUpdate);
     }
 
-    public Optional<Integer> getUserRatingForMovie(String userEmail, Long movieId){
+    public Optional<Integer> getUserRatingForMovie(String userEmail, Long movieId) {
         return ratingRepository.findByUser_EmailAndMovie_Id(userEmail, movieId)
                 .map(Rating::getRating);
     }

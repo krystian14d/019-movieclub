@@ -7,6 +7,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
+import pl.javastart.movieclub.domain.movie.MovieRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -27,13 +28,16 @@ class GenreServiceTest {
 
     @Mock
     private GenreRepository genreRepository;
+    @Mock
+    private MovieRepository movieRepository;
 
     private GenreService underTest;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        underTest = new GenreService(genreRepository);
+        underTest =
+                new GenreService(genreRepository, movieRepository);
     }
 
     @Test

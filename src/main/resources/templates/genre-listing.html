@@ -7,18 +7,26 @@
 <head>
     <title>Gatunki filmowe - MovieClub</title>
     <script>
-        function confirmAction() {
-            let confirmAction = confirm("Are you sure to execute this action?");
-            if (confirmAction) {
-                alert("Gatunek usunięty!")
-            } else {
-                alert("Anulowano!")
-            }
+        var deleteLinks = document.querySelectorAll('.delete');
+
+        for (var i = 0; i < deleteLinks.length; i++) {
+            deleteLinks[i].addEventListener('click', function (event) {
+                event.preventDefault();
+
+                var choice = confirm(this.getAttribute('data-confirm'));
+
+                if (choice) {
+                    window.location.href = this.getAttribute('href');
+                }
+            });
         }
     </script>
 </head>
 <body>
 <main class="main-content" layout:fragment="content">
+    <p class="notification-bar" th:if="${notification}" th:text="${notification}">
+        Belka z powiadomieniami
+    </p>
     <h2 class="list-heading">Gatunki filmowe</h2>
     <p class="list-description">
         Poniżej znajdziesz listę gatunków filmowych dostępnych w naszym serwisie.
@@ -39,17 +47,19 @@
                     Dramat
                 </a>
             </td>
-            <td class="table-action-button">
+            <td class="table-action-button"
+                sec:authorize="hasAnyRole('ADMIN','EDITOR')">
                 <a class="table-action-button-font"
                    href="#"
                    th:href="@{|/admin/edytuj-gatunek/${genre.id}|}"
-                   sec:authorize="hasAnyRole('ADMIN','EDITOR')">Edytuj</a>
+                >Edytuj</a>
             </td>
-            <td class="table-action-button">
-                <a class="table-action-button-delete-font"
+            <td class="table-action-button"
+                sec:authorize="hasAnyRole('ADMIN','EDITOR')">
+                <a class="table-action-button-delete-font delete"
+                   data-confirm="Czy na pewno chcesz usunąć?"
                    href="#"
-                   sec:authorize="hasAnyRole('ADMIN','EDITOR')"
-                   onclick="confirmAction()">Usuń</a>
+                   th:href="@{|/admin/usun-gatunek/${genre.id}|}">Usuń</a>
             </td>
         </tr>
     </table>

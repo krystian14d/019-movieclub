@@ -3,10 +3,13 @@ package pl.javastart.movieclub.domain.genre;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
+import pl.javastart.movieclub.domain.movie.Movie;
+import pl.javastart.movieclub.domain.movie.MovieRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 
 @AllArgsConstructor
@@ -14,6 +17,7 @@ import java.util.stream.StreamSupport;
 public class GenreService {
 
     private final GenreRepository genreRepository;
+    private final MovieRepository movieRepository;
 
     public Optional<GenreDto> findGenreByName(String name) {
         return genreRepository.findByNameIgnoreCase(name)
@@ -46,4 +50,11 @@ public class GenreService {
         genre.setDescription(genreDto.getDescription());
         genreRepository.save(genre);
     };
+
+    public void deleteGenre(Long id){
+        Set<Movie> moviesByGenreId = movieRepository.findAllByGenre_Id(id);
+        moviesByGenreId.forEach(movie -> movie.setGenre(new Genre()));
+        movieRepository.saveAll(moviesByGenreId);
+        genreRepository.deleteById(id);
+    }
 }
