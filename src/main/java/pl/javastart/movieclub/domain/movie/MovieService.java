@@ -66,7 +66,7 @@ public class MovieService {
     }
 
     @Transactional
-    public void editMovie(Long movieId, MovieEditDto movieToEdit) {
+    public void updateMovie(Long movieId, MovieEditDto movieToEdit) {
         Movie movie = movieRepository.findById(movieId).orElseThrow();
         movie.setTitle(movieToEdit.getTitle());
         movie.setOriginalTitle(movieToEdit.getOriginalTitle());

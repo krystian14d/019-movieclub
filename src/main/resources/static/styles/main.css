@@ -317,6 +317,13 @@ i powinna zajmować większość dostępnej przestrzeni
     color: white;
 }
 
+.table-action-button-delete-font {
+    font-size: 1rem;
+    padding: 5px;
+    text-align: center;
+    color: darkred;
+}
+
 /*textarea domyślnie nie dziedziczy czcionki z body*/
 textarea {
     font-family: inherit;

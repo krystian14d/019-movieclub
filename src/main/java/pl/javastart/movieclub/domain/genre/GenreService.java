@@ -38,4 +38,12 @@ public class GenreService {
         return genreRepository.findById(id)
                 .map(GenreDtoMapper::map);
     }
+
+    @Transactional
+    public void updateGenre(GenreDto genreDto){
+        Genre genre = genreRepository.findById(genreDto.getId()).orElseThrow();
+        genre.setName(genreDto.getName());
+        genre.setDescription(genreDto.getDescription());
+        genreRepository.save(genre);
+    };
 }

@@ -6,9 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.javastart.movieclub.domain.genre.GenreService;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
@@ -45,9 +42,9 @@ public class MovieManagementController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edytuj-film/{movieId}")
-    public String editMovie(@PathVariable Long movieId, Model model) {
-        MovieDto movieToEdit = movieService.findMovieById(movieId).orElseThrow();
+    @GetMapping("/admin/edytuj-film/{id}")
+    public String updateMovie(@PathVariable Long id, Model model) {
+        MovieDto movieToEdit = movieService.findMovieById(id).orElseThrow();
         model.addAttribute("movie", movieToEdit);
         List<GenreDto> allGenres = genreService.findAllGenres();
         model.addAttribute("genres", allGenres);
@@ -55,8 +52,8 @@ public class MovieManagementController {
     }
 
     @PostMapping("/admin/edytuj-film")
-    public String editMovie(MovieEditDto movie, RedirectAttributes redirectAttributes) {
-        movieService.editMovie(movie.getId(), movie);
+    public String updateMovie(MovieEditDto movie, RedirectAttributes redirectAttributes) {
+        movieService.updateMovie(movie.getId(), movie);
         redirectAttributes.addFlashAttribute(
                 AdminController.NOTIFICATION_ATTRIBUTE,
                 "Film %s został zmieniony.".formatted(movie.getTitle()));

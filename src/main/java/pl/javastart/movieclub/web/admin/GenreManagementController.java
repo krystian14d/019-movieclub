@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.javastart.movieclub.domain.genre.GenreService;
@@ -32,10 +33,19 @@ public class GenreManagementController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edytuj-gatunek/{genreId}")
-    public String updateGenre(Long genreId, Model model){
-        GenreDto genre = genreService.findGenreById(genreId).orElseThrow();
+    @GetMapping("/admin/edytuj-gatunek/{id}")
+    public String updateGenre(@PathVariable Long id, Model model){
+        GenreDto genre = genreService.findGenreById(id).orElseThrow();
         model.addAttribute("genre", genre);
-        return "edit-genre-form";
+        return "/admin/edit-genre-form";
+    }
+
+    @PostMapping("/admin/edytuj-gatunek")
+    public String updateGenre(GenreDto genre, RedirectAttributes redirectAttributes){
+        genreService.updateGenre(genre);
+        redirectAttributes.addAttribute(AdminController.NOTIFICATION_ATTRIBUTE,
+                "Gatunek %s został zmieniony.".formatted(genre.getName()));
+        return "redirect:/admin";
     }
 }
+
