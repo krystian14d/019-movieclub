@@ -1,4 +1,4 @@
-package pl.javastart.movieclub.domain.rating;
+package pl.javastart.movieclub.domain.user.rating;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

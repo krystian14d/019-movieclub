@@ -10,11 +10,13 @@ import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.movie.MovieRepository;
 import pl.javastart.movieclub.domain.user.User;
 import pl.javastart.movieclub.domain.user.UserRepository;
+import pl.javastart.movieclub.domain.user.rating.Rating;
+import pl.javastart.movieclub.domain.user.rating.RatingRepository;
+import pl.javastart.movieclub.domain.user.rating.RatingService;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 

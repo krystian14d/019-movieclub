@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
-import pl.javastart.movieclub.domain.rating.RatingService;
+import pl.javastart.movieclub.domain.user.rating.RatingService;
 
 @AllArgsConstructor
 @Controller

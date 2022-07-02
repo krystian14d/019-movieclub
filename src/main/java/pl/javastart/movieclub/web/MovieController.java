@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
-import pl.javastart.movieclub.domain.rating.RatingService;
+import pl.javastart.movieclub.domain.user.rating.RatingService;
 
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
