@@ -2,8 +2,7 @@ package pl.javastart.movieclub.domain.movie;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import pl.javastart.movieclub.domain.comment.Comment;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.rating.Rating;
 
@@ -43,8 +42,12 @@ public class Movie {
 
     @OneToMany(mappedBy = "movie",
 //    orphanRemoval = true,
-    cascade = CascadeType.REMOVE)
+            cascade = CascadeType.REMOVE)
     private Set<Rating> ratings = new HashSet<>();
     private boolean promoted;
     private String poster;
+
+    @OneToMany(mappedBy = "movie",
+            cascade = CascadeType.REMOVE)
+    private Set<Comment> movieComments = new HashSet<>();
 }
