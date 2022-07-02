@@ -54,7 +54,7 @@
                     <p class="movie-rating-value" th:text="${#numbers.formatDecimal(movie.avgRating, 1, 1)}">4.0</p>
                     <p th:text="|Liczba ocen: ${movie.ratingCount}">Liczba ocen: 134</p>
                 </div>
-<!--Formularz, który wuświetlany jest tylko zalogowanemu użytkownikowi-->
+<!--Formularz, który wyświetlany jest tylko zalogowanemu użytkownikowi-->
                 <form action="#" th:action="@{/ocen-film}" method="post"
                       sec:authorize="isAuthenticated()"
                       class="movie-rating-form">
@@ -93,6 +93,14 @@
                 Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla.
                 Donec lacinia congue felis in faucibus.</p>
         </section>
+<!--        komentarze do filmu-->
+<!--        formularz dodawania komentarza-->
+        <div>
+            <form method="post" action="#" th:action="@{/dodaj-komentarz}" sec:authorize="isAuthenticated()">
+                <input type="hidden" name="movieId" th:value="${movie.id}">
+
+            </form>
+        </div>
     </main>
 </div>
 </body>
