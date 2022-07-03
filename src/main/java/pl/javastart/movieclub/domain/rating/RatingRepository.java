@@ -1,4 +1,4 @@
-package pl.javastart.movieclub.domain.user.rating;
+package pl.javastart.movieclub.domain.rating;
 
 import org.springframework.data.repository.CrudRepository;
 

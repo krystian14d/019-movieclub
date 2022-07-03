@@ -3,7 +3,7 @@ package pl.javastart.movieclub.domain.movie;
 import org.junit.jupiter.api.Test;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
-import pl.javastart.movieclub.domain.user.rating.Rating;
+import pl.javastart.movieclub.domain.rating.Rating;
 import pl.javastart.movieclub.domain.user.User;
 
 import java.util.HashSet;

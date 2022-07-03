@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.javastart.movieclub.domain.comment.Comment;
 import pl.javastart.movieclub.domain.genre.Genre;
-import pl.javastart.movieclub.domain.user.rating.Rating;
+import pl.javastart.movieclub.domain.rating.Rating;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

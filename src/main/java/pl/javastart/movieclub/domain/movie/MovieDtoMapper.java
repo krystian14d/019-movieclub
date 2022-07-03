@@ -1,7 +1,7 @@
 package pl.javastart.movieclub.domain.movie;
 
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
-import pl.javastart.movieclub.domain.user.rating.Rating;
+import pl.javastart.movieclub.domain.rating.Rating;
 
 public class MovieDtoMapper {
     public static MovieDto map(Movie movie) {

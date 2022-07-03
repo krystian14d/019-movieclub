@@ -97,12 +97,14 @@
         <p>Komentarze:</p>
 <!--        formularz dodawania komentarza-->
         <div>
-            <form method="post" action="#" th:action="@{/dodaj-komentarz}" sec:authorize="isAuthenticated()">
+            <form method="post" action="#"
+                  th:action="@{/dodaj-komentarz}"
+                  sec:authorize="isAuthenticated()"
+                th:object="${newComment}">
                 <input type="hidden" name="movieId" th:value="${movie.id}">
                 <label for="comment">Twój komentarz:</label>
-                <textarea id="comment" name="comment" rows="3" placeholder="Twój komentarz...">Komentarz</textarea>
+                <textarea id="comment" name="newComment" rows="3" placeholder="Twój komentarz...">Komentarz</textarea>
                 <button type="submit">Wyślij</button>
-
             </form>
         </div>
     </main>

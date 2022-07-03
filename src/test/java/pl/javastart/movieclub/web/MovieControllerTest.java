@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
-import pl.javastart.movieclub.domain.user.rating.RatingService;
+import pl.javastart.movieclub.domain.rating.RatingService;
 
 import java.util.Optional;
 

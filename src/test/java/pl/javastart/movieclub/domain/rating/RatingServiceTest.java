@@ -10,9 +10,6 @@ import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.movie.MovieRepository;
 import pl.javastart.movieclub.domain.user.User;
 import pl.javastart.movieclub.domain.user.UserRepository;
-import pl.javastart.movieclub.domain.user.rating.Rating;
-import pl.javastart.movieclub.domain.user.rating.RatingRepository;
-import pl.javastart.movieclub.domain.user.rating.RatingService;
 
 import java.util.Optional;
 

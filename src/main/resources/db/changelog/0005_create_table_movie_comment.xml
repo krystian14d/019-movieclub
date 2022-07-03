@@ -17,6 +17,7 @@
                              foreignKeyName="fk_movie_comment_user_id"
                              referencedTableName="users"
                              referencedColumnNames="id"
+                             unique="false"
                 />
             </column>
 
@@ -25,6 +26,7 @@
                              foreignKeyName="fk_movie_comment_movie_id"
                              referencedTableName="movie"
                              referencedColumnNames="id"
+                             unique="false"
                 />
             </column>
 

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.javastart.movieclub.domain.comment.CommentService;
+import pl.javastart.movieclub.domain.comment.dto.NewMovieCommentDto;
 
 @AllArgsConstructor
 @Controller
@@ -16,10 +17,9 @@ public class CommentController {
 
     //TODO: zaimplementować opcję dodawania komentarza, przesłać w MovieManagementController obiekt MovieCommentDto z polami movieID oraz comment
     @PostMapping("/dodaj-komentarz")
-    public String addMovieComment(@RequestParam Long movieId, @RequestParam String comment,
-                                  @RequestHeader String referer, Authentication authentication) {
+    public String addMovieComment(@RequestParam Long movieId, @RequestParam String newComment, @RequestHeader String referer, Authentication authentication) {
         String currentUserEmail = authentication.getName();
-
+        commentService.addNewComment(movieId, newComment, currentUserEmail);
         return "redirect:" + referer;
     }
 }

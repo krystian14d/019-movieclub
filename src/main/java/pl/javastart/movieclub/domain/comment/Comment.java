@@ -7,6 +7,7 @@ import lombok.Setter;
 import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.user.User;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
