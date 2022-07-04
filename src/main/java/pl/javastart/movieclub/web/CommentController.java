@@ -14,6 +14,8 @@ import pl.javastart.movieclub.domain.comment.Comment;
 import pl.javastart.movieclub.domain.comment.CommentService;
 import pl.javastart.movieclub.domain.comment.dto.NewMovieCommentDto;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Controller
 public class CommentController {
@@ -26,8 +28,9 @@ public class CommentController {
                               @RequestParam(defaultValue = "10") Integer pageSize,
                               @RequestParam(defaultValue = "id") String sortBy,
                               Model model) {
-        Page<Comment> pagedComments = commentService.findAllCommentsByMovieId(id, pageNo, pageSize, sortBy);
-        model.addAttribute("comments", pagedComments.getContent());
+//        Page<Comment> pagedComments = commentService.findAllCommentsByMovieId(id, pageNo, pageSize, sortBy);
+        List<Comment> comments = commentService.findAllCommentsByMovieId(id, pageNo, pageSize, sortBy);
+        model.addAttribute("comments", comments);
         return "movie";
     }
 

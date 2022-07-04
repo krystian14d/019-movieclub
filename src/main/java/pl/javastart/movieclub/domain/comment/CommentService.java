@@ -29,12 +29,12 @@ public class CommentService {
         commentRepository.save(newComment);
     }
 
-    public Page<Comment> findAllCommentsByMovieId(Long id, Integer pageNo, Integer pageSize, String sortBy) {
+    public List<Comment> findAllCommentsByMovieId(Long id, Integer pageNo, Integer pageSize, String sortBy) {
 
-        Page<Comment> pagedComments = commentRepository.findAllByMovie_Id(id,
-                PageRequest.of(pageNo, pageSize, Sort.by(sortBy)));
-
-        return pagedComments;
+//        Page<Comment> pagedComments = commentRepository.findAllByMovie_Id(id,
+//                PageRequest.of(pageNo, pageSize, Sort.by(sortBy)));
+        return commentRepository.findAllByMovie_Id(id);
+//        return pagedComments;
     }
 
     Comment createNewComment(User author, Movie movie, String comment) {

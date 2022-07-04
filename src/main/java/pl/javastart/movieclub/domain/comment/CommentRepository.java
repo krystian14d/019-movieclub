@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-//    List<Comment> findAllByMovie_Id(Long id);
+    List<Comment> findAllByMovie_Id(Long id);
 
-    Page<Comment> findAllByMovie_Id(Long id, PageRequest paging);
+//    Page<Comment> findAllByMovie_Id(Long id, PageRequest paging);
 
 }
