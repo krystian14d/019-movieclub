@@ -263,6 +263,30 @@ i powinna zajmować większość dostępnej przestrzeni
     color: crimson;
 }
 
+/*Komentarze*/
+.movie-comments{
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px #6d6d6d solid;
+}
+
+.single-movie-comment{
+    margin-bottom: 16px;
+    display:block;
+    list-style-type: none;
+    border: 1px #6d6d6d solid;
+    padding: 10px;
+}
+.comment-author-date{
+    display: block;
+    font-size: 0.8rem;
+    color: #ffc107;
+}
+
+.comment-content{
+    margin-top: 5px;
+}
+
 /*Responsive movie.html*/
 @media only screen and (min-width: 992px) {
     /*Dodajemy rozkład elastyczny, elementy będą wyświetlane w jednym wierszu*/

@@ -107,11 +107,21 @@
                 <button type="submit">Wyślij</button>
             </form>
         </section>
-        <section class="movie-section">
-<!--                 th:action="@{|/film/${movie.id}/komentarze|}">-->
+
+        <section class="movie-comments">
             <h2 class="movie-section-heading">Komentarze:</h2>
-            <p th:each="comment : ${comments}"
-            th:text="${comment.comment}">Treść komentarza</p>
+            <ul th:remove="all-but-first">
+                <li class="single-movie-comment" th:each="comment : ${comments}">
+                    <div>
+                        <p class="comment-author-date" th:text="|Autor: ${comment.user.email}
+                       Data: ${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}|">
+                            Autor: Admin | Data: 2022-07-04</p>
+                    </div>
+                    <div class="comment-content">
+                        <p th:text="${comment.comment}">Treść komentarza</p>
+                    </div>
+                </li>
+            </ul>
         </section>
     </main>
 </div>

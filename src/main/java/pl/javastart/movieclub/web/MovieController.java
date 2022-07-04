@@ -36,7 +36,6 @@ public class MovieController {
             Integer rating = ratingService.getUserRatingForMovie(currentUserEmail, id).orElse(0);
             model.addAttribute("userRating", rating);
         }
-
         List<Comment> comments = commentService.findAllCommentsByMovieId(id, 0, 5, "id");
         model.addAttribute("comments", comments);
         return "movie";
