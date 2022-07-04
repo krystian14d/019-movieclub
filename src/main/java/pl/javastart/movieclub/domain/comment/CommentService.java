@@ -1,6 +1,9 @@
 package pl.javastart.movieclub.domain.comment;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.movie.MovieRepository;
@@ -8,6 +11,8 @@ import pl.javastart.movieclub.domain.user.User;
 import pl.javastart.movieclub.domain.user.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -24,7 +29,15 @@ public class CommentService {
         commentRepository.save(newComment);
     }
 
-    Comment createNewComment(User author, Movie movie, String comment){
+    public Page<Comment> findAllCommentsByMovieId(Long id, Integer pageNo, Integer pageSize, String sortBy) {
+
+        Page<Comment> pagedComments = commentRepository.findAllByMovie_Id(id,
+                PageRequest.of(pageNo, pageSize, Sort.by(sortBy)));
+
+        return pagedComments;
+    }
+
+    Comment createNewComment(User author, Movie movie, String comment) {
         Comment newComment = new Comment();
         newComment.setUser(author);
         newComment.setMovie(movie);
