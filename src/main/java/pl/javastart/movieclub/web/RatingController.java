@@ -14,7 +14,7 @@ public class RatingController {
 
     private final RatingService ratingService;
 
-    @PostMapping("/ocen-film")
+    @PostMapping("/rate-movie")
     public String addMovieRating(@RequestParam Long movieId, @RequestParam int rating,
                                  @RequestHeader String referer, Authentication authentication){
         String currentUserEmail = authentication.getName();

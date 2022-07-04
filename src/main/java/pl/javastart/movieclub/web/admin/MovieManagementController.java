@@ -23,7 +23,7 @@ public class MovieManagementController {
     private final MovieService movieService;
     private final GenreService genreService;
 
-    @GetMapping("/admin/dodaj-film")
+    @GetMapping("/admin/add-movie")
     public String addMovieForm(Model model) {
         List<GenreDto> allGenres = genreService.findAllGenres();
         model.addAttribute("genres", allGenres);
@@ -32,7 +32,7 @@ public class MovieManagementController {
         return "admin/movie-form";
     }
 
-    @PostMapping("/admin/dodaj-film")
+    @PostMapping("/admin/add-movie")
     public String addMovie(MovieSaveDto movie, RedirectAttributes redirectAttributes) {
         movieService.addMovie(movie);
         redirectAttributes.addFlashAttribute(
@@ -42,7 +42,7 @@ public class MovieManagementController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edytuj-film/{id}")
+    @GetMapping("/admin/edit-movie/{id}")
     public String updateMovie(@PathVariable Long id, Model model) {
         MovieDto movieToEdit = movieService.findMovieById(id).orElseThrow();
         model.addAttribute("movie", movieToEdit);
@@ -51,7 +51,7 @@ public class MovieManagementController {
         return "admin/edit-movie-form";
     }
 
-    @PostMapping("/admin/edytuj-film")
+    @PostMapping("/admin/edit-movie")
     public String updateMovie(MovieEditDto movie, RedirectAttributes redirectAttributes) {
         movieService.updateMovie(movie.getId(), movie);
         redirectAttributes.addFlashAttribute(
@@ -60,7 +60,7 @@ public class MovieManagementController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/usun-film/{id}")
+    @GetMapping("/admin/delete-movie/{id}")
     public String deleteMovie(@PathVariable Long id, RedirectAttributes redirectAttributes){
         movieService.deleteMovie(id);
         redirectAttributes.addFlashAttribute(

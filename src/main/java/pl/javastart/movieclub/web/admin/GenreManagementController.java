@@ -18,14 +18,14 @@ public class GenreManagementController {
 
     private final GenreService genreService;
 
-    @GetMapping("/admin/dodaj-gatunek")
+    @GetMapping("/admin/add-genre")
     public String addGenreForm(Model model) {
         GenreDto genre = new GenreDto();
         model.addAttribute("genre", genre);
         return "admin/genre-form";
     }
 
-    @PostMapping("/admin/dodaj-gatunek")
+    @PostMapping("/admin/add-genre")
     public String addGenre(GenreDto genre, RedirectAttributes redirectAttributes) {
         genreService.addGenre(genre);
         redirectAttributes.addFlashAttribute(
@@ -35,14 +35,14 @@ public class GenreManagementController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edytuj-gatunek/{id}")
+    @GetMapping("/admin/edit-genre/{id}")
     public String updateGenre(@PathVariable Long id, Model model) {
         GenreDto genre = genreService.findGenreById(id).orElseThrow();
         model.addAttribute("genre", genre);
         return "/admin/edit-genre-form";
     }
 
-    @PostMapping("/admin/edytuj-gatunek")
+    @PostMapping("/admin/edit-genre")
     public String updateGenre(GenreDto genre, RedirectAttributes redirectAttributes) {
         genreService.updateGenre(genre);
         redirectAttributes.addFlashAttribute(AdminController.NOTIFICATION_ATTRIBUTE,
@@ -50,7 +50,7 @@ public class GenreManagementController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/usun-gatunek/{id}")
+    @GetMapping("/admin/delete-genre/{id}")
     public String deleteGenre(@PathVariable Long id, RedirectAttributes redirectAttributes){
         genreService.deleteGenre(id);
         redirectAttributes.addFlashAttribute(AdminController.NOTIFICATION_ATTRIBUTE,

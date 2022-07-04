@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
+import pl.javastart.movieclub.domain.comment.Comment;
+import pl.javastart.movieclub.domain.comment.CommentService;
 import pl.javastart.movieclub.domain.comment.dto.NewMovieCommentDto;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
@@ -21,8 +23,9 @@ public class MovieController {
 
     private final MovieService movieService;
     private final RatingService ratingService;
+    private final CommentService commentService;
 
-    @GetMapping("/film/{id}")
+    @GetMapping("/movie/{id}")
     public String getMovie(@PathVariable Long id, Model model, Authentication authentication) {
         MovieDto movie = movieService.findMovieById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -34,8 +37,8 @@ public class MovieController {
             model.addAttribute("userRating", rating);
         }
 
-        NewMovieCommentDto newComment = new NewMovieCommentDto();
-        model.addAttribute("newComment", newComment);
+        List<Comment> comments = commentService.findAllCommentsByMovieId(id, 0, 5, "id");
+        model.addAttribute("comments", comments);
         return "movie";
     }
 

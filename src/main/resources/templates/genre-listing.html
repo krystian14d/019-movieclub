@@ -42,7 +42,7 @@
     <table class="list-border">
         <tr th:each="genre: ${genres}">
             <td>
-                <a th:href="@{|/gatunek/${genre.name}|}"
+                <a th:href="@{|/genre/${genre.name}|}"
                    th:text="${genre.name}">
                     Dramat
                 </a>
@@ -51,7 +51,7 @@
                 sec:authorize="hasAnyRole('ADMIN','EDITOR')">
                 <a class="table-action-button-font"
                    href="#"
-                   th:href="@{|/admin/edytuj-gatunek/${genre.id}|}"
+                   th:href="@{|/admin/edit-genre/${genre.id}|}"
                 >Edytuj</a>
             </td>
             <td class="table-action-button"
@@ -59,7 +59,7 @@
                 <a class="table-action-button-delete-font delete"
                    data-confirm="Czy na pewno chcesz usunąć?"
                    href="#"
-                   th:href="@{|/admin/usun-gatunek/${genre.id}|}">Usuń</a>
+                   th:href="@{|/admin/delete-genre/${genre.id}|}">Usuń</a>
             </td>
         </tr>
     </table>

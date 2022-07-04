@@ -21,7 +21,7 @@ public class GenreController {
     private final GenreService genreService;
     private final MovieService movieService;
 
-    @GetMapping("/gatunek/{name}")
+    @GetMapping("/genre/{name}")
     public String getGenre(@PathVariable String name, Model model){
 
         GenreDto genre = genreService.findGenreByName(name)
@@ -34,7 +34,7 @@ public class GenreController {
         return "movie-listing";
     }
 
-    @GetMapping("/gatunki-filmowe")
+    @GetMapping("/movie-genres")
     public String getGenreList(Model model){
         List<GenreDto> genres = genreService.findAllGenres();
         model.addAttribute("genres", genres);

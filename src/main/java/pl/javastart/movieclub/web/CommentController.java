@@ -22,7 +22,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/film/{id}/komentarze")
+    @GetMapping("/movie/{id}/comments")
     public String getComments(@PathVariable Long id,
                               @RequestParam(defaultValue = "0") Integer pageNo,
                               @RequestParam(defaultValue = "10") Integer pageSize,

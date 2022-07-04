@@ -29,7 +29,7 @@
                     <p class="movie-summary-item" th:text="|Rok: ${movie.releaseYear}|">Rok: 2001</p>
                     <!-- Ustawiamy link do strony gatunku filmowego, np. /gatunek/fantasy -->
                     <p class="movie-summary-item">Gatunek: <a href="#"
-                                                              th:href="@{|/gatunek/${movie.genre}|}"
+                                                              th:href="@{|/genre/${movie.genre}|}"
                                                               th:text="${movie.genre}">Fantasy</a>
                     </p>
                     <p class="movie-summary-item" th:text="${movie.shortDescription}">
@@ -38,8 +38,8 @@
                     <!--                    Edycja i usuwanie filmu-->
                     <p class="movie-summary-item"
                        sec:authorize="hasAnyRole('ADMIN','EDITOR')">
-                        <a href="#" th:href="@{|/admin/edytuj-film/${movie.id}|}">Edytuj film</a>
-                        <a class="delete-movie" href="#" th:href="@{|/admin/usun-film/${movie.id}|}">Usuń film</a>
+                        <a href="#" th:href="@{|/admin/edit-movie/${movie.id}|}">Edytuj film</a>
+                        <a class="delete-movie" href="#" th:href="@{|/admin/delete-movie/${movie.id}|}">Usuń film</a>
                     </p>
                 </div>
             </div>
@@ -55,7 +55,7 @@
                     <p th:text="|Liczba ocen: ${movie.ratingCount}">Liczba ocen: 134</p>
                 </div>
                 <!--Formularz, który wyświetlany jest tylko zalogowanemu użytkownikowi-->
-                <form action="#" th:action="@{/ocen-film}" method="post"
+                <form action="#" th:action="@{/rate-movie}" method="post"
                       sec:authorize="isAuthenticated()"
                       class="movie-rating-form">
                     <!-- Identyfikator filmu, na który głosujemy-->
@@ -107,10 +107,11 @@
                 <button type="submit">Wyślij</button>
             </form>
         </section>
-        <section class="movie-section" th:action="@{|/film/${movie.id}/komentarze|}">
+        <section class="movie-section">
+<!--                 th:action="@{|/film/${movie.id}/komentarze|}">-->
             <h2 class="movie-section-heading">Komentarze:</h2>
             <p th:each="comment : ${comments}"
-            th:text="comment.comment">Treść komentarza</p>
+            th:text="${comment.comment}">Treść komentarza</p>
         </section>
     </main>
 </div>
