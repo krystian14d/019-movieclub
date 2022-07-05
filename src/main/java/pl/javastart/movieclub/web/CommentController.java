@@ -22,17 +22,17 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @GetMapping("/movie/{id}/comments")
-    public String getComments(@PathVariable Long id,
-                              @RequestParam(defaultValue = "0") Integer pageNo,
-                              @RequestParam(defaultValue = "10") Integer pageSize,
-                              @RequestParam(defaultValue = "id") String sortBy,
-                              Model model) {
-//        Page<Comment> pagedComments = commentService.findAllCommentsByMovieId(id, pageNo, pageSize, sortBy);
-        List<Comment> comments = commentService.findAllCommentsByMovieId(id, pageNo, pageSize, sortBy);
-        model.addAttribute("comments", comments);
-        return "movie";
-    }
+//    @GetMapping("/movie/{id}/comments")
+//    public String getComments(@PathVariable Long id,
+//                              @RequestParam(defaultValue = "0") Integer pageNo,
+//                              @RequestParam(defaultValue = "10") Integer pageSize,
+//                              @RequestParam(defaultValue = "id") String sortBy,
+//                              Model model) {
+////        Page<Comment> pagedComments = commentService.findAllCommentsByMovieId(id, pageNo, pageSize, sortBy);
+//        List<Comment> comments = commentService.findAllCommentsByMovieId(id, pageNo, pageSize, sortBy);
+//        model.addAttribute("comments", comments);
+//        return "movie";
+//    }
 
     @PostMapping("/add-comment")
     public String addMovieComment(@RequestParam Long movieId, @RequestParam String newComment, @RequestHeader String referer, Authentication authentication) {
