@@ -5,6 +5,7 @@ import lombok.Setter;
 import pl.javastart.movieclub.domain.comment.Comment;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,8 +27,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "email")
     private String email;
+    @Column(name = "password")
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -40,6 +44,7 @@ public class User {
 
     @OneToMany(
             mappedBy = "user",
+            orphanRemoval = true,
             cascade = CascadeType.REMOVE
     )
     private Set<Comment> userComments = new HashSet<>();

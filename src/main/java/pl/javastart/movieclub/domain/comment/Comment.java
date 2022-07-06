@@ -7,6 +7,7 @@ import lombok.Setter;
 import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.user.User;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,13 +30,16 @@ public class Comment {
     private Long Id;
 
     @ManyToOne()
-    @JoinColumn(name = "movie_id")
+    @JoinColumn(name = "fk_movie_id")
     private Movie movie;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "fk_user_id")
     private User user;
 
+    @Column(name = "comment")
     private String comment;
+
+    @Column(name = "date_added")
     private LocalDateTime dateAdded;
 }

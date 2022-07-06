@@ -28,7 +28,7 @@ public class MovieController {
 
     @GetMapping("/movie/{id}")
     public String getMovie(
-            @PathVariable Long id,
+            @PathVariable long id,
             @RequestParam(name = "pageNo", required = false, defaultValue = "1") int pageNo,
             @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize,
             Model model,
@@ -44,7 +44,7 @@ public class MovieController {
             model.addAttribute("userRating", rating);
         }
 
-        Page<Comment> commentsPaged = commentService.findAllCommentsByMovieIdPaginated(id, pageNo, pageSize);
+        Page<Comment> commentsPaged = commentService.findAllPagedCommentsByMovieId(id, pageNo, pageSize);
         List<Comment> comments = commentsPaged.getContent();
 
         model.addAttribute("currentPage", pageNo);
