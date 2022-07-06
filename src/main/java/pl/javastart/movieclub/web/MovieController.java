@@ -44,9 +44,6 @@ public class MovieController {
             model.addAttribute("userRating", rating);
         }
 
-//        List<Comment> comments = commentService.findAllCommentsByMovieId(id);
-//        model.addAttribute("comments", comments);
-
         Page<Comment> commentsPaged = commentService.findAllCommentsByMovieIdPaginated(id, pageNo, pageSize);
         List<Comment> comments = commentsPaged.getContent();
 
@@ -60,10 +57,13 @@ public class MovieController {
 
     @GetMapping("/top10")
     public String findTop10(Model model) {
+
         List<MovieDto> top10Movies = movieService.findTopMovies(10);
+
         model.addAttribute("heading", "Filmowe TOP 10");
         model.addAttribute("description", "Filmy najlepiej oceniane przez użytkowników");
         model.addAttribute("movies", top10Movies);
+
         return "movie-listing";
     }
 }

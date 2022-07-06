@@ -28,9 +28,6 @@ public class CommentService {
         commentRepository.save(newComment);
     }
 
-    public List<Comment> findAllCommentsByMovieId(Long id) {
-        return commentRepository.findAllByMovie_Id(id);
-    }
 
     public Page<Comment> findAllCommentsByMovieIdPaginated(Long id, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
