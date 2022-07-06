@@ -80,7 +80,7 @@ class MovieControllerTest {
         //when
         //then
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/film/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/1"))
                 .andExpect(MockMvcResultMatchers.view().name("movie"))
                 .andExpect(model().attribute("movie", movie))
                 .andExpect(model().attribute("movie", instanceOf(MovieDto.class)));

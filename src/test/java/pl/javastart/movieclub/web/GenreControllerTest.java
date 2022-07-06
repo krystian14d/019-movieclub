@@ -84,7 +84,7 @@ class GenreControllerTest {
         //when
         //then
 
-        mockMvc.perform(get("/gatunek/Drama"))
+        mockMvc.perform(get("/genre/Drama"))
                 .andExpect(model().attribute("heading", genre.getName()))
                 .andExpect(model().attribute("description", genreDescription))
                 .andExpect(model().attribute("movies", moviesByGenre))
@@ -98,7 +98,7 @@ class GenreControllerTest {
         given(genreService.findGenreByName(genreName)).willReturn(Optional.empty());
         //when
         //then
-        mockMvc.perform(get("/gatunek/Drama"))
+        mockMvc.perform(get("/genre/Drama"))
                 .andExpect(status().isNotFound());
 
     }
@@ -121,7 +121,7 @@ class GenreControllerTest {
 
         //when
         //then
-        mockMvc.perform(get("/gatunki-filmowe"))
+        mockMvc.perform(get("/movie-genres"))
                 .andExpect(model().attribute("genres", genres))
                 .andExpect(view().name("genre-listing"));
 
