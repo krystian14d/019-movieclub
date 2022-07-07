@@ -1,10 +1,13 @@
 Do zaimplementowania:
 
- - możliwość edytowania filmów,
+ - możliwość edytowania filmów - DONE
  - możliwość edytowania kategorii - DONE
  - możliwość usuwania filmów - DONE
  - możliwość usuwania kategorii - DONE
- - system komentarzy do filmów z możliwością administracji i dodawania shadow banów,
+ - system komentarzy do filmów - DONE
+ - dodanie paginacji do komentarzy - DONE
+ - dodanie GlobalExceptionHandler - @ControllerAdvice - DONE
+ - z możliwością administracji komentarzy - ONGOING
  - wyszukiwarka filmów,
  - opcja zgłaszania błędów w opisach filmów,
  - publiczny profil użytkownika, czyli możliwość podejrzenia, jakie filmy ocenił i skomentował dany użytkownik,

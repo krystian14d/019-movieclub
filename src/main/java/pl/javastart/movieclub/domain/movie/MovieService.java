@@ -3,6 +3,7 @@ package pl.javastart.movieclub.domain.movie;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.genre.GenreRepository;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
@@ -66,8 +67,9 @@ public class MovieService {
     }
 
     @Transactional
-    public void updateMovie(Long movieId, MovieEditDto movieToEdit) {
-        Movie movie = movieRepository.findById(movieId).orElseThrow();
+    public void updateMovie(Long movieId, MovieEditDto movieToEdit) throws MovieNotFoundException {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() ->
+                new MovieNotFoundException(String.format("Movie with ID %s not found", movieId)));
         movie.setTitle(movieToEdit.getTitle());
         movie.setOriginalTitle(movieToEdit.getOriginalTitle());
         movie.setPromoted(movieToEdit.isPromoted());

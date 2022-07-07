@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.genre.GenreService;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
 import pl.javastart.movieclub.domain.movie.MovieService;
@@ -52,7 +53,7 @@ public class MovieManagementController {
     }
 
     @PostMapping("/admin/edit-movie")
-    public String updateMovie(MovieEditDto movie, RedirectAttributes redirectAttributes) {
+    public String updateMovie(MovieEditDto movie, RedirectAttributes redirectAttributes) throws MovieNotFoundException {
         movieService.updateMovie(movie.getId(), movie);
         redirectAttributes.addFlashAttribute(
                 AdminController.NOTIFICATION_ATTRIBUTE,

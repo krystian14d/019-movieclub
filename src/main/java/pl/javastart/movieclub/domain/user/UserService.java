@@ -3,6 +3,8 @@ package pl.javastart.movieclub.domain.user;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.javastart.movieclub.domain.exception.RoleNotFoundException;
+import pl.javastart.movieclub.domain.exception.UserNotFoundException;
 import pl.javastart.movieclub.domain.user.dto.UserCredentialsDto;
 import pl.javastart.movieclub.domain.user.dto.UserRegistrationDto;
 
@@ -25,8 +27,9 @@ public class UserService {
     }
 
     @Transactional
-    public void registerUserWithDefaultRole(UserRegistrationDto userRegistration) {
-        UserRole defaultRole = userRoleRepository.findByName(DEFAULT_USER_ROLE).orElseThrow();
+    public void registerUserWithDefaultRole(UserRegistrationDto userRegistration) throws RoleNotFoundException {
+        UserRole defaultRole = userRoleRepository.findByName(DEFAULT_USER_ROLE).orElseThrow(() ->
+                new RoleNotFoundException(String.format("Role %s not found", DEFAULT_USER_ROLE)));
         User user = new User();
         user.setEmail(userRegistration.getEmail());
         user.setPassword(passwordEncoder.encode(userRegistration.getPassword()));

@@ -5,11 +5,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.IOException;
 
-@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "User not found")
-public class UserNotFoundException extends IOException {
+@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Role not found")
+public class RoleNotFoundException extends IOException {
 
-    public UserNotFoundException(String message) {
+    public RoleNotFoundException(String message) {
         super(message);
     }
-
 }

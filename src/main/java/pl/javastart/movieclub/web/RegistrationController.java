@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.javastart.movieclub.domain.exception.RoleNotFoundException;
+import pl.javastart.movieclub.domain.exception.UserNotFoundException;
 import pl.javastart.movieclub.domain.user.UserService;
 import pl.javastart.movieclub.domain.user.dto.UserRegistrationDto;
 
@@ -22,7 +24,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String register(UserRegistrationDto userRegistration){
+    public String register(UserRegistrationDto userRegistration) throws RoleNotFoundException {
         userService.registerUserWithDefaultRole(userRegistration);
         return "redirect:/";
     }
