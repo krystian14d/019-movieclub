@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.javastart.movieclub.domain.exception.RoleNotFoundException;
 import pl.javastart.movieclub.domain.user.dto.UserCredentialsDto;
 import pl.javastart.movieclub.domain.user.dto.UserRegistrationDto;
 
@@ -72,7 +73,7 @@ class UserServiceTest {
     }
 
     @Test
-    void itShouldRegisterUserWithDefaultRole() {
+    void itShouldRegisterUserWithDefaultRole() throws RoleNotFoundException {
         //given
         String email = "jan@example.com";
         String password = "password";

@@ -2,6 +2,7 @@ package pl.javastart.movieclub.domain.comment;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,6 @@ public class CommentService {
                 .orElseThrow(() ->
                         new MovieNotFoundException(String.format("Movie with id %s not found.", movieId))
                 );
-
         Comment newComment = createNewComment(author, commentedMovie, comment);
         commentRepository.save(newComment);
     }

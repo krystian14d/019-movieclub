@@ -6,6 +6,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
+import pl.javastart.movieclub.domain.exception.UserNotFoundException;
 import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.movie.MovieRepository;
 import pl.javastart.movieclub.domain.user.User;
@@ -36,7 +38,7 @@ class RatingServiceTest {
     }
 
     @Test
-    void itShouldAddOrUpdateRating() {
+    void itShouldAddOrUpdateRating() throws UserNotFoundException, MovieNotFoundException {
         //given
         String userEmail = "email@example.com";
         User user = new User();
