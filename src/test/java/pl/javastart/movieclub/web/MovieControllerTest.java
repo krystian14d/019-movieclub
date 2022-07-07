@@ -87,7 +87,7 @@ class MovieControllerTest {
         Page<Comment> commentsPaged = Mockito.mock(Page.class);
 
 //        Alternatywnie:
-//        List<Comment> comments = new ArrayList<>();
+        List<Comment> comments = new ArrayList<>();
 //        Page<Comment> commentsPaged = new PageImpl(comments);
 
         int pageNo = 1;
@@ -100,7 +100,12 @@ class MovieControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/movie/1"))
                 .andExpect(MockMvcResultMatchers.view().name("movie"))
                 .andExpect(model().attribute("movie", movie))
-                .andExpect(model().attribute("movie", instanceOf(MovieDto.class)));
+                .andExpect(model().attribute("movie", instanceOf(MovieDto.class)))
+                .andExpect(model().attribute("currentPage", pageNo))
+                .andExpect(model().attribute("totalPages", commentsPaged.getTotalPages()))
+                .andExpect(model().attribute("totalItems", commentsPaged.getTotalElements()))
+                .andExpect(model().attribute("comments", comments));
+
     }
 
     @Test
