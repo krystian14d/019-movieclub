@@ -3,9 +3,11 @@ package pl.javastart.movieclub.web;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -16,6 +18,8 @@ import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
 import pl.javastart.movieclub.domain.rating.RatingService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.instanceOf;
@@ -80,15 +84,20 @@ class MovieControllerTest {
 
         given(movieService.findMovieById(id)).willReturn(Optional.of(movie));
 
-        Page<Comment> commentsPaged;
+        Page<Comment> commentsPaged = Mockito.mock(Page.class);
+
+//        Alternatywnie:
+//        List<Comment> comments = new ArrayList<>();
+//        Page<Comment> commentsPaged = new PageImpl(comments);
 
         int pageNo = 1;
         int pageSize = 5;
         given(commentService.findAllPagedCommentsByMovieId(id, pageNo, pageSize)).willReturn(commentsPaged);
+
         //when
         //then
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/movie/1?pageNo=1&pageSize=5"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/1"))
                 .andExpect(MockMvcResultMatchers.view().name("movie"))
                 .andExpect(model().attribute("movie", movie))
                 .andExpect(model().attribute("movie", instanceOf(MovieDto.class)));
