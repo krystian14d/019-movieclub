@@ -5,10 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import pl.javastart.movieclub.domain.comment.Comment;
 import pl.javastart.movieclub.domain.comment.CommentService;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
@@ -77,10 +79,16 @@ class MovieControllerTest {
         );
 
         given(movieService.findMovieById(id)).willReturn(Optional.of(movie));
+
+        Page<Comment> commentsPaged;
+
+        int pageNo = 1;
+        int pageSize = 5;
+        given(commentService.findAllPagedCommentsByMovieId(id, pageNo, pageSize)).willReturn(commentsPaged);
         //when
         //then
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/movie/1"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/movie/1?pageNo=1&pageSize=5"))
                 .andExpect(MockMvcResultMatchers.view().name("movie"))
                 .andExpect(model().attribute("movie", movie))
                 .andExpect(model().attribute("movie", instanceOf(MovieDto.class)));
