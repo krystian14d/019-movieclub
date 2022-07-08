@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import pl.javastart.movieclub.domain.exception.CommentNotFoundException;
 import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.exception.UserNotFoundException;
 import pl.javastart.movieclub.domain.movie.Movie;
@@ -42,6 +43,11 @@ public class CommentService {
     public Page<Comment> findAllPagedCommentsByMovieId(Long id, int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("dateAdded"));
         return commentRepository.findAllByMovie_Id(id, pageable);
+    }
+
+    public Comment updateComment(Long id) throws CommentNotFoundException {
+        return commentRepository.findById(id).orElseThrow(() ->
+                new CommentNotFoundException(String.format("Comment with ID %s does not exist.", id)));
     }
 
 

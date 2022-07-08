@@ -306,6 +306,21 @@ i powinna zajmować większość dostępnej przestrzeni
     color: #ffc107;
 }
 
+.edit-comment-button{
+    padding: 1px 1px 3px 3px;
+    background-color: #9e9e9e;
+    color: black;
+    border: none;
+}
+
+.delete-comment-button{
+    padding: 1px 1px 3px 3px;
+    background-color: #9e9e9e;
+    color: darkred;
+    border: none;
+}
+
+
 /*Responsive movie.html*/
 @media only screen and (min-width: 992px) {
     /*Dodajemy rozkład elastyczny, elementy będą wyświetlane w jednym wierszu*/
