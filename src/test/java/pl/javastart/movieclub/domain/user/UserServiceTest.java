@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -106,5 +107,19 @@ class UserServiceTest {
         assertThat(userArgumentCaptorValue.getEmail()).isEqualTo(email);
         assertThat(userArgumentCaptorValue.getPassword()).isEqualTo(password);
         assertThat(userArgumentCaptorValue.getRoles()).contains(defaultRole);
+    }
+
+    @Test
+    void itShouldThrowRoleNotFoundException() {
+        //given
+        UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
+        String DEFAULT_USER_ROLE = "USER";
+
+        given(userRoleRepository.findByName(DEFAULT_USER_ROLE)).willReturn(Optional.empty());
+
+        //when//then
+        assertThatThrownBy(() -> underTest.registerUserWithDefaultRole(userRegistrationDto))
+                .isInstanceOf(RoleNotFoundException.class)
+                .hasMessageContaining(String.format("Role %s not found", DEFAULT_USER_ROLE));
     }
 }

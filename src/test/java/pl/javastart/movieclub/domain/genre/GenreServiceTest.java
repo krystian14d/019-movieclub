@@ -4,16 +4,21 @@ import liquibase.repackaged.org.apache.commons.collections4.IteratorUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
+import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.movie.MovieRepository;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.Spliterator;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -30,6 +35,8 @@ class GenreServiceTest {
     private GenreRepository genreRepository;
     @Mock
     private MovieRepository movieRepository;
+    @Captor
+    private ArgumentCaptor<Set<Movie>> movieSetArgumentCaptor;
 
     private GenreService underTest;
 
@@ -114,5 +121,79 @@ class GenreServiceTest {
         List<GenreDto> allGenres = underTest.findAllGenres();
         //then
         assertThat(allGenres).hasSize(2);
+    }
+
+    @Test
+    void itShouldFindGenreById() {
+        //given
+        Genre genre = new Genre();
+        long id = 1L;
+        genre.setId(id);
+        genre.setName("genre1");
+        genre.setDescription("description1");
+
+        given(genreRepository.findById(id)).willReturn(Optional.of(genre));
+        //when
+        Optional<GenreDto> genreById = underTest.findGenreById(id);
+        //then
+        assertThat(genreById)
+                .isNotEmpty();
+        assertThat(genreById.get())
+                .isInstanceOf(GenreDto.class);
+    }
+
+    @Test
+    void itShouldUpdateGenre() {
+        //given
+        GenreDto genreDto = new GenreDto();
+        long id = 1L;
+        genreDto.setId(id);
+        genreDto.setName("genre1");
+        genreDto.setDescription("description1");
+
+        Genre genre = new Genre();
+
+        given(genreRepository.findById(genreDto.getId())).willReturn(Optional.of(genre));
+        //when
+        underTest.updateGenre(genreDto);
+
+        //then
+        ArgumentCaptor<Genre> genreArgumentCaptor = ArgumentCaptor.forClass(Genre.class);
+        then(genreRepository).should().save(genreArgumentCaptor.capture());
+
+        Genre genreArgumentCaptorValue = genreArgumentCaptor.getValue();
+        assertThat(genreArgumentCaptorValue.getName()).isEqualTo(genreDto.getName());
+        assertThat(genreArgumentCaptorValue.getDescription()).isEqualTo(genreDto.getDescription());
+    }
+
+    @Test
+    void itShouldDeleteGenre() {
+        //given
+        Movie movie1 = new Movie();
+        Movie movie2 = new Movie();
+        Movie movie3 = new Movie();
+        Genre genre = new Genre();
+
+        Set<Movie> movies = new HashSet<>();
+        movies.add(movie1);
+        movies.add(movie2);
+        movies.add(movie3);
+        movies.forEach(m -> m.setGenre(genre));
+
+        long genreId = 1L;
+
+        given(movieRepository.findAllByGenre_Id(genreId)).willReturn(movies);
+
+        //when
+        underTest.deleteGenre(genreId);
+
+        //then
+        then(movieRepository).should().saveAll(movieSetArgumentCaptor.capture());
+        Set<Movie> movieSetArgumentCaptorValue = movieSetArgumentCaptor.getValue();
+
+        assertThat(movieSetArgumentCaptorValue.stream()
+                .map(Movie::getGenre)
+                .collect(Collectors.toSet())).isNotInstanceOf(Genre.class);
+        then(genreRepository).should().deleteById(genreId);
     }
 }

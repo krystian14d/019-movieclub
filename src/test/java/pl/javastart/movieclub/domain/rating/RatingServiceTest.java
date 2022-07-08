@@ -16,6 +16,7 @@ import pl.javastart.movieclub.domain.user.UserRepository;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -96,6 +97,40 @@ class RatingServiceTest {
 
         assertThat(userRatingForMovie).isNotEmpty();
         assertThat(userRatingForMovie.get()).isEqualTo(userRating);
+    }
+
+    @Test
+    void itShouldThrowUserNotFoundException() {
+        //given
+        String userEmail = "email@example.com";
+        Long movieId = 1L;
+        int userRating = 4;
+        Rating rating = new Rating();
+        given(ratingRepository.findByUser_EmailAndMovie_Id(userEmail, movieId)).willReturn(Optional.of(rating));
+        given(userRepository.findByEmail(userEmail)).willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> underTest.addOrUpdateRating(userEmail, movieId, userRating))
+                .isInstanceOf(UserNotFoundException.class)
+                .hasMessageContaining(String.format("User with email %s not found", userEmail));
+    }
+
+    @Test
+    void itShouldThrowMovieNotFoundException() {
+        //given
+        User user = new User();
+        String userEmail = "email@example.com";
+        Long movieId = 1L;
+        int userRating = 4;
+        Rating rating = new Rating();
+        given(ratingRepository.findByUser_EmailAndMovie_Id(userEmail, movieId)).willReturn(Optional.of(rating));
+        given(userRepository.findByEmail(userEmail)).willReturn(Optional.of(user));
+        given(movieRepository.findById(movieId)).willReturn(Optional.empty());
+        //when
+        //then
+        assertThatThrownBy(() -> underTest.addOrUpdateRating(userEmail, movieId, userRating))
+                .isInstanceOf(MovieNotFoundException.class)
+                .hasMessageContaining(String.format("Movie with ID %s not found", movieId));
 
     }
 }

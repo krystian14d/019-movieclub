@@ -1,5 +1,6 @@
 Do zaimplementowania:
 
+ - testy jednostkowe - DONE
  - możliwość edytowania filmów - DONE
  - możliwość edytowania kategorii - DONE
  - możliwość usuwania filmów - DONE

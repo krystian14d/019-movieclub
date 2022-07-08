@@ -5,18 +5,23 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.genre.GenreRepository;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
+import pl.javastart.movieclub.domain.movie.dto.MovieEditDto;
 import pl.javastart.movieclub.domain.movie.dto.MovieSaveDto;
 import pl.javastart.movieclub.storage.FileStorageService;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
@@ -251,5 +256,107 @@ class MovieServiceTest {
         assertThat(movieArgumentCaptorValue.getGenre()).usingRecursiveComparison().isEqualTo(genre);
         assertThat(movieArgumentCaptorValue.getPoster()).isInstanceOf(String.class);
         assertThat(movieArgumentCaptorValue.getRatings()).isEmpty();
+    }
+
+    @Test
+    void itShouldFindTopMovies() {
+        //given
+        int size = 10;
+        List<Movie> movies = new ArrayList<>();
+
+        Genre genre = new Genre();
+
+        for (int i = 0; i < size; i++) {
+            Movie movie = new Movie();
+            movie.setGenre(genre);
+            movies.add(movie);
+        }
+
+        Pageable page = Pageable.ofSize(size);
+
+        given(movieRepository.findTopByRating(page)).willReturn(movies);
+        //when
+        List<MovieDto> topMovies = underTest.findTopMovies(size);
+        //then
+        assertThat(topMovies)
+                .isNotEmpty()
+                .hasSize(size);
+    }
+
+    @Test
+    void itShouldUpdateMovie() throws MovieNotFoundException {
+        //given
+        long movieId = 1L;
+        String title = "Forrest Gump";
+        String originalTitle = "Original title of Forrest Gump";
+        String shortDesciption = "Short description about movie Forrest Gump.";
+        String description = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId = "linkToYouTube";
+        int releaseYear = 1997;
+        boolean promoted = false;
+        long genreId = 1L;
+        String poster = "poster.png";
+
+        Genre genre = new Genre();
+        genre.setId(genreId);
+        String genreName = "Drama";
+        genre.setName(genreName);
+
+        MovieEditDto movieWithEdit = new MovieEditDto();
+        movieWithEdit.setTitle(title);
+        movieWithEdit.setOriginalTitle(originalTitle);
+        movieWithEdit.setPromoted(promoted);
+        movieWithEdit.setReleaseYear(releaseYear);
+        movieWithEdit.setShortDescription(shortDesciption);
+        movieWithEdit.setYoutubeTrailerId(youtubeTrailerId);
+        movieWithEdit.setDescription(description);
+        movieWithEdit.setGenre(genreName);
+        movieWithEdit.setPoster(file);
+
+        Movie movieToEdit = new Movie();
+
+        given(movieRepository.findById(movieId)).willReturn(Optional.of(movieToEdit));
+        given(genreRepository.findByNameIgnoreCase(movieWithEdit.getGenre())).willReturn(Optional.of(genre));
+        given(fileStorageService.saveImage(movieWithEdit.getPoster())).willReturn("poster0.png");
+
+        //when
+        underTest.updateMovie(movieId, movieWithEdit);
+
+        //then
+        ArgumentCaptor<Movie> movieArgumentCaptor = ArgumentCaptor.forClass(Movie.class);
+        then(movieRepository).should().save(movieArgumentCaptor.capture());
+
+        Movie movieArgumentCaptorValue = movieArgumentCaptor.getValue();
+
+        assertThat(movieArgumentCaptorValue).usingRecursiveComparison()
+                .ignoringFields("id", "genre", "poster", "ratings", "movieComments").isEqualTo(movieWithEdit);
+        assertThat(movieArgumentCaptorValue.getGenre()).usingRecursiveComparison().isEqualTo(genre);
+        assertThat(movieArgumentCaptorValue.getPoster()).isInstanceOf(String.class);
+    }
+
+    @Test
+    void itShouldThrowMovieNotFoundException() {
+        //given
+        MovieEditDto movieWithEdit = new MovieEditDto();
+        long movieId = 1L;
+
+        given(movieRepository.findById(movieId)).willReturn(Optional.empty());
+
+        //when//then
+        assertThatThrownBy(() -> underTest.updateMovie(movieId, movieWithEdit))
+                .isInstanceOf(MovieNotFoundException.class)
+                .hasMessageContaining(String.format("Movie with ID %s not found", movieId));
+    }
+
+    @Test
+    void itShouldDeleteMovie() {
+        //given
+        long id = 1L;
+
+        //when
+        underTest.deleteMovie(id);
+
+        //then
+        then(movieRepository).should().deleteById(id);
     }
 }
