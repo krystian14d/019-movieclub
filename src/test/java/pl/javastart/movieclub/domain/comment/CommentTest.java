@@ -27,14 +27,14 @@ class CommentTest {
         underTest.setId(id);
         underTest.setMovie(movie);
         underTest.setUser(user);
-        underTest.setComment(comment);
+        underTest.setCommentContent(comment);
         underTest.setDateAdded(dateAdded);
 
         //then
         assertThat(underTest.getId()).isEqualTo(id);
         assertThat(underTest.getMovie()).isEqualTo(movie);
         assertThat(underTest.getUser()).isEqualTo(user);
-        assertThat(underTest.getComment()).isEqualTo(comment);
+        assertThat(underTest.getCommentContent()).isEqualTo(comment);
         assertThat(underTest.getDateAdded()).isEqualTo(dateAdded);
 
     }

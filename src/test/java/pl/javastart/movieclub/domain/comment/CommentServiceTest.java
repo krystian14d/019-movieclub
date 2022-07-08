@@ -57,7 +57,7 @@ class CommentServiceTest {
         then(commentRepository).should().save(commentArgumentCaptor.capture());
         Comment commentArgumentCaptorValue = commentArgumentCaptor.getValue();
 
-        assertThat(commentArgumentCaptorValue.getComment()).isEqualTo(comment);
+        assertThat(commentArgumentCaptorValue.getCommentContent()).isEqualTo(comment);
         assertThat(commentArgumentCaptorValue.getMovie()).isEqualTo(movie);
         assertThat(commentArgumentCaptorValue.getUser()).isEqualTo(author);
     }

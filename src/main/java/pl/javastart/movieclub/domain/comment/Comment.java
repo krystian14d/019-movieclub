@@ -37,7 +37,7 @@ public class Comment {
     private User user;
 
     @Column(name = "comment")
-    private String comment;
+    private String commentContent;
 
     @Column(name = "date_added")
     private LocalDateTime dateAdded;

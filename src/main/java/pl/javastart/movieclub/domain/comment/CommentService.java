@@ -45,9 +45,17 @@ public class CommentService {
         return commentRepository.findAllByMovie_Id(id, pageable);
     }
 
-    public Comment updateComment(Long id) throws CommentNotFoundException {
+    public Comment findCommentById(Long id) throws CommentNotFoundException {
         return commentRepository.findById(id).orElseThrow(() ->
                 new CommentNotFoundException(String.format("Comment with ID %s does not exist.", id)));
+    }
+
+    public Comment updateComment(Comment updatedComment) throws CommentNotFoundException {
+        Comment commentToUpdate = commentRepository.findById(updatedComment.getId()).orElseThrow(() ->
+                new CommentNotFoundException(String.format("Comment with ID %s does not exist.", updatedComment.getId())));
+        commentToUpdate.setCommentContent(updatedComment.getCommentContent());
+        commentRepository.save(commentToUpdate);
+        return commentToUpdate;
     }
 
 
@@ -55,7 +63,7 @@ public class CommentService {
         Comment newComment = new Comment();
         newComment.setUser(author);
         newComment.setMovie(movie);
-        newComment.setComment(comment);
+        newComment.setCommentContent(comment);
         newComment.setDateAdded(LocalDateTime.now());
         return newComment;
     }

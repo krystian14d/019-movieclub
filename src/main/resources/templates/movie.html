@@ -118,19 +118,16 @@
                             Autor: Admin | Data: 2022-07-04</p>
                     </div>
                     <div class="comment-content">
-                        <p th:text="${comment.comment}">Treść komentarza</p>
+                        <p th:text="${comment.commentContent}">Treść komentarza</p>
                     </div>
                     <div sec:authorize="hasAnyRole('ADMIN', 'EDITOR')" style="display: flex">
-                        <form method="get" th:action="@{/admin/edit-comment}">
-                            <input type="hidden" name="commentId" th:value="${comment.id}">
+                        <form method="get" th:action="@{|/admin/edit-comment/${comment.id}|}">
                             <button class="edit-comment-button" type="submit">Edytuj</button>
                         </form>
                         &nbsp;
                         <form method="post" th:action="@{/admin/delete-comment}">
                             <button class="delete-comment-button" type="submit">Usuń</button>
                         </form>
-<!--                        <a href="#" th:href="@{|/admin/edit-comment/${comment.id}|}">Edytuj</a>-->
-<!--                        <a class="delete-movie" href="#" th:href="@{|/admin/delete-comment/${comment.id}|}">Usuń</a>-->
                     </div>
                 </li>
                 <li class="single-movie-comment">
