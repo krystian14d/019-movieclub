@@ -39,7 +39,7 @@ class RegistrationControllerTest {
         //given
         //when
         //then
-        mockMvc.perform(MockMvcRequestBuilders.get("/rejestracja"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/register"))
                 .andExpect(view().name("registration-form"))
                 .andExpect(model().attribute("user", instanceOf(UserRegistrationDto.class)));
     }
@@ -49,7 +49,7 @@ class RegistrationControllerTest {
         //given
         //when
         //then
-        mockMvc.perform(post("/rejestracja"))
+        mockMvc.perform(post("/register"))
                 .andExpect(view().name("redirect:/"));
     }
 }

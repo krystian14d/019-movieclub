@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.genre.GenreService;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
 import pl.javastart.movieclub.domain.movie.MovieService;
@@ -23,7 +24,7 @@ public class MovieManagementController {
     private final MovieService movieService;
     private final GenreService genreService;
 
-    @GetMapping("/admin/dodaj-film")
+    @GetMapping("/admin/add-movie")
     public String addMovieForm(Model model) {
         List<GenreDto> allGenres = genreService.findAllGenres();
         model.addAttribute("genres", allGenres);
@@ -32,7 +33,7 @@ public class MovieManagementController {
         return "admin/movie-form";
     }
 
-    @PostMapping("/admin/dodaj-film")
+    @PostMapping("/admin/add-movie")
     public String addMovie(MovieSaveDto movie, RedirectAttributes redirectAttributes) {
         movieService.addMovie(movie);
         redirectAttributes.addFlashAttribute(
@@ -42,7 +43,7 @@ public class MovieManagementController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/edytuj-film/{id}")
+    @GetMapping("/admin/edit-movie/{id}")
     public String updateMovie(@PathVariable Long id, Model model) {
         MovieDto movieToEdit = movieService.findMovieById(id).orElseThrow();
         model.addAttribute("movie", movieToEdit);
@@ -51,8 +52,8 @@ public class MovieManagementController {
         return "admin/edit-movie-form";
     }
 
-    @PostMapping("/admin/edytuj-film")
-    public String updateMovie(MovieEditDto movie, RedirectAttributes redirectAttributes) {
+    @PostMapping("/admin/edit-movie")
+    public String updateMovie(MovieEditDto movie, RedirectAttributes redirectAttributes) throws MovieNotFoundException {
         movieService.updateMovie(movie.getId(), movie);
         redirectAttributes.addFlashAttribute(
                 AdminController.NOTIFICATION_ATTRIBUTE,
@@ -60,7 +61,7 @@ public class MovieManagementController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/admin/usun-film/{id}")
+    @GetMapping("/admin/delete-movie/{id}")
     public String deleteMovie(@PathVariable Long id, RedirectAttributes redirectAttributes){
         movieService.deleteMovie(id);
         redirectAttributes.addFlashAttribute(

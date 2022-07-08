@@ -45,7 +45,7 @@ class GenreManagementControllerTest {
         //when
 
         //then
-        mockMvc.perform(get("/admin/dodaj-gatunek"))
+        mockMvc.perform(get("/admin/add-genre"))
                 .andExpect(model().attribute("genre", instanceOf(GenreDto.class)))
                 .andExpect(view().name("admin/genre-form"));
     }
@@ -58,7 +58,7 @@ class GenreManagementControllerTest {
 
         //when
         //then
-        mockMvc.perform(MockMvcRequestBuilders.post("/admin/dodaj-gatunek")
+        mockMvc.perform(MockMvcRequestBuilders.post("/admin/add-genre")
                         .param("id", genre.getId().toString())
                         .param("name", genre.getName())
                         .param("description", genre.getDescription()))

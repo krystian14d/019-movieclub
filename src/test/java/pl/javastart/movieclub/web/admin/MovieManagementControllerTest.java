@@ -55,7 +55,7 @@ class MovieManagementControllerTest {
         given(genreService.findAllGenres()).willReturn(allGenres);
         //when
         //then
-        mockMvc.perform(get("/admin/dodaj-film"))
+        mockMvc.perform(get("/admin/add-movie"))
                 .andExpect(model().attribute("genres", allGenres))
                 .andExpect(model().attribute("genres", hasSize(allGenres.size())))
                 .andExpect(model().attribute("movie", instanceOf(MovieSaveDto.class)))
@@ -74,7 +74,7 @@ class MovieManagementControllerTest {
         //when
 
         //then
-        mockMvc.perform(post("/admin/dodaj-film")
+        mockMvc.perform(post("/admin/add-movie")
                         .param("title", movie.getTitle()))
                 .andExpect(flash().attribute(AdminController.NOTIFICATION_ATTRIBUTE,
                         "Film %s został zapisany.".formatted(movie.getTitle())))

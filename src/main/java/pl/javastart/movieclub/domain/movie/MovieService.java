@@ -3,6 +3,7 @@ package pl.javastart.movieclub.domain.movie;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.genre.GenreRepository;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
@@ -66,19 +67,20 @@ public class MovieService {
     }
 
     @Transactional
-    public void updateMovie(Long movieId, MovieEditDto movieToEdit) {
-        Movie movie = movieRepository.findById(movieId).orElseThrow();
-        movie.setTitle(movieToEdit.getTitle());
-        movie.setOriginalTitle(movieToEdit.getOriginalTitle());
-        movie.setPromoted(movieToEdit.isPromoted());
-        movie.setReleaseYear(movieToEdit.getReleaseYear());
-        movie.setShortDescription(movieToEdit.getShortDescription());
-        movie.setDescription(movieToEdit.getDescription());
-        movie.setYoutubeTrailerId(movieToEdit.getYoutubeTrailerId());
-        Genre genre = genreRepository.findByNameIgnoreCase(movieToEdit.getGenre()).orElseThrow();
+    public void updateMovie(Long movieId, MovieEditDto movieWithEdit) throws MovieNotFoundException {
+        Movie movie = movieRepository.findById(movieId).orElseThrow(() ->
+                new MovieNotFoundException(String.format("Movie with ID %s not found", movieId)));
+        movie.setTitle(movieWithEdit.getTitle());
+        movie.setOriginalTitle(movieWithEdit.getOriginalTitle());
+        movie.setPromoted(movieWithEdit.isPromoted());
+        movie.setReleaseYear(movieWithEdit.getReleaseYear());
+        movie.setShortDescription(movieWithEdit.getShortDescription());
+        movie.setDescription(movieWithEdit.getDescription());
+        movie.setYoutubeTrailerId(movieWithEdit.getYoutubeTrailerId());
+        Genre genre = genreRepository.findByNameIgnoreCase(movieWithEdit.getGenre()).orElseThrow();
         movie.setGenre(genre);
-        if (movieToEdit.getPoster() != null) {
-            String savedFileName = fileStorageService.saveImage(movieToEdit.getPoster());
+        if (movieWithEdit.getPoster() != null) {
+            String savedFileName = fileStorageService.saveImage(movieWithEdit.getPoster());
             movie.setPoster(savedFileName);
         }
         movieRepository.save(movie);
@@ -87,5 +89,7 @@ public class MovieService {
     public void deleteMovie(Long id){
         movieRepository.deleteById(id);
     }
+
+
 }
 

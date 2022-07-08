@@ -9,7 +9,7 @@
 <body>
 <main class="main-content" layout:fragment="content">
     <h2 class="list-heading">Edytuj film</h2>
-    <form action="#" th:action="@{/admin/edytuj-film}" method="post" enctype="multipart/form-data" class="mc-form" th:object="${movie}">
+    <form action="#" th:action="@{/admin/edit-movie}" method="post" enctype="multipart/form-data" class="mc-form" th:object="${movie}">
         <input type="hidden" th:field="*{id}">
         <label for="title">Tytuł</label>
         <input type="text" th:text="*{title}" id="title" placeholder="Przykładowy tytuł" th:field="*{title}">

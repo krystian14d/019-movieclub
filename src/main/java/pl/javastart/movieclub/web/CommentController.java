@@ -6,22 +6,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.javastart.movieclub.domain.comment.CommentService;
 import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.exception.UserNotFoundException;
-import pl.javastart.movieclub.domain.rating.RatingService;
 
 @AllArgsConstructor
 @Controller
-public class RatingController {
+public class CommentController {
 
-    private final RatingService ratingService;
+    private final CommentService commentService;
 
-    @PostMapping("/rate-movie")
-    public String addMovieRating(@RequestParam Long movieId, @RequestParam int rating,
-                                 @RequestHeader String referer, Authentication authentication)
-            throws UserNotFoundException, MovieNotFoundException {
+
+    @PostMapping("/add-comment")
+    public String addMovieComment(@RequestParam long movieId,
+                                  @RequestParam String newComment,
+                                  @RequestHeader String referer,
+                                  Authentication authentication) throws UserNotFoundException, MovieNotFoundException {
         String currentUserEmail = authentication.getName();
-        ratingService.addOrUpdateRating(currentUserEmail, movieId, rating);
+        commentService.addNewComment(movieId, newComment, currentUserEmail);
         return "redirect:" + referer;
     }
+
 }

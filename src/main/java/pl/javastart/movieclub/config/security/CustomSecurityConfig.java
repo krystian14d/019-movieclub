@@ -20,7 +20,7 @@ public class CustomSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests((authz) -> authz
-                        .mvcMatchers("/ocen-film").authenticated()
+                        .mvcMatchers("/rate-movie", "/add-comment").authenticated()
                         .mvcMatchers("/admin/**").hasAnyRole(EDITOR_ROLE, ADMIN_ROLE)
                         .anyRequest().permitAll()
                 )
@@ -48,7 +48,7 @@ public class CustomSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
