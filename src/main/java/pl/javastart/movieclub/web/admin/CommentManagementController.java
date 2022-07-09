@@ -6,9 +6,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.javastart.movieclub.domain.comment.Comment;
 import pl.javastart.movieclub.domain.comment.CommentService;
 import pl.javastart.movieclub.domain.exception.CommentNotFoundException;
+
+import javax.servlet.http.HttpServletRequest;
 
 @AllArgsConstructor
 @Controller
@@ -27,6 +32,16 @@ public class CommentManagementController {
     public String saveEditedComment(Comment comment) throws CommentNotFoundException {
         Comment updatedComment = commentService.updateComment(comment);
         return "redirect:/movie/" + updatedComment.getMovie().getId().toString();
+    }
+
+    @PostMapping("/admin/delete-comment")
+    public String deleteComment(@RequestParam long commentId,
+                                @RequestParam String movieId, RedirectAttributes redirectAttributes){
+        commentService.deleteComment(commentId);
+        redirectAttributes.addFlashAttribute(
+                AdminController.NOTIFICATION_ATTRIBUTE,
+                "Komentarz został usunięty.");
+        return "redirect:/movie/" + movieId;
     }
 }
 

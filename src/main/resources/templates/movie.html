@@ -11,6 +11,9 @@
 <body>
 <div class="container">
     <main class="main-content" layout:fragment="content">
+        <p class="notification-bar" th:if="${notification}" th:text="${notification}">
+            Belka z powiadomieniami
+        </p>
         <section class="movie">
             <!-- Podsumowanie -->
             <div class="movie-summary">
@@ -126,6 +129,8 @@
                         </form>
                         &nbsp;
                         <form method="post" th:action="@{/admin/delete-comment}">
+                            <input type="hidden" name="commentId" th:value="${comment.id}">
+                            <input type="hidden" name="movieId" th:value="${movie.id}">
                             <button class="delete-comment-button" type="submit">Usuń</button>
                         </form>
                     </div>

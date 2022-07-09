@@ -58,6 +58,10 @@ public class CommentService {
         return commentToUpdate;
     }
 
+    public void deleteComment(long id){
+        commentRepository.deleteById(id);
+    }
+
 
     Comment createNewComment(User author, Movie movie, String comment) {
         Comment newComment = new Comment();
