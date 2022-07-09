@@ -28,14 +28,22 @@ public class MovieService {
 
     public Page<MovieDto> findAllPagedPromotedMovies(int pageNo, int pageSize){
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        Page<Movie> pagedMovie = movieRepository.findAllByPromotedIsTrue(pageable);
-        Page<MovieDto> pagedMovieDto = pagedMovie
+        Page<Movie> pagedMovies = movieRepository.findAllByPromotedIsTrue(pageable);
+        Page<MovieDto> pagedMoviesDto = pagedMovies
                 .map(MovieDtoMapper::map);
-        return pagedMovieDto;
+        return pagedMoviesDto;
     }
 
     public Optional<MovieDto> findMovieById(Long id) {
         return movieRepository.findById(id).map(MovieDtoMapper::map);
+    }
+
+    public Page<MovieDto> findPagedMoviesByGenreName(String genre, int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        Page<Movie> pagedMovies = movieRepository.findAllByGenre_NameIgnoreCase(genre, pageable);
+        Page<MovieDto> pagedMoviesDto = pagedMovies.map(MovieDtoMapper::map);
+        return pagedMoviesDto;
+
     }
 
     public List<MovieDto> findMoviesByGenreName(String genre) {
