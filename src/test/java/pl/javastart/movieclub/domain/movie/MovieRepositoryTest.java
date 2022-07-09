@@ -33,17 +33,18 @@ class MovieRepositoryTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void itShouldFindPromotedMovies() {
-        //GIVEN
-
-        //WHEN
-        List<Movie> promotedMovies = underTest.findAllByPromotedIsTrue();
-        System.out.println(promotedMovies.size());
-
-        //THEN
-        assertThat(promotedMovies).isNotEmpty();
-    }
+    //TODO: update test
+//    @Test
+//    void itShouldFindPromotedMovies() {
+//        //GIVEN
+//
+//        //WHEN
+//        List<Movie> promotedMovies = underTest.findAllByPromotedIsTrue();
+//        System.out.println(promotedMovies.size());
+//
+//        //THEN
+//        assertThat(promotedMovies).isNotEmpty();
+//    }
 
     @Test
     void itShouldFindAllMoviesByGenreName() {
