@@ -8,7 +8,7 @@ Do zaimplementowania:
  - system komentarzy do filmów - DONE
  - dodanie paginacji do komentarzy - DONE
  - dodanie GlobalExceptionHandler - @ControllerAdvice - DONE
- - możliwość administracji komentarzy (edytuj/usuń komentarz) - ONGOING
+ - możliwość administracji komentarzy (edytuj/usuń komentarz) - DONE
  - wyszukiwarka filmów,
  - opcja zgłaszania błędów w opisach filmów,
  - publiczny profil użytkownika, czyli możliwość podejrzenia, jakie filmy ocenił i skomentował dany użytkownik,
