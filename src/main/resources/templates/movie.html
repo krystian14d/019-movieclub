@@ -11,6 +11,9 @@
 <body>
 <div class="container">
     <main class="main-content" layout:fragment="content">
+        <p class="notification-bar" th:if="${notification}" th:text="${notification}">
+            Belka z powiadomieniami
+        </p>
         <section class="movie">
             <!-- Podsumowanie -->
             <div class="movie-summary">
@@ -52,7 +55,7 @@
                 <div th:if="${movie.ratingCount}">
                     <!--                    Zaokrąglamy ocenę do 1 miejsca przed i po przecinku-->
                     <p class="movie-rating-value" th:text="${#numbers.formatDecimal(movie.avgRating, 1, 1)}">4.0</p>
-                    <p th:text="|Liczba ocen: ${movie.ratingCount}">Liczba ocen: 134</p>
+                    <p th:text="|Liczba ocen: ${movie.ratingCount}|">Liczba ocen: 134</p>
                 </div>
                 <!--Formularz, który wyświetlany jest tylko zalogowanemu użytkownikowi-->
                 <form action="#" th:action="@{/rate-movie}" method="post"
@@ -118,7 +121,18 @@
                             Autor: Admin | Data: 2022-07-04</p>
                     </div>
                     <div class="comment-content">
-                        <p th:text="${comment.comment}">Treść komentarza</p>
+                        <p th:text="${comment.commentContent}">Treść komentarza</p>
+                    </div>
+                    <div sec:authorize="hasAnyRole('ADMIN', 'EDITOR')" style="display: flex">
+                        <form method="get" th:action="@{|/admin/edit-comment/${comment.id}|}">
+                            <button class="edit-comment-button" type="submit">Edytuj</button>
+                        </form>
+                        &nbsp;
+                        <form method="post" th:action="@{/admin/delete-comment}">
+                            <input type="hidden" name="commentId" th:value="${comment.id}">
+                            <input type="hidden" name="movieId" th:value="${movie.id}">
+                            <button class="delete-comment-button" type="submit">Usuń</button>
+                        </form>
                     </div>
                 </li>
                 <li class="single-movie-comment">

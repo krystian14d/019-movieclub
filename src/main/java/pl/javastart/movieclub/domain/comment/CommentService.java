@@ -5,7 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import pl.javastart.movieclub.domain.exception.CommentNotFoundException;
 import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.exception.UserNotFoundException;
 import pl.javastart.movieclub.domain.movie.Movie;
@@ -39,16 +41,32 @@ public class CommentService {
 
 
     public Page<Comment> findAllPagedCommentsByMovieId(Long id, int pageNo, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("dateAdded"));
         return commentRepository.findAllByMovie_Id(id, pageable);
     }
 
+    public Comment findCommentById(Long id) throws CommentNotFoundException {
+        return commentRepository.findById(id).orElseThrow(() ->
+                new CommentNotFoundException(String.format("Comment with ID %s does not exist.", id)));
+    }
+
+    public Comment updateComment(Comment updatedComment) throws CommentNotFoundException {
+        Comment commentToUpdate = commentRepository.findById(updatedComment.getId()).orElseThrow(() ->
+                new CommentNotFoundException(String.format("Comment with ID %s does not exist.", updatedComment.getId())));
+        commentToUpdate.setCommentContent(updatedComment.getCommentContent());
+        commentRepository.save(commentToUpdate);
+        return commentToUpdate;
+    }
+
+    public void deleteComment(long id){
+        commentRepository.deleteById(id);
+    }
 
     Comment createNewComment(User author, Movie movie, String comment) {
         Comment newComment = new Comment();
         newComment.setUser(author);
         newComment.setMovie(movie);
-        newComment.setComment(comment);
+        newComment.setCommentContent(comment);
         newComment.setDateAdded(LocalDateTime.now());
         return newComment;
     }
