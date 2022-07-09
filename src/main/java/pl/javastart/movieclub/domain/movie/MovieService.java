@@ -46,13 +46,6 @@ public class MovieService {
 
     }
 
-    public List<MovieDto> findMoviesByGenreName(String genre) {
-        return movieRepository.findAllByGenre_NameIgnoreCase(genre)
-                .stream()
-                .map(MovieDtoMapper::map)
-                .toList();
-    }
-
     public void addMovie(MovieSaveDto movieToSave) {
         Movie movie = new Movie();
         movie.setTitle(movieToSave.getTitle());
