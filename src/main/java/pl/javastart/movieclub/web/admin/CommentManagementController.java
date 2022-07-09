@@ -10,9 +10,6 @@ import pl.javastart.movieclub.domain.comment.Comment;
 import pl.javastart.movieclub.domain.comment.CommentService;
 import pl.javastart.movieclub.domain.exception.CommentNotFoundException;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @AllArgsConstructor
 @Controller
 public class CommentManagementController {
@@ -27,10 +24,9 @@ public class CommentManagementController {
     }
 
     @PostMapping("/admin/edit-comment")
-    public void saveEditedComment(Comment comment, HttpServletResponse response) throws IOException {
+    public String saveEditedComment(Comment comment) throws CommentNotFoundException {
         Comment updatedComment = commentService.updateComment(comment);
-//        return "/redirect:/movie/" + updatedComment.getMovie().getId().toString();
-        response.sendRedirect("/movie/ + updatedComment.getMovie().getId().toString()");
+        return "redirect:/movie/" + updatedComment.getMovie().getId().toString();
     }
 }
 
