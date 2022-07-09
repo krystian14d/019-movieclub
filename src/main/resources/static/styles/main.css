@@ -320,7 +320,6 @@ i powinna zajmować większość dostępnej przestrzeni
     border: none;
 }
 
-
 /*Responsive movie.html*/
 @media only screen and (min-width: 992px) {
     /*Dodajemy rozkład elastyczny, elementy będą wyświetlane w jednym wierszu*/

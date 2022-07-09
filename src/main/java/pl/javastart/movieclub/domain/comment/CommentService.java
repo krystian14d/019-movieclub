@@ -62,7 +62,6 @@ public class CommentService {
         commentRepository.deleteById(id);
     }
 
-
     Comment createNewComment(User author, Movie movie, String comment) {
         Comment newComment = new Comment();
         newComment.setUser(author);
