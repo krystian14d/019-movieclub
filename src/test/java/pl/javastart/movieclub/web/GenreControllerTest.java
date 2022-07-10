@@ -3,12 +3,17 @@ package pl.javastart.movieclub.web;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.javastart.movieclub.domain.genre.GenreService;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
+import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
 
@@ -43,55 +48,64 @@ class GenreControllerTest {
 
     //TODO: update test method
 
-//    @Test
-//    void itShouldAddGenreAndMovieToAttributesAndReturnViewName() throws Exception {
-//        //given
-//
-//        long id = 1L;
-//        String title = "Forrest Gump";
-//        String originalTitle = "Original title of Forrest Gump";
-//        String shortDesciption = "Short description about movie Forrest Gump.";
-//        String description = "Long description about movie Forrest Gump.";
-//        String youtubeTrailerId = "linkToYouTube";
-//        int releaseYear = 1997;
-//        boolean promoted = false;
-//        String genreName = "Drama";
-//        String poster = "poster.png";
-//        double avgRating = 4.5;
-//        int ratingCount = 123;
-//        String genreDescription = "Drama genre description";
-//
-//        GenreDto genre = new GenreDto(1L, genreName, genreDescription);
-//
-//        MovieDto movie = new MovieDto(
-//                id,
-//                title,
-//                originalTitle,
-//                shortDesciption,
-//                description,
-//                youtubeTrailerId,
-//                releaseYear,
-//                genreName,
-//                promoted,
-//                poster,
-//                avgRating,
-//                ratingCount
-//        );
-//
-//        List<MovieDto> moviesByGenre = List.of(movie);
-//
-//        given(genreService.findGenreByName(genreName)).willReturn(Optional.of(genre));
+    @Test
+    void itShouldAddGenreAndMovieToAttributesAndReturnViewName() throws Exception {
+        //given
+
+        long id = 1L;
+        String title = "Forrest Gump";
+        String originalTitle = "Original title of Forrest Gump";
+        String shortDesciption = "Short description about movie Forrest Gump.";
+        String description = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId = "linkToYouTube";
+        int releaseYear = 1997;
+        boolean promoted = false;
+        String genreName = "Drama";
+        String poster = "poster.png";
+        double avgRating = 4.5;
+        int ratingCount = 123;
+        String genreDescription = "Drama genre description";
+
+        GenreDto genre = new GenreDto(1L, genreName, genreDescription);
+
+        MovieDto movie = new MovieDto(
+                id,
+                title,
+                originalTitle,
+                shortDesciption,
+                description,
+                youtubeTrailerId,
+                releaseYear,
+                genreName,
+                promoted,
+                poster,
+                avgRating,
+                ratingCount
+        );
+
+        List<MovieDto> moviesByGenre = List.of(movie);
+
+        given(genreService.findGenreByName(genreName)).willReturn(Optional.of(genre));
 //        given(movieService.findMoviesByGenreName(genreName)).willReturn(moviesByGenre);
-//
-//        //when
-//        //then
-//
-//        mockMvc.perform(get("/genre/Drama"))
-//                .andExpect(model().attribute("heading", genre.getName()))
-//                .andExpect(model().attribute("description", genreDescription))
-//                .andExpect(model().attribute("movies", moviesByGenre))
-//                .andExpect(view().name("movie-listing"));
-//    }
+        int pageNo = 1;
+        int pageSize = 5;
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<MovieDto> movieList = List.of(movie);
+
+        PageImpl<MovieDto> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
+
+        Mockito.when(movieService.findPagedMoviesByGenreName(Mockito.anyString(),Mockito.anyInt(), Mockito.any())).thenReturn(moviesPageImpl);
+
+        //when
+        //then
+
+        mockMvc.perform(get("/genre/Drama"))
+                .andExpect(model().attribute("heading", genre.getName()))
+                .andExpect(model().attribute("description", genreDescription))
+                .andExpect(model().attribute("movies", moviesByGenre))
+                .andExpect(view().name("movie-listing"));
+    }
 
     @Test
     void itShouldThrowExceptionAndSentNotFoundResponse() throws Exception {
