@@ -4,7 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
@@ -47,82 +52,79 @@ class MovieServiceTest {
         underTest = new MovieService(movieRepository, genreRepository, fileStorageService);
     }
 
-    //TODO: update tests:
+    @Test
+    void itShouldFindPromotedMovies() {
+        //GIVEN
+        long id1 = 1L;
+        String title1 = "Forrest Gump";
+        String originalTitle1 = "Original title of Forrest Gump";
+        String shortDesciption1 = "Short description about movie Forrest Gump.";
+        String description1 = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId1 = "linkToYouTube";
+        int releaseYear1 = 1997;
+        boolean promoted1 = true;
+        long genre1Id = 1L;
 
-//    @Test
-//    void itShouldFindPromotedMovies() {
-//        //GIVEN
-//        long id1 = 1L;
-//        String title1 = "Forrest Gump";
-//        String originalTitle1 = "Original title of Forrest Gump";
-//        String shortDesciption1 = "Short description about movie Forrest Gump.";
-//        String description1 = "Long description about movie Forrest Gump.";
-//        String youtubeTrailerId1 = "linkToYouTube";
-//        int releaseYear1 = 1997;
-//        boolean promoted1 = true;
-//        long genre1Id = 1L;
-//
-//        Genre genre1 = new Genre();
-//        genre1.setId(genre1Id);
-//        String genre1Name = "Drama";
-//        genre1.setName(genre1Name);
-//
-//        Movie movie1 = new Movie();
-//        movie1.setId(id1);
-//        movie1.setTitle(title1);
-//        movie1.setOriginalTitle(originalTitle1);
-//        movie1.setShortDescription(shortDesciption1);
-//        movie1.setDescription(description1);
-//        movie1.setYoutubeTrailerId(youtubeTrailerId1);
-//        movie1.setReleaseYear(releaseYear1);
-//        movie1.setGenre(genre1);
-//        movie1.setPromoted(promoted1);
-//
-//        long id2 = 2L;
-//        String title2 = "Home Alone";
-//        String originalTitle2 = "Original title of Home Alone";
-//        String shortDesciption2 = "Short description about movie Home Alone.";
-//        String description2 = "Long description of movie Home ALone.";
-//        String youtubeTrailerId2 = "linkToYouTube2";
-//        int releaseYear2 = 2002;
-//        boolean promoted2 = true;
-//        long genre2Id = 2L;
-//
-//        Genre genre2 = new Genre();
-//        genre2.setId(genre2Id);
-//        String genre2Name = "Comedy";
-//        genre2.setName(genre2Name);
-//
-//        Movie movie2 = new Movie();
-//        movie2.setId(id2);
-//        movie2.setTitle(title2);
-//        movie2.setOriginalTitle(originalTitle2);
-//        movie2.setShortDescription(shortDesciption2);
-//        movie2.setDescription(description2);
-//        movie2.setYoutubeTrailerId(youtubeTrailerId2);
-//        movie2.setReleaseYear(releaseYear2);
-//        movie2.setGenre(genre2);
-//        movie2.setPromoted(promoted2);
-//
-//        given(movieRepository.findAllByPromotedIsTrue()).willReturn(List.of(movie1, movie2));
-//
-//        //WHEN
-//        List<MovieDto> allPromotedMovies = underTest.findAllPromotedMovies();
-//
-//        //THEN
-//        assertThat(allPromotedMovies).hasSize(2);
-//        assertThat(allPromotedMovies.get(1)).isInstanceOf(MovieDto.class);
-//    }
+        Genre genre1 = new Genre();
+        genre1.setId(genre1Id);
+        String genre1Name = "Drama";
+        genre1.setName(genre1Name);
 
-//    @Test
-//    void itShouldNotFindPromotedMovies() {
-//        //GIVEN
-//        given(movieRepository.findAllByPromotedIsTrue()).willReturn(Collections.emptyList());
-//        //WHEN
-//        List<MovieDto> allPromotedMovies = underTest.findAllPromotedMovies();
-//        //THEN
-//        assertThat(allPromotedMovies).isEmpty();
-//    }
+        Movie movie1 = new Movie();
+        movie1.setId(id1);
+        movie1.setTitle(title1);
+        movie1.setOriginalTitle(originalTitle1);
+        movie1.setShortDescription(shortDesciption1);
+        movie1.setDescription(description1);
+        movie1.setYoutubeTrailerId(youtubeTrailerId1);
+        movie1.setReleaseYear(releaseYear1);
+        movie1.setGenre(genre1);
+        movie1.setPromoted(promoted1);
+
+        long id2 = 2L;
+        String title2 = "Home Alone";
+        String originalTitle2 = "Original title of Home Alone";
+        String shortDesciption2 = "Short description about movie Home Alone.";
+        String description2 = "Long description of movie Home ALone.";
+        String youtubeTrailerId2 = "linkToYouTube2";
+        int releaseYear2 = 2002;
+        boolean promoted2 = true;
+        long genre2Id = 2L;
+
+        Genre genre2 = new Genre();
+        genre2.setId(genre2Id);
+        String genre2Name = "Comedy";
+        genre2.setName(genre2Name);
+
+        Movie movie2 = new Movie();
+        movie2.setId(id2);
+        movie2.setTitle(title2);
+        movie2.setOriginalTitle(originalTitle2);
+        movie2.setShortDescription(shortDesciption2);
+        movie2.setDescription(description2);
+        movie2.setYoutubeTrailerId(youtubeTrailerId2);
+        movie2.setReleaseYear(releaseYear2);
+        movie2.setGenre(genre2);
+        movie2.setPromoted(promoted2);
+
+        int pageNo = 1;
+        int pageSize = 5;
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        List<Movie> movieList = List.of(movie1, movie2);
+        PageImpl<Movie> moviesPaged = new PageImpl<>(movieList, pageable, 2);
+
+//        given(movieRepository.findAllByPromotedIsTrue(pageable)).willReturn(moviesPaged);
+        Mockito.when(movieRepository.findAllByPromotedIsTrue(Mockito.any())).thenReturn(moviesPaged);
+
+        //WHEN
+        Page<MovieDto> moviesPagedFound = underTest.findAllPagedPromotedMovies(pageNo, pageSize);
+
+        //THEN
+        assertThat(moviesPagedFound.getContent()).hasSize(2);
+        assertThat(moviesPagedFound.getContent().get(1)).isInstanceOf(MovieDto.class);
+    }
 
     @Test
     void itShouldFindMovieById() {
@@ -169,50 +171,58 @@ class MovieServiceTest {
                 .isEqualTo(movieDto1);
     }
 
-    //TODO: update test method
-//    @Test
-//    void itShouldFindMovieByGenreNameAndMapToDto() {
-//        //given
-//        long id = 1L;
-//        String title = "Forrest Gump";
-//        String originalTitle = "Original title of Forrest Gump";
-//        String shortDesciption = "Short description about movie Forrest Gump.";
-//        String description = "Long description about movie Forrest Gump.";
-//        String youtubeTrailerId = "linkToYouTube";
-//        int releaseYear = 1997;
-//        boolean promoted = false;
-//        long genreId = 1L;
-//        String poster = "poster.png";
-//
-//        Genre genre = new Genre();
-//        genre.setId(genreId);
-//        String genreName = "Drama";
-//        genre.setName(genreName);
-//
-//        Movie movie = new Movie();
-//        movie.setId(id);
-//        movie.setTitle(title);
-//        movie.setOriginalTitle(originalTitle);
-//        movie.setShortDescription(shortDesciption);
-//        movie.setDescription(description);
-//        movie.setYoutubeTrailerId(youtubeTrailerId);
-//        movie.setReleaseYear(releaseYear);
-//        movie.setGenre(genre);
-//        movie.setPromoted(promoted);
-//        movie.setPoster(poster);
-//
-//        given(movieRepository.findAllByGenre_NameIgnoreCase(genreName))
-//                .willReturn(List.of(movie));
-//
-//        //when
-//        List<MovieDto> moviesByGenreName = underTest.findMoviesByGenreName(genreName);
-//
-//        //then
-//        assertThat(moviesByGenreName)
-//                .isNotEmpty()
-//                .isInstanceOf(List.class);
-//        assertThat(moviesByGenreName.get(0)).isInstanceOf(MovieDto.class);
-//    }
+
+
+    @Test
+    void itShouldFindMovieByGenreNameAndMapToDto() {
+        //given
+        long id = 1L;
+        String title = "Forrest Gump";
+        String originalTitle = "Original title of Forrest Gump";
+        String shortDesciption = "Short description about movie Forrest Gump.";
+        String description = "Long description about movie Forrest Gump.";
+        String youtubeTrailerId = "linkToYouTube";
+        int releaseYear = 1997;
+        boolean promoted = false;
+        long genreId = 1L;
+        String poster = "poster.png";
+
+        Genre genre = new Genre();
+        genre.setId(genreId);
+        String genreName = "Drama";
+        genre.setName(genreName);
+
+        Movie movie = new Movie();
+        movie.setId(id);
+        movie.setTitle(title);
+        movie.setOriginalTitle(originalTitle);
+        movie.setShortDescription(shortDesciption);
+        movie.setDescription(description);
+        movie.setYoutubeTrailerId(youtubeTrailerId);
+        movie.setReleaseYear(releaseYear);
+        movie.setGenre(genre);
+        movie.setPromoted(promoted);
+        movie.setPoster(poster);
+
+        int pageNo = 1;
+        int pageSize = 5;
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<Movie> movieList = List.of(movie);
+
+        PageImpl<Movie> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
+
+        Mockito.when(movieRepository.findAllByGenre_NameIgnoreCase(Mockito.anyString(), Mockito.any())).thenReturn(moviesPageImpl);
+
+        //when
+        Page<MovieDto> moviesPaged = underTest.findPagedMoviesByGenreName(genreName, pageNo, pageSize);
+
+        //then
+        assertThat(moviesPaged.getContent())
+                .isNotEmpty()
+                .isInstanceOf(List.class);
+        assertThat(moviesPaged.getContent().get(0)).isInstanceOf(MovieDto.class);
+    }
 
     @Test
     void itShouldSaveMovie() {
