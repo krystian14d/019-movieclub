@@ -20,5 +20,8 @@ public class SearchController {
                                 Model model){
 
 
+
+
+        return "movie-listing";
     }
 }
