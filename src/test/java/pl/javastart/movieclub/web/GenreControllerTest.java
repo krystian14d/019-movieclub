@@ -95,7 +95,7 @@ class GenreControllerTest {
 
         PageImpl<MovieDto> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
 
-        Mockito.when(movieService.findPagedMoviesByGenreName(Mockito.anyString(),Mockito.anyInt(), Mockito.any())).thenReturn(moviesPageImpl);
+        Mockito.when(movieService.findPagedMoviesByGenreName(Mockito.anyString(),Mockito.anyInt(), Mockito.anyInt())).thenReturn(moviesPageImpl);
 
         //when
         //then
