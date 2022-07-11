@@ -27,10 +27,12 @@ public class MovieService {
     private final FileStorageService fileStorageService;
 
     public Page<MovieDto> findAllPagedPromotedMovies(int pageNo, int pageSize){
+
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         Page<Movie> pagedMovies = movieRepository.findAllByPromotedIsTrue(pageable);
         Page<MovieDto> pagedMoviesDto = pagedMovies
                 .map(MovieDtoMapper::map);
+
         return pagedMoviesDto;
     }
 
@@ -39,14 +41,16 @@ public class MovieService {
     }
 
     public Page<MovieDto> findPagedMoviesByGenreName(String genre, int pageNo, int pageSize){
+
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         Page<Movie> pagedMovies = movieRepository.findAllByGenre_NameIgnoreCase(genre, pageable);
         Page<MovieDto> pagedMoviesDto = pagedMovies.map(MovieDtoMapper::map);
-        return pagedMoviesDto;
 
+        return pagedMoviesDto;
     }
 
     public void addMovie(MovieSaveDto movieToSave) {
+
         Movie movie = new Movie();
         movie.setTitle(movieToSave.getTitle());
         movie.setOriginalTitle(movieToSave.getOriginalTitle());
@@ -57,6 +61,7 @@ public class MovieService {
         movie.setYoutubeTrailerId(movieToSave.getYoutubeTrailerId());
         Genre genre = genreRepository.findByNameIgnoreCase(movieToSave.getGenre()).orElseThrow();
         movie.setGenre(genre);
+
         if (movieToSave.getPoster() != null) {
             String savedFileName = fileStorageService.saveImage(movieToSave.getPoster());
             movie.setPoster(savedFileName);
@@ -65,6 +70,7 @@ public class MovieService {
     }
 
     public List<MovieDto> findTopMovies(int size) {
+
         Pageable page = Pageable.ofSize(size);
         return movieRepository.findTopByRating(page).stream()
                 .map(MovieDtoMapper::map)
@@ -73,6 +79,7 @@ public class MovieService {
 
     @Transactional
     public void updateMovie(Long movieId, MovieEditDto movieWithEdit) throws MovieNotFoundException {
+
         Movie movie = movieRepository.findById(movieId).orElseThrow(() ->
                 new MovieNotFoundException(String.format("Movie with ID %s not found", movieId)));
         movie.setTitle(movieWithEdit.getTitle());
@@ -89,6 +96,15 @@ public class MovieService {
             movie.setPoster(savedFileName);
         }
         movieRepository.save(movie);
+    }
+
+    public Page<MovieDto> findPagedMoviesByTitle(String title, int pageNo, int pageSize){
+
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("title"));
+        Page<Movie> foundMovies = movieRepository
+                .findAllByMovie_TitleOrMovie_OriginalTitleContainingIgnoreCase(title, pageable);
+
+        return foundMovies.map(MovieDtoMapper::map);
     }
 
     public void deleteMovie(Long id){
