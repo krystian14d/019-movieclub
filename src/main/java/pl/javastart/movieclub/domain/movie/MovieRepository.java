@@ -19,7 +19,11 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
 
     Page<Movie> findAllByPromotedIsTrue(Pageable pageable);
 
-    @Query("SELECT m FROM Movie m WHERE m.title LIKE CONCAT('%',UPPER(:username),'%') OR m.originalTitle LIKE CONCAT('%',UPPER(:username),'%')")
-    Page<Movie> findAllByMovie_TitleOrMovie_OriginalTitleContainingIgnoreCase(String name, Pageable pageable);
+////    @Query("SELECT m FROM Movie m WHERE m.title LIKE CONCAT('%',UPPER(:title),'%') OR m.originalTitle LIKE CONCAT('%',UPPER(:title),'%')")
+//    Page<Movie> findAllByTitleOrOriginalTitleContainingIgnoreCase(String title, Pageable pageable);
+//
+//    @Query("SELECT m FROM Movie m WHERE m.title LIKE CONCAT('%',UPPER(:title),'%') OR m.originalTitle LIKE CONCAT('%',UPPER(:title),'%')")
+//    Page<Movie> findMoviesByTitle(String title, Pageable pageable);
 
+    Page<Movie> findAllByTitleContainingIgnoreCaseOrOriginalTitleContainingIgnoreCase(String title, String originalTitle, Pageable pageable);
 }

@@ -102,7 +102,7 @@ public class MovieService {
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("title"));
         Page<Movie> foundMovies = movieRepository
-                .findAllByMovie_TitleOrMovie_OriginalTitleContainingIgnoreCase(title, pageable);
+                .findAllByTitleContainingIgnoreCaseOrOriginalTitleContainingIgnoreCase(title, title, pageable);
 
         return foundMovies.map(MovieDtoMapper::map);
     }
