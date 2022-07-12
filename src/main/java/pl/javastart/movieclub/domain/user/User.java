@@ -3,6 +3,7 @@ package pl.javastart.movieclub.domain.user;
 import lombok.Getter;
 import lombok.Setter;
 import pl.javastart.movieclub.domain.comment.Comment;
+import pl.javastart.movieclub.domain.rating.Rating;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +17,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -40,12 +43,19 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    private Set<UserRole> roles = new HashSet<>();
+    private List<UserRole> roles = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "user",
             orphanRemoval = true,
             cascade = CascadeType.REMOVE
     )
-    private Set<Comment> userComments = new HashSet<>();
+    private List<Comment> userComments = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "user",
+            orphanRemoval = true,
+            cascade = CascadeType.REMOVE
+    )
+    private List<Rating> userRatings = new ArrayList<>();
 }
