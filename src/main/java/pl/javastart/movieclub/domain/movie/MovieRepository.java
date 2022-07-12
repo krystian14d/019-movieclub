@@ -13,7 +13,9 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
     Page<Movie> findAllByGenre_NameIgnoreCase(String genre, Pageable pageable);
 
     @Query("select m from Movie m join m.ratings r group by m order by avg(r.rating) desc")
-    List<Movie> findTopByRating(Pageable page);
+    List<Movie> findTopByRating(Pageable pageable);
+
+    Page<Movie> findAllByGenre_Id(Long id, Pageable pageable);
 
     Set<Movie> findAllByGenre_Id(Long id);
 

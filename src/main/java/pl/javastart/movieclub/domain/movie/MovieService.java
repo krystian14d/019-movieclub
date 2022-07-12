@@ -26,7 +26,7 @@ public class MovieService {
     private final GenreRepository genreRepository;
     private final FileStorageService fileStorageService;
 
-    public Page<MovieDto> findAllPagedPromotedMovies(int pageNo, int pageSize){
+    public Page<MovieDto> findAllPromotedMovies(int pageNo, int pageSize){
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
         Page<Movie> pagedMovies = movieRepository.findAllByPromotedIsTrue(pageable);
@@ -40,10 +40,10 @@ public class MovieService {
         return movieRepository.findById(id).map(MovieDtoMapper::map);
     }
 
-    public Page<MovieDto> findPagedMoviesByGenreName(String genre, int pageNo, int pageSize){
+    public Page<MovieDto> findByGenreId(Long genreId, int pageNo, int pageSize){
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        Page<Movie> pagedMovies = movieRepository.findAllByGenre_NameIgnoreCase(genre, pageable);
+        Page<Movie> pagedMovies = movieRepository.findAllByGenre_Id(genreId, pageable);
         Page<MovieDto> pagedMoviesDto = pagedMovies.map(MovieDtoMapper::map);
 
         return pagedMoviesDto;
@@ -59,7 +59,7 @@ public class MovieService {
         movie.setShortDescription(movieToSave.getShortDescription());
         movie.setDescription(movieToSave.getDescription());
         movie.setYoutubeTrailerId(movieToSave.getYoutubeTrailerId());
-        Genre genre = genreRepository.findByNameIgnoreCase(movieToSave.getGenre()).orElseThrow();
+        Genre genre = genreRepository.findById(movieToSave.getGenreId()).orElseThrow();
         movie.setGenre(genre);
 
         if (movieToSave.getPoster() != null) {
@@ -89,7 +89,7 @@ public class MovieService {
         movie.setShortDescription(movieWithEdit.getShortDescription());
         movie.setDescription(movieWithEdit.getDescription());
         movie.setYoutubeTrailerId(movieWithEdit.getYoutubeTrailerId());
-        Genre genre = genreRepository.findByNameIgnoreCase(movieWithEdit.getGenre()).orElseThrow();
+        Genre genre = genreRepository.findById(movieWithEdit.getGenreId()).orElseThrow();
         movie.setGenre(genre);
         if (movieWithEdit.getPoster() != null) {
             String savedFileName = fileStorageService.saveImage(movieWithEdit.getPoster());

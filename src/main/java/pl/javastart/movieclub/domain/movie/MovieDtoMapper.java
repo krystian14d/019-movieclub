@@ -22,6 +22,7 @@ public class MovieDtoMapper {
                 movie.getDescription(),
                 movie.getYoutubeTrailerId(),
                 movie.getReleaseYear(),
+                movie.getGenre().getId(),
                 movie.getGenre().getName(),
                 movie.isPromoted(),
                 movie.getPoster(),
