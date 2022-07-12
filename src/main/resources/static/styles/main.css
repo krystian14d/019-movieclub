@@ -63,10 +63,34 @@ i powinna zajmować większość dostępnej przestrzeni
 
 /*padding dla elementów menu*/
 .menu-logo-container,
-.menu-toggle {
+.menu-toggle{
     display: block;
     padding: 16px 32px;
     font-size: 20px;
+}
+
+.search-form {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    /*height: 1rem;*/
+    /*font-size: 1rem;*/
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    padding: 12px;
+    vertical-align: center;
+}
+
+.search-field {
+    height: 1.5rem;
+    font-size: 1rem;
+    color: black;
+    font-family: 'Roboto', sans-serif;
+}
+
+.search-button {
+    height: 1.6rem;
+    color: black;
 }
 
 /*MENU END*/
@@ -116,20 +140,21 @@ i powinna zajmować większość dostępnej przestrzeni
     text-align: center;
 }
 
-.jumbotron-header{
+.jumbotron-header {
     font-size: 3rem;
     margin: 1rem 0;
 }
 
-.jumbotron-description{
+.jumbotron-description {
     font-size: 1.2rem;
 }
+
 /*Jumbotron END*/
 
 /*Listing START*/
 /*Nagłówek*/
 .list-heading,
-.list-description{
+.list-description {
     text-align: center;
     margin: 16px 0;
 }
@@ -140,20 +165,20 @@ i powinna zajmować większość dostępnej przestrzeni
 }
 
 /*Margines i ramka wokół pojedynczego filmu*/
-.movie-list-item{
+.movie-list-item {
     margin-bottom: 16px;
-    display:flex;
+    display: flex;
     border: 1px #6d6d6d solid;
 }
 
 /*Plakat - usuniecie paddingu*/
-.movie-list-item-poster{
+.movie-list-item-poster {
     display: block;
     max-width: 200px;
 }
 
 /*Karta filmu*/
-.movie-list-item-card{
+.movie-list-item-card {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -167,6 +192,7 @@ i powinna zajmować większość dostępnej przestrzeni
 .movie-list-item-title {
     font-size: 1.6rem;
 }
+
 .movie-list-item-rating {
     font-size: 1.6rem;
 }
@@ -240,6 +266,7 @@ i powinna zajmować większość dostępnej przestrzeni
 .movie-rating-container > * {
     margin: 8px 0;
 }
+
 /*Ramka dla boxu z głosowaniem*/
 .movie-section {
     margin-top: 16px;
@@ -251,6 +278,7 @@ i powinna zajmować większość dostępnej przestrzeni
 .movie-section-heading {
     margin-bottom: 8px;
 }
+
 /*Wyśrodkowanie trailera*/
 .movie-trailer {
     display: block;
@@ -264,38 +292,38 @@ i powinna zajmować większość dostępnej przestrzeni
 }
 
 /*Komentarze*/
-.movie-comments{
+.movie-comments {
     margin-top: 16px;
     padding: 16px;
     border: 1px #6d6d6d solid;
 }
 
-.single-movie-comment{
+.single-movie-comment {
     margin-bottom: 16px;
-    display:block;
+    display: block;
     list-style-type: none;
     border: 1px #6d6d6d solid;
     padding: 10px;
 }
-.comment-author-date{
+
+.comment-author-date {
     display: block;
     font-size: 0.8rem;
     color: #ffc107;
 }
 
-.comment-content{
+.comment-content {
     margin-top: 5px;
 }
 
 /*Przyciski do nawigacji wśród komentarzy*/
-.comment-pages{
+.comment-pages {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 
 }
 
-.comment-nav-button
-{
+.comment-nav-button {
     border: 1px #6d6d6d solid;
     padding-right: 10px;
     padding-left: 10px;
@@ -303,25 +331,25 @@ i powinna zajmować większość dostępnej przestrzeni
     padding-bottom: 1px;
 }
 
-#single-comment-nav-button{
+#single-comment-nav-button {
     color: #ffc107;
 }
 
-.page-nav-buttons{
+.page-nav-buttons {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }
 
-.edit-comment-button{
+.edit-comment-button {
     padding: 1px 1px 3px 3px;
     background-color: #9e9e9e;
     color: black;
     border: none;
 }
 
-.delete-comment-button{
+.delete-comment-button {
     padding: 1px 1px 3px 3px;
     background-color: #9e9e9e;
     color: darkred;
@@ -335,32 +363,38 @@ i powinna zajmować większość dostępnej przestrzeni
         display: flex;
         justify-content: space-between;
     }
+
     /*Przyciski powinny wyświetlać się obok siebie, bez zawijania wiersza*/
     .movie-rating-buttons {
         display: flex;
         flex-wrap: nowrap;
     }
+
     /*Większe odstępy między przyciskami*/
     .movie-rating-button {
         font-size: 1.2rem;
         margin: 0 4px;
     }
 }
+
 /*Movie.html END*/
 
 /*error pages START*/
 .error-container {
     margin: 32px auto;
 }
+
 .error-container > * {
     display: block;
     text-align: center;
 }
+
 .error-header,
 .error-icon {
     font-size: 2rem;
     margin: 16px 0;
 }
+
 /*error pages END*/
 
 .list-border {
@@ -374,6 +408,7 @@ i powinna zajmować większość dostępnej przestrzeni
     padding: 16px;
     text-align: center;
 }
+
 .table-action-button {
     font-size: 1rem;
     border: 1px #6d6d6d solid;
@@ -399,25 +434,29 @@ i powinna zajmować większość dostępnej przestrzeni
 textarea {
     font-family: inherit;
 }
+
 /*etykiety i inputy jeden pod drugim z odstępami po bokach*/
 .mc-form {
     display: flex;
     flex-direction: column;
     margin: 0 32px;
 }
+
 /*odstępy między etykietami i inputami*/
 .mc-form > * {
     margin-top: 8px;
 }
+
 /*większe inputy z paddingami*/
 .mc-form > input,
 .mc-form > textarea,
 .mc-form > button,
-.mc-form > select{
+.mc-form > select {
     font-size: 1.2rem;
     color: black;
     padding: 8px;
 }
+
 .mc-form > button {
     margin-top: 16px;
     background-color: white;
@@ -430,6 +469,7 @@ textarea {
     transform: scale(1.5);
     margin-left: 5px;
 }
+
 /*Biały kolor tekstu przy wyborze pliku*/
 .mc-form > input[type=file] {
     color: white;
@@ -451,4 +491,5 @@ textarea {
     text-align: center;
     margin-top: 32px;
 }
+
 /*Listing END*/

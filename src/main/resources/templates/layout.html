@@ -24,10 +24,10 @@
                 <i class="fas fa-film logo"></i> MovieClub
             </a>
         </li>
-        <li>
+        <li class="search-form">
             <form th:value="title" th:action="@{/search}" method="get">
-                <input type="text" name="title" id="title" th:value="title">
-                <input type="submit" value="Szukaj">
+                <input class="search-field" type="text" name="title" id="title" placeholder="Szukaj...">
+                <input class="search-button" type="submit" value="Szukaj">
             </form>
         </li>
         <li class="menu-toggle">
