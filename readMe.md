@@ -10,7 +10,7 @@ Do zaimplementowania:
  - dodanie GlobalExceptionHandler - @ControllerAdvice - DONE
  - możliwość administracji komentarzy (edytuj/usuń komentarz) - DONE
  - wyszukiwarka filmów - DONE
- - publiczny profil użytkownika, czyli możliwość podejrzenia, jakie filmy ocenił i skomentował dany użytkownik,
+ - publiczny profil użytkownika, czyli możliwość podejrzenia, jakie filmy ocenił i skomentował dany użytkownik - DONE 90%
  - opcja zgłaszania błędów w opisach filmów,
  - administracja użytkownikami i możliwość blokowania kont,
  - możliwość edycji profilu użytkownika (np. zmiana adresu email, czy hasła),
