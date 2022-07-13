@@ -492,4 +492,24 @@ textarea {
     margin-top: 32px;
 }
 
+/*USER-DETAILS*/
+.user-details-container {
+    margin-top: 16px;
+    padding: 16px;
+    border: 1px #6d6d6d solid;
+}
+
+.user-details-section-heading {
+    margin-bottom: 8px;
+    color: #ffc107;
+}
+
+.single-user-rating-or-role {
+    margin-bottom: 5px;
+    display: block;
+    list-style-type: none;
+    /*border: 1px #6d6d6d solid;*/
+    /*padding: 10px;*/
+}
+
 /*Listing END*/
