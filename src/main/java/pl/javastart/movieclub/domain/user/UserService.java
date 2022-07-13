@@ -43,7 +43,5 @@ public class UserService {
                 .orElseThrow(() ->
                         new UserNotFoundException(String.format("User with ID %s not found", userId)));
         return UserDetailsDtoMapper.map(user);
-
-
     }
 }

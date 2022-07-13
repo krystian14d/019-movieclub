@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<head>
+    <!-- Ustawiamy tytuł -->
+    <title th:text="|Informacje o użytkowniku ${user.getEmail()}|">Informacje o użytkowniku</title>
+</head>
+<body>
+<div class="container">
+    <main class="main-content" layout:fragment="content">
+
+        <section class="movie-comments">
+            <h1 class="movie-section-heading" th:text="|Profil użytkownika: ${user.getEmail()}|">Nazwa
+                użytkownika:</h1>
+        </section>
+        <!--        Wyświetlanie uprawnień-->
+        <section class="movie-comments">
+            <h2 class="movie-section-heading">Uprawnienia użytkownika:</h2>
+            <ul th:remove="all-but-first">
+                <li class="single-movie-comment" th:each="role : ${roles}">
+                    <div class="comment-content">
+                        <p th:text="|${role.name} - ${role.description}|">Admin</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <!--Wyświetlanie filmów ocenionych przez użytkownika-->
+        <section class="movie-comments">
+            <h2 class="movie-section-heading">Filmy ocenione przez użytkownika:</h2>
+            <ul th:remove="all-but-first">
+                <li class="single-movie-comment" th:each="rating : ${ratings}">
+                    <div class="comment-content">
+                        <p th:text="|Film: ${rating.movie.title}, Ocena: ${rating.rating}|">Film: W pustyni i w Puszczy,
+                            Ocena: 5</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <!--Wyświetlanie komentarzy wystawionych przez użytkownika-->
+        <section class="movie-comments">
+            <h2 class="movie-section-heading">Komentarze wystawione przez użytkownika:</h2>
+            <ul th:remove="all-but-first">
+                <li class="single-movie-comment" th:each="comment : ${comments}">
+                    <div>
+                        <p class="comment-author-date" th:text="|Film: ${comment.movie.title} Data: ${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}|">
+                            Data: 2022-07-04</p>
+                    </div>
+                    <div class="comment-content">
+                        <p th:text="${comment.commentContent}">Treść komentarza</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+</div>
+</body>
+</html>
