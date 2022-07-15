@@ -20,7 +20,7 @@ public class UserDetailsController {
 
     private final UserService userService;
 
-    @GetMapping("user/{id}")
+    @GetMapping("/user/{id}")
     public String getUserProfileDetails(
             @PathVariable Long id, Model model) throws UserNotFoundException {
 
@@ -35,6 +35,12 @@ public class UserDetailsController {
         model.addAttribute("ratings", userRatings);
 
         return "user-details";
+    }
+
+    @GetMapping("/panel/{userEmail}")
+    public String getUserIdByEmail(@PathVariable String userEmail) throws UserNotFoundException {
+        Long userId = userService.getUserIdByEmail(userEmail);
+        return "redirect:/user/" + userId;
     }
 
 

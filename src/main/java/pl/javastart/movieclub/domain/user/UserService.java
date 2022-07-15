@@ -44,4 +44,11 @@ public class UserService {
                         new UserNotFoundException(String.format("User with ID %s not found", userId)));
         return UserDetailsDtoMapper.map(user);
     }
+
+    public Long getUserIdByEmail(String userEmail) throws UserNotFoundException {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+                new UserNotFoundException(String.format("User with email %s not found", userEmail)));
+
+        return user.getId();
+    }
 }

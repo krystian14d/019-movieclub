@@ -13,8 +13,9 @@
     <main class="main-content" layout:fragment="content">
 
         <section class="user-details-container">
-            <h1 class="user-details-section-heading" th:text="|Profil użytkownika: ${user.getEmail()}|">Nazwa
+            <h1 class="user-details-section-heading" th:text="|Profil użytkownika:|">Nazwa
                 użytkownika:</h1>
+            <p class="comment-content" th:text="${user.getEmail()}"></p>
         </section>
         <!--        Wyświetlanie uprawnień-->
         <section class="user-details-container">
