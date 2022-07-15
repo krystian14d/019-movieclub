@@ -4,7 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
@@ -102,24 +107,23 @@ class MovieServiceTest {
         movie2.setGenre(genre2);
         movie2.setPromoted(promoted2);
 
-        given(movieRepository.findAllByPromotedIsTrue()).willReturn(List.of(movie1, movie2));
+        int pageNo = 1;
+        int pageSize = 5;
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
+        List<Movie> movieList = List.of(movie1, movie2);
+        PageImpl<Movie> moviesPaged = new PageImpl<>(movieList, pageable, 2);
+
+//        given(movieRepository.findAllByPromotedIsTrue(pageable)).willReturn(moviesPaged);
+        Mockito.when(movieRepository.findAllByPromotedIsTrue(Mockito.any())).thenReturn(moviesPaged);
 
         //WHEN
-        List<MovieDto> allPromotedMovies = underTest.findAllPromotedMovies();
+        Page<MovieDto> moviesPagedFound = underTest.findAllPagedPromotedMovies(pageNo, pageSize);
 
         //THEN
-        assertThat(allPromotedMovies).hasSize(2);
-        assertThat(allPromotedMovies.get(1)).isInstanceOf(MovieDto.class);
-    }
-
-    @Test
-    void itShouldNotFindPromotedMovies() {
-        //GIVEN
-        given(movieRepository.findAllByPromotedIsTrue()).willReturn(Collections.emptyList());
-        //WHEN
-        List<MovieDto> allPromotedMovies = underTest.findAllPromotedMovies();
-        //THEN
-        assertThat(allPromotedMovies).isEmpty();
+        assertThat(moviesPagedFound.getContent()).hasSize(2);
+        assertThat(moviesPagedFound.getContent().get(1)).isInstanceOf(MovieDto.class);
     }
 
     @Test
@@ -167,6 +171,8 @@ class MovieServiceTest {
                 .isEqualTo(movieDto1);
     }
 
+
+
     @Test
     void itShouldFindMovieByGenreNameAndMapToDto() {
         //given
@@ -198,17 +204,24 @@ class MovieServiceTest {
         movie.setPromoted(promoted);
         movie.setPoster(poster);
 
-        given(movieRepository.findAllByGenre_NameIgnoreCase(genreName))
-                .willReturn(List.of(movie));
+        int pageNo = 1;
+        int pageSize = 5;
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<Movie> movieList = List.of(movie);
+
+        PageImpl<Movie> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
+
+        Mockito.when(movieRepository.findAllByGenre_NameIgnoreCase(Mockito.anyString(), Mockito.any())).thenReturn(moviesPageImpl);
 
         //when
-        List<MovieDto> moviesByGenreName = underTest.findMoviesByGenreName(genreName);
+        Page<MovieDto> moviesPaged = underTest.findPagedMoviesByGenreName(genreName, pageNo, pageSize);
 
         //then
-        assertThat(moviesByGenreName)
+        assertThat(moviesPaged.getContent())
                 .isNotEmpty()
                 .isInstanceOf(List.class);
-        assertThat(moviesByGenreName.get(0)).isInstanceOf(MovieDto.class);
+        assertThat(moviesPaged.getContent().get(0)).isInstanceOf(MovieDto.class);
     }
 
     @Test

@@ -1,7 +1,10 @@
 package pl.javastart.movieclub.domain.movie;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.javastart.movieclub.domain.exception.MovieNotFoundException;
 import pl.javastart.movieclub.domain.genre.Genre;
@@ -23,22 +26,24 @@ public class MovieService {
     private final GenreRepository genreRepository;
     private final FileStorageService fileStorageService;
 
-
-    public List<MovieDto> findAllPromotedMovies() {
-        return movieRepository.findAllByPromotedIsTrue().stream()
-                .map(MovieDtoMapper::map)
-                .toList();
+    public Page<MovieDto> findAllPagedPromotedMovies(int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        Page<Movie> pagedMovies = movieRepository.findAllByPromotedIsTrue(pageable);
+        Page<MovieDto> pagedMoviesDto = pagedMovies
+                .map(MovieDtoMapper::map);
+        return pagedMoviesDto;
     }
 
     public Optional<MovieDto> findMovieById(Long id) {
         return movieRepository.findById(id).map(MovieDtoMapper::map);
     }
 
-    public List<MovieDto> findMoviesByGenreName(String genre) {
-        return movieRepository.findAllByGenre_NameIgnoreCase(genre)
-                .stream()
-                .map(MovieDtoMapper::map)
-                .toList();
+    public Page<MovieDto> findPagedMoviesByGenreName(String genre, int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        Page<Movie> pagedMovies = movieRepository.findAllByGenre_NameIgnoreCase(genre, pageable);
+        Page<MovieDto> pagedMoviesDto = pagedMovies.map(MovieDtoMapper::map);
+        return pagedMoviesDto;
+
     }
 
     public void addMovie(MovieSaveDto movieToSave) {

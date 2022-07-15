@@ -6,6 +6,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import pl.javastart.movieclub.domain.genre.Genre;
 import pl.javastart.movieclub.domain.genre.GenreRepository;
 
@@ -36,29 +39,37 @@ class MovieRepositoryTest {
     @Test
     void itShouldFindPromotedMovies() {
         //GIVEN
-
+        int pageNo = 0;
+        int pageSize = 5;
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
         //WHEN
-        List<Movie> promotedMovies = underTest.findAllByPromotedIsTrue();
-        System.out.println(promotedMovies.size());
+
+        Page<Movie> moviesPaged = underTest.findAllByPromotedIsTrue(pageable);
+
 
         //THEN
-        assertThat(promotedMovies).isNotEmpty();
+        assertThat(moviesPaged.getSize()).isEqualTo(pageSize);
+        assertThat(moviesPaged.getContent()).isNotEmpty();
     }
 
     @Test
     void itShouldFindAllMoviesByGenreName() {
         //given
         String genreName = "Drama";
+        int pageNo = 0;
+        int pageSize = 5;
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+
         //when
-        List<Movie> foundMovies = underTest.findAllByGenre_NameIgnoreCase(genreName);
-        System.out.println(foundMovies.size());
+        Page<Movie> moviesPaged = underTest.findAllByGenre_NameIgnoreCase(genreName, pageable);
+
         //then
-        assertThat(foundMovies).isNotEmpty();
-        List<Genre> genreList = foundMovies.stream()
+        assertThat(moviesPaged.getSize()).isEqualTo(pageSize);
+        assertThat(moviesPaged.getContent()).isNotEmpty();
+        List<Genre> genreList = moviesPaged.getContent().stream()
                 .map(movie -> movie.getGenre())
                 .distinct()
                 .toList();
         assertThat(genreList).hasSize(1);
-
     }
 }

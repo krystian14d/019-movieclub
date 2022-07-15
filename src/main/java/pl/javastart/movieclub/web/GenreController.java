@@ -1,11 +1,13 @@
 package pl.javastart.movieclub.web;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 import pl.javastart.movieclub.domain.genre.GenreService;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
@@ -22,15 +24,25 @@ public class GenreController {
     private final MovieService movieService;
 
     @GetMapping("/genre/{name}")
-    public String getGenre(@PathVariable String name, Model model){
+    public String getGenre(
+            @PathVariable String name,
+            @RequestParam(name = "pageNo", required = false, defaultValue = "1") int pageNo,
+            @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize,
+            Model model){
 
         GenreDto genre = genreService.findGenreByName(name)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        List<MovieDto> moviesByGenre = movieService.findMoviesByGenreName(name);
+        Page<MovieDto> moviesPaged = movieService.findPagedMoviesByGenreName(name, pageNo, pageSize);
+        List<MovieDto> moviesByGenre = moviesPaged.getContent();
+
         model.addAttribute("heading", genre.getName());
         model.addAttribute("description", genre.getDescription());
         model.addAttribute("movies", moviesByGenre);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", moviesPaged.getTotalPages());
+        model.addAttribute("totalItems", moviesPaged.getTotalElements());
+
         return "movie-listing";
     }
 

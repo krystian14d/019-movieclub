@@ -50,12 +50,12 @@ public class CommentService {
                 new CommentNotFoundException(String.format("Comment with ID %s does not exist.", id)));
     }
 
-    public Comment updateComment(Comment updatedComment) throws CommentNotFoundException {
+    public Long updateComment(Comment updatedComment) throws CommentNotFoundException {
         Comment commentToUpdate = commentRepository.findById(updatedComment.getId()).orElseThrow(() ->
                 new CommentNotFoundException(String.format("Comment with ID %s does not exist.", updatedComment.getId())));
         commentToUpdate.setCommentContent(updatedComment.getCommentContent());
         commentRepository.save(commentToUpdate);
-        return commentToUpdate;
+        return commentToUpdate.getId();
     }
 
     public void deleteComment(long id){

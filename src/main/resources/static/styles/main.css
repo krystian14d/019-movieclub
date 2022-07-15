@@ -291,6 +291,7 @@ i powinna zajmować większość dostępnej przestrzeni
 .comment-pages{
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
+
 }
 
 .comment-nav-button
@@ -304,6 +305,13 @@ i powinna zajmować większość dostępnej przestrzeni
 
 #single-comment-nav-button{
     color: #ffc107;
+}
+
+.page-nav-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .edit-comment-button{

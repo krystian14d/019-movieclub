@@ -83,6 +83,54 @@
                 </div>
             </li>
         </ul>
+
+        <!--            paginacja - nawigacja-->
+        <div th:if="${totalPages > 1}">
+            <div class="row col-sm-10 page-nav-buttons">
+                <div>
+                    Filmów: [[${totalItems}]]
+                </div>
+                <div class="col-sm-1 comment-pages">
+                    <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${currentPage != i}" th:href="@{|/?pageNo=${i}|}">[[${i}]]</a>
+                        <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                    </span>
+                </div>
+                <div>
+                    <a class="comment-nav-button"
+                       th:if="${currentPage > 1}"
+                       th:href="@{/?pageNo=1}">
+                        <i id="single-comment-nav-button" class="fa-solid fa-angles-left"></i></a>
+                    <span class="comment-nav-button"
+                          th:unless="${currentPage > 1}">
+                        <i class="fa-solid fa-angles-left"></i></span>
+                    &nbsp;
+                    <a class="comment-nav-button"
+                       th:if="${currentPage > 1}"
+                       th:href="@{|/?pageNo=${currentPage - 1}|}">
+                        <i id="single-comment-nav-button" class="fa-solid fa-angle-left"></i></a>
+                    <span class="comment-nav-button"
+                          th:unless="${currentPage > 1}">
+                        <i class="fa-solid fa-angle-left"></i></span>
+                    &nbsp;
+                    <a class="comment-nav-button"
+                       th:if="${currentPage < totalPages}"
+                       th:href="@{|/?pageNo=${currentPage + 1}|}">
+                        <i id="single-comment-nav-button" class="fa-solid fa-angle-right"></i></a>
+                    <span class="comment-nav-button"
+                          th:unless="${currentPage < totalPages}">
+                        <i class="fa-solid fa-angle-right"></i></span>
+                    &nbsp;
+                    <a class="comment-nav-button"
+                       th:if="${currentPage < totalPages}"
+                       th:href="@{|/?pageNo=${totalPages}|}">
+                        <i id="single-comment-nav-button" class="fa-solid fa-angles-right"></i></a>
+                    <span class="comment-nav-button"
+                          th:unless="${currentPage < totalPages}">
+                        <i class="fa-solid fa-angles-right"></i></span>
+                </div>
+            </div>
+        </div>
     </main>
 </div>
 </body>

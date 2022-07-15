@@ -3,12 +3,17 @@ package pl.javastart.movieclub.web;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.javastart.movieclub.domain.genre.GenreService;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
+import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
 
@@ -40,6 +45,8 @@ class GenreControllerTest {
         underTest = new GenreController(genreService, movieService);
         mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
     }
+
+    //TODO: update test method
 
     @Test
     void itShouldAddGenreAndMovieToAttributesAndReturnViewName() throws Exception {
@@ -79,7 +86,16 @@ class GenreControllerTest {
         List<MovieDto> moviesByGenre = List.of(movie);
 
         given(genreService.findGenreByName(genreName)).willReturn(Optional.of(genre));
-        given(movieService.findMoviesByGenreName(genreName)).willReturn(moviesByGenre);
+//        given(movieService.findMoviesByGenreName(genreName)).willReturn(moviesByGenre);
+        int pageNo = 1;
+        int pageSize = 5;
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<MovieDto> movieList = List.of(movie);
+
+        PageImpl<MovieDto> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
+
+        Mockito.when(movieService.findPagedMoviesByGenreName(Mockito.anyString(),Mockito.anyInt(), Mockito.anyInt())).thenReturn(moviesPageImpl);
 
         //when
         //then

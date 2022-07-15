@@ -27,8 +27,8 @@ public class CommentManagementController {
 
     @PostMapping("/admin/edit-comment")
     public String saveEditedComment(Comment comment) throws CommentNotFoundException {
-        Comment updatedComment = commentService.updateComment(comment);
-        return "redirect:/movie/" + updatedComment.getMovie().getId().toString();
+        Long id = commentService.updateComment(comment);
+        return "redirect:/movie/" + id.toString();
     }
 
     @PostMapping("/admin/delete-comment")

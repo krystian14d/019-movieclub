@@ -31,14 +31,6 @@
     <p class="list-description">
         Poniżej znajdziesz listę gatunków filmowych dostępnych w naszym serwisie.
     </p>
-    <!--        <ul class="list-border">-->
-    <!--            <li th:each="genre: ${genres}">-->
-    <!--                <a th:href="@{|/gatunek/${genre.name}|}"-->
-    <!--                   th:text="${genre.name}">-->
-    <!--                    Dramat-->
-    <!--                </a>-->
-    <!--            </li>-->
-    <!--        </ul>-->
     <table class="list-border">
         <tr th:each="genre: ${genres}">
             <td>
