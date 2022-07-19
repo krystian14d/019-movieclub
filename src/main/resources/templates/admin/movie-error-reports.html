@@ -18,7 +18,7 @@
             <!-- Podsumowanie -->
             <div class="movie-summary">
                 <!-- Ustawiamy adres i opis plakatu -->
-                <img src="../static/img/poster-placeholder.png"
+                <img src="../../static/img/poster-placeholder.png"
                      th:src="${movie.poster ne null} ? @{|/img/${movie.poster}|} : @{/img/poster-placeholder.png}"
                      alt="tytuł filmu"
                      th:alt="${movie.title}"
@@ -38,10 +38,9 @@
                     <p class="movie-summary-item" th:text="${movie.shortDescription}">
                         Podróż odważnego hobbita i jego towarzyszy w poszukiwaniu pierścienia.
                     </p>
-<!--                Edycja i usuwanie filmu, przechodzenie do zgłaszanych błędów-->
+                    <!--                    Edycja i usuwanie filmu-->
                     <p class="movie-summary-item"
                        sec:authorize="hasAnyRole('ADMIN','EDITOR')">
-                        <a href="#" th:href="@{|/movie/${movie.id}/error-reports|}">Zgłoszone błędy</a>
                         <a href="#" th:href="@{|/admin/edit-movie/${movie.id}|}">Edytuj film</a>
                         <a class="delete-movie" href="#" th:href="@{|/admin/delete-movie/${movie.id}|}">Usuń film</a>
                     </p>
@@ -118,8 +117,8 @@
                 <li class="single-movie-comment" th:each="comment : ${comments}">
                     <div class="comment-author-date">
                         <p>
-<!--                           th:text="|Autor: ${comment.user.email}-->
-<!--                       Data: ${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}|">-->
+                            <!--                           th:text="|Autor: ${comment.user.email}-->
+                            <!--                       Data: ${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}|">-->
 
                             Autor: <a href="#"
                                       th:href="@{|/user/${comment.user.id}|}"

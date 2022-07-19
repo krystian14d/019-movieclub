@@ -31,6 +31,6 @@ public class MovieErrorController {
         model.addAttribute("totalItems", movieErrorsPaged.getTotalElements());
         model.addAttribute("movieErrors", movieErrors);
 
-        return "movie-error-report";
+        return "admin/movie-error-reports";
     }
 }
