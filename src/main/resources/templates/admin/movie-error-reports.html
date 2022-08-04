@@ -6,7 +6,7 @@
       layout:decorate="~{layout}">
 <head>
     <!-- Ustawiamy tytuł -->
-    <title th:text="|${movie.title} - MovieClub|">Tytuł filmu - MovieClub</title>
+    <title>Zgłoszone błędy - MovieClub</title>
 </head>
 <body>
 <div class="container">
@@ -15,190 +15,85 @@
             Belka z powiadomieniami
         </p>
         <section class="movie">
-            <!-- Podsumowanie -->
-            <div class="movie-summary">
-                <!-- Ustawiamy adres i opis plakatu -->
-                <img src="../../static/img/poster-placeholder.png"
-                     th:src="${movie.poster ne null} ? @{|/img/${movie.poster}|} : @{/img/poster-placeholder.png}"
-                     alt="tytuł filmu"
-                     th:alt="${movie.title}"
-                     class="movie-summary-cover"
-                />
-                <!-- informacje o filmie -->
-                <div class="movie-summary-info">
-                    <!-- Ustawiamy tytuły, krótki opis, rok -->
-                    <h1 class="movie-summary-title" th:text="${movie.title}">Władca pierścieni</h1>
-                    <p class="movie-summary-original-title" th:text="${movie.originalTitle}">Lord of the rings</p>
-                    <p class="movie-summary-item" th:text="|Rok: ${movie.releaseYear}|">Rok: 2001</p>
-                    <!-- Ustawiamy link do strony gatunku filmowego, np. /gatunek/fantasy -->
-                    <p class="movie-summary-item">Gatunek: <a href="#"
-                                                              th:href="@{|/genre/${movie.genreId}|}"
-                                                              th:text="${movie.genre}">Fantasy</a>
-                    </p>
-                    <p class="movie-summary-item" th:text="${movie.shortDescription}">
-                        Podróż odważnego hobbita i jego towarzyszy w poszukiwaniu pierścienia.
-                    </p>
-                    <!--                    Edycja i usuwanie filmu-->
-                    <p class="movie-summary-item"
-                       sec:authorize="hasAnyRole('ADMIN','EDITOR')">
-                        <a href="#" th:href="@{|/admin/edit-movie/${movie.id}|}">Edytuj film</a>
-                        <a class="delete-movie" href="#" th:href="@{|/admin/delete-movie/${movie.id}|}">Usuń film</a>
-                    </p>
+            <!--wyświetlanie błędów - paginacja-->
+            <section class="movie-comments">
+                <h2 class="movie-section-heading">Zgłoszone błędy do filmu:</h2>
+                <ul th:remove="all-but-first">
+                    <li class="single-movie-comment" th:each="error : ${movieErrors}">
+                        <div class="comment-author-date">
+                            <p>
+                                Data: <span th:text="${#temporals.format(error.dateAdded, 'yyyy-MM-dd')}">Data: 2022-07-15</span>
+                            </p>
+                        </div>
+                        <div class="comment-content">
+                            <p th:text="${error.errorDescription}">Treść zgłoszonego błędu</p>
+                        </div>
+                        <div sec:authorize="hasAnyRole('ADMIN', 'EDITOR')" style="display: flex">
+                            <form method="post" th:action="@{/admin/delete-comment}">
+                                <input type="hidden" name="errorId" th:value="${error.id}">
+                                <input type="hidden" name="movieId" th:value="${error.movie.id}">
+                                <button class="delete-comment-button" type="submit">Usuń</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="single-movie-comment">
+                        <div>
+                            <p class="comment-author-date">Autor: Admin | Data: 2022-07-05</p>
+                        </div>
+                        <div class="comment-content">
+                            <p>Treść komentarza nr 2</p>
+                        </div>
+                    </li>
+                </ul>
+                <!--            paginacja - nawigacja-->
+                <div>
+                    Zgłoszeń: [[${totalItems}]]
                 </div>
-            </div>
-            <!-- Ocena -->
-            <div class="movie-rating-container movie-section">
-                <h2 class="movie-section-heading">Ocena</h2>
-                <!--                Jeżeli nie oddano żadnego głosu-->
-                <p th:unless="${movie.ratingCount}">Brak głosów</p>
-                <!--                Jeżeli oddano głos-->
-                <div th:if="${movie.ratingCount}">
-                    <!--                    Zaokrąglamy ocenę do 1 miejsca przed i po przecinku-->
-                    <p class="movie-rating-value" th:text="${#numbers.formatDecimal(movie.avgRating, 1, 1)}">4.0</p>
-                    <p th:text="|Liczba ocen: ${movie.ratingCount}|">Liczba ocen: 134</p>
-                </div>
-                <!--Formularz, który wyświetlany jest tylko zalogowanemu użytkownikowi-->
-                <form action="#" th:action="@{/rate-movie}" method="post"
-                      sec:authorize="isAuthenticated()"
-                      class="movie-rating-form">
-                    <!-- Identyfikator filmu, na który głosujemy-->
-                    <p>Twoja ocena</p>
-                    <input type="hidden" name="movieId" th:value="${movie.id}">
-                    <div class="movie-rating-buttons">
-                        <button class="movie-rating-button"
-                                name="rating"
-                                th:each="i:${#numbers.sequence(1,5)}"
-                                th:value="${i}">
-                            <!-- Pełną i pustą gwiazdkę rozróżniamy dodając odpowiednią klasę na podstawie głosu użytkownika -->
-                            <i class="fa-star" th:classappend="i <= userRating ? 'fa-solid' : 'fa-regular'"></i>
-                        </button>
-                    </div>
-                </form>
-                <p sec:authorize="!isAuthenticated()">
-                    <a href="#" th:href="@{/login}">Zaloguj się</a>, aby oddać głos
-                </p>
-            </div>
-        </section>
-        <!-- trailer -->
-        <section class="movie-trailer-container movie-section">
-            <h2 class="movie-section-heading">Trailer</h2>
-            <!-- Ustawiamy url filmu z trailerem -->
-            <iframe width="560" height="315" class="movie-trailer"
-                    src="https://www.youtube.com/embed/V75dMMIW2B4"
-                    th:src="|https://www.youtube.com/embed/${movie.youtubeTrailerId}|"
-                    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </section>
-        <!-- opis -->
-        <section class="movie-section">
-            <h2 class="movie-section-heading">Opis</h2>
-            <!-- Ustawiamy pełny opis -->
-            <p th:text="${movie.description}">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque
-                ante sollicitudin.
-                Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi
-                vulputate fringilla.
-                Donec lacinia congue felis in faucibus.</p>
-        </section>
-        <!--        komentarze do filmu-->
-        <!--        formularz dodawania komentarza-->
-        <section class="movie-section" sec:authorize="isAuthenticated()">
-            <form method="post" action="#" class="mc-form"
-                  th:action="@{/add-comment}"
-                  th:object="${newComment}">
-                <input type="hidden" name="movieId" th:value="${movie.id}">
-                <p><label for="comment">Twój komentarz:</label></p>
-                <textarea id="comment" name="newComment" rows="3" placeholder="Twój komentarz..."></textarea>
-                <button type="submit">Wyślij</button>
-            </form>
-        </section>
-        <!--wyświetlanie komentarzy - paginacja-->
-        <section class="movie-comments">
-            <h2 class="movie-section-heading">Komentarze:</h2>
-            <ul th:remove="all-but-first">
-                <li class="single-movie-comment" th:each="comment : ${comments}">
-                    <div class="comment-author-date">
-                        <p>
-                            <!--                           th:text="|Autor: ${comment.user.email}-->
-                            <!--                       Data: ${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}|">-->
-
-                            Autor: <a href="#"
-                                      th:href="@{|/user/${comment.user.id}|}"
-                                      th:text="${comment.user.email}">
-                            Autor: admin@example.com</a>
-                            Data: <span th:text="${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}">Data: 2022-07-15</span>
-                        </p>
-                    </div>
-                    <div class="comment-content">
-                        <p th:text="${comment.commentContent}">Treść komentarza</p>
-                    </div>
-                    <div sec:authorize="hasAnyRole('ADMIN', 'EDITOR')" style="display: flex">
-                        <form method="get" th:action="@{|/admin/edit-comment/${comment.id}|}">
-                            <button class="edit-comment-button" type="submit">Edytuj</button>
-                        </form>
-                        &nbsp;
-                        <form method="post" th:action="@{/admin/delete-comment}">
-                            <input type="hidden" name="commentId" th:value="${comment.id}">
-                            <input type="hidden" name="movieId" th:value="${movie.id}">
-                            <button class="delete-comment-button" type="submit">Usuń</button>
-                        </form>
-                    </div>
-                </li>
-                <li class="single-movie-comment">
-                    <div>
-                        <p class="comment-author-date">Autor: Admin | Data: 2022-07-05</p>
-                    </div>
-                    <div class="comment-content">
-                        <p>Treść komentarza nr 2</p>
-                    </div>
-                </li>
-            </ul>
-            <!--            paginacja - nawigacja-->
-            <div th:if="${totalPages > 1}">
-                <div class="row col-sm-10">
-                    <div>
-                        Komentarzy: [[${totalItems}]]
-                    </div>
-                    <div class="col-sm-1 comment-pages">
+                <div th:if="${totalPages > 1}">
+                    <div class="row col-sm-10">
+                        <div class="col-sm-1 comment-pages">
                     <span th:each="i : ${#numbers.sequence(1, totalPages)}">
-                        <a th:if="${currentPage != i}" th:href="@{|/movie/${movie.id}?pageNo=${i}|}">[[${i}]]</a>
+                        <a th:if="${currentPage != i}"
+                           th:href="@{|/movie/${error.movie.id}/error-reports?pageNo=${i}|}">[[${i}]]</a>
                         <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
                     </span>
-                    </div>
-                    <div>
-                        <a class="comment-nav-button"
-                           th:if="${currentPage > 1}"
-                           th:href="@{|/movie/${movie.id}?pageNo=1|}">
-                            <i id="single-comment-nav-button" class="fa-solid fa-angles-left"></i></a>
-                        <span class="comment-nav-button"
-                              th:unless="${currentPage > 1}">
+                        </div>
+                        <div>
+                            <a class="comment-nav-button"
+                               th:if="${currentPage > 1}"
+                               th:href="@{|/movie/${movie.id}/error-reports?pageNo=1|}">
+                                <i id="single-comment-nav-button" class="fa-solid fa-angles-left"></i></a>
+                            <span class="comment-nav-button"
+                                  th:unless="${currentPage > 1}">
                         <i class="fa-solid fa-angles-left"></i></span>
-                        &nbsp;
-                        <a class="comment-nav-button"
-                           th:if="${currentPage > 1}"
-                           th:href="@{|/movie/${movie.id}?pageNo=${currentPage - 1}|}">
-                            <i id="single-comment-nav-button" class="fa-solid fa-angle-left"></i></a>
-                        <span class="comment-nav-button"
-                              th:unless="${currentPage > 1}">
+                            &nbsp;
+                            <a class="comment-nav-button"
+                               th:if="${currentPage > 1}"
+                               th:href="@{|/movie/${movie.id}/error-reports?pageNo=${currentPage - 1}|}">
+                                <i id="single-comment-nav-button" class="fa-solid fa-angle-left"></i></a>
+                            <span class="comment-nav-button"
+                                  th:unless="${currentPage > 1}">
                         <i class="fa-solid fa-angle-left"></i></span>
-                        &nbsp;
-                        <a class="comment-nav-button"
-                           th:if="${currentPage < totalPages}"
-                           th:href="@{|/movie/${movie.id}?pageNo=${currentPage + 1}|}">
-                            <i id="single-comment-nav-button" class="fa-solid fa-angle-right"></i></a>
-                        <span class="comment-nav-button"
-                              th:unless="${currentPage < totalPages}">
+                            &nbsp;
+                            <a class="comment-nav-button"
+                               th:if="${currentPage < totalPages}"
+                               th:href="@{|/movie/${movie.id}/error-reports?pageNo=${currentPage + 1}|}">
+                                <i id="single-comment-nav-button" class="fa-solid fa-angle-right"></i></a>
+                            <span class="comment-nav-button"
+                                  th:unless="${currentPage < totalPages}">
                         <i class="fa-solid fa-angle-right"></i></span>
-                        &nbsp;
-                        <a class="comment-nav-button"
-                           th:if="${currentPage < totalPages}"
-                           th:href="@{|/movie/${movie.id}?pageNo=${totalPages}|}">
-                            <i id="single-comment-nav-button" class="fa-solid fa-angles-right"></i></a>
-                        <span class="comment-nav-button"
-                              th:unless="${currentPage < totalPages}">
+                            &nbsp;
+                            <a class="comment-nav-button"
+                               th:if="${currentPage < totalPages}"
+                               th:href="@{|/movie/${movie.id}/error-reports?pageNo=${totalPages}|}">
+                                <i id="single-comment-nav-button" class="fa-solid fa-angles-right"></i></a>
+                            <span class="comment-nav-button"
+                                  th:unless="${currentPage < totalPages}">
                         <i class="fa-solid fa-angles-right"></i></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
     </main>
 </div>
 </body>
