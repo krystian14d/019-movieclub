@@ -6,7 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,6 @@ import pl.javastart.movieclub.domain.movie.dto.MovieSaveDto;
 import pl.javastart.movieclub.storage.FileStorageService;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -119,7 +118,8 @@ class MovieServiceTest {
         Mockito.when(movieRepository.findAllByPromotedIsTrue(Mockito.any())).thenReturn(moviesPaged);
 
         //WHEN
-        Page<MovieDto> moviesPagedFound = underTest.findAllPagedPromotedMovies(pageNo, pageSize);
+
+        Page<MovieDto> moviesPagedFound = underTest.findAllPromotedMovies(pageNo, pageSize);
 
         //THEN
         assertThat(moviesPagedFound.getContent()).hasSize(2);
@@ -174,7 +174,7 @@ class MovieServiceTest {
 
 
     @Test
-    void itShouldFindMovieByGenreNameAndMapToDto() {
+    void itShouldFindMovieByGenreIDAndMapToDto() {
         //given
         long id = 1L;
         String title = "Forrest Gump";
@@ -212,10 +212,11 @@ class MovieServiceTest {
 
         PageImpl<Movie> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
 
-        Mockito.when(movieRepository.findAllByGenre_NameIgnoreCase(Mockito.anyString(), Mockito.any())).thenReturn(moviesPageImpl);
+
+        Mockito.when(movieRepository.findAllByGenre_Id(Mockito.anyLong(), Mockito.any())).thenReturn(moviesPageImpl);
 
         //when
-        Page<MovieDto> moviesPaged = underTest.findPagedMoviesByGenreName(genreName, pageNo, pageSize);
+        Page<MovieDto> moviesPaged = underTest.findByGenreId(genreId, pageNo, pageSize);
 
         //then
         assertThat(moviesPaged.getContent())
@@ -250,10 +251,10 @@ class MovieServiceTest {
         movieToSave.setShortDescription(shortDesciption);
         movieToSave.setYoutubeTrailerId(youtubeTrailerId);
         movieToSave.setDescription(description);
-        movieToSave.setGenre(genreName);
+        movieToSave.setGenreId(genreId);
         movieToSave.setPoster(file);
 
-        given(genreRepository.findByNameIgnoreCase(movieToSave.getGenre())).willReturn(Optional.of(genre));
+        given(genreRepository.findById(movieToSave.getGenreId())).willReturn(Optional.of(genre));
         given(fileStorageService.saveImage(movieToSave.getPoster())).willReturn("poster0.png");
 
         //when
@@ -323,13 +324,13 @@ class MovieServiceTest {
         movieWithEdit.setShortDescription(shortDesciption);
         movieWithEdit.setYoutubeTrailerId(youtubeTrailerId);
         movieWithEdit.setDescription(description);
-        movieWithEdit.setGenre(genreName);
+        movieWithEdit.setGenreId(genreId);
         movieWithEdit.setPoster(file);
 
         Movie movieToEdit = new Movie();
 
         given(movieRepository.findById(movieId)).willReturn(Optional.of(movieToEdit));
-        given(genreRepository.findByNameIgnoreCase(movieWithEdit.getGenre())).willReturn(Optional.of(genre));
+        given(genreRepository.findById(movieWithEdit.getGenreId())).willReturn(Optional.of(genre));
         given(fileStorageService.saveImage(movieWithEdit.getPoster())).willReturn("poster0.png");
 
         //when

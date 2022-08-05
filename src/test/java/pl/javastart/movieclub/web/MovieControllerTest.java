@@ -66,6 +66,7 @@ class MovieControllerTest {
         String poster = "poster.png";
         double avgRating = 4.5;
         int ratingCount = 123;
+        long genreId = 1L;
 
         MovieDto movie = new MovieDto(
                 id,
@@ -75,6 +76,7 @@ class MovieControllerTest {
                 description,
                 youtubeTrailerId,
                 releaseYear,
+                genreId,
                 genreName,
                 promoted,
                 poster,

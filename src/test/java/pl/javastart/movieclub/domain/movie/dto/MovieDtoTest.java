@@ -24,6 +24,7 @@ class MovieDtoTest {
         String poster = "poster.png";
         double avgRating = 4.5;
         int ratingCount = 123;
+        Long genreId = 1L;
 
         //WHEN
         underTest = new MovieDto(
@@ -34,6 +35,7 @@ class MovieDtoTest {
                 description,
                 youtubeTrailerId,
                 releaseYear,
+                genreId,
                 genreName,
                 promoted,
                 poster,

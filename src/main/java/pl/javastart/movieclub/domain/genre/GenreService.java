@@ -19,11 +19,6 @@ public class GenreService {
     private final GenreRepository genreRepository;
     private final MovieRepository movieRepository;
 
-    public Optional<GenreDto> findGenreByName(String name) {
-        return genreRepository.findByNameIgnoreCase(name)
-                .map(GenreDtoMapper::map);
-    }
-
     public List<GenreDto> findAllGenres(){
         return StreamSupport.stream(genreRepository.findAll().spliterator(), false)
                 .map(GenreDtoMapper::map)

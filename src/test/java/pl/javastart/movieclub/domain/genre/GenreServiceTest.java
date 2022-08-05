@@ -48,33 +48,6 @@ class GenreServiceTest {
     }
 
     @Test
-    void itShouldFindGenreByName() {
-        //GIVEN
-        Long genreId = 1L;
-        String genreName = "genreName";
-        String genreDescription = "genreDescription";
-
-        Genre genre = new Genre();
-        genre.setId(genreId);
-        genre.setName(genreName);
-        genre.setDescription(genreDescription);
-
-        given(genreRepository.findByNameIgnoreCase(genreName)).willReturn(Optional.of(genre));
-        GenreDto genreDto = GenreDtoMapper.map(genre);
-
-        //WHEN
-        Optional<GenreDto> genreOptional = underTest.findGenreByName(genreName);
-
-        //THEN
-        assertThat(genreOptional)
-                .isPresent()
-                .hasValueSatisfying(g -> assertThat(g)
-                        .usingRecursiveComparison()
-                        .isEqualTo(genreDto));
-
-    }
-
-    @Test
     void itShouldSaveGenre() {
         //GIVEN
         String genreName = "genreName";

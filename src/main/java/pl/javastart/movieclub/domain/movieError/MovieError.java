@@ -1,11 +1,9 @@
-package pl.javastart.movieclub.domain.comment;
+package pl.javastart.movieclub.domain.movieError;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.javastart.movieclub.domain.movie.Movie;
-import pl.javastart.movieclub.domain.user.User;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +19,9 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "movie_comment")
-public class Comment {
+@Table(name = "movie_error_reports")
+
+public class MovieError {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,12 +31,8 @@ public class Comment {
     @JoinColumn(name = "fk_movie_id")
     private Movie movie;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_user_id")
-    private User user;
-
-    @Column(name = "comment")
-    private String commentContent;
+    @Column(name = "error_description")
+    private String errorDescription;
 
     @Column(name = "date_added")
     private LocalDateTime dateAdded;

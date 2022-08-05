@@ -34,8 +34,6 @@ class MovieSaveDtoTest {
         long genreId = 1L;
         MultipartFile poster = null;
 
-        String genreName = "Drama";
-
         //when
         underTest = new MovieSaveDto();
         underTest.setTitle(title);
@@ -44,7 +42,7 @@ class MovieSaveDtoTest {
         underTest.setDescription(description);
         underTest.setYoutubeTrailerId(youtubeTrailerId);
         underTest.setReleaseYear(releaseYear);
-        underTest.setGenre(genreName);
+        underTest.setGenreId(genreId);
         underTest.setPromoted(promoted);
         underTest.setPoster(null);
 
@@ -57,6 +55,6 @@ class MovieSaveDtoTest {
         assertThat(underTest.getReleaseYear()).isEqualTo(releaseYear);
         assertThat(underTest.isPromoted()).isEqualTo(promoted);
         assertThat(underTest.getPoster()).isEqualTo(poster);
-        assertThat(underTest.getGenre()).isEqualTo(genreName);
+        assertThat(underTest.getGenreId()).isEqualTo(genreId);
     }
 }

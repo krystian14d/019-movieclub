@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.javastart.movieclub.domain.exception.RoleNotFoundException;
 import pl.javastart.movieclub.domain.exception.UserNotFoundException;
 import pl.javastart.movieclub.domain.user.dto.UserCredentialsDto;
+import pl.javastart.movieclub.domain.user.dto.UserDetailsDto;
 import pl.javastart.movieclub.domain.user.dto.UserRegistrationDto;
 
 import javax.transaction.Transactional;
@@ -35,5 +36,19 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userRegistration.getPassword()));
         user.getRoles().add(defaultRole);
         userRepository.save(user);
+    }
+
+    public UserDetailsDto getUserDetails(Long userId) throws UserNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new UserNotFoundException(String.format("User with ID %s not found", userId)));
+        return UserDetailsDtoMapper.map(user);
+    }
+
+    public Long getUserIdByEmail(String userEmail) throws UserNotFoundException {
+        User user = userRepository.findByEmail(userEmail).orElseThrow(() ->
+                new UserNotFoundException(String.format("User with email %s not found", userEmail)));
+
+        return user.getId();
     }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import pl.javastart.movieclub.domain.user.dto.UserCredentialsDto;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,7 +23,7 @@ class UserCredentialsDtoMapperTest {
         userRole.setName("USER");
         userRole.setDescription("User role description");
 
-        Set<UserRole> role = Collections.singleton(userRole);
+        List<UserRole> role = List.of(userRole);
 
         //when
         User user = new User();

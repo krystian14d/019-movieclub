@@ -2,12 +2,12 @@ package pl.javastart.movieclub.domain.user;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UserTest {
+
 
     @Test
     void itShouldCreateUser() {
@@ -21,7 +21,7 @@ class UserTest {
         userRole.setName("USER");
         userRole.setDescription("User role description");
 
-        Set<UserRole> role = Collections.singleton(userRole);
+        List<UserRole> role = List.of(userRole);
 
         //when
         User underTest = new User();

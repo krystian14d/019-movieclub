@@ -16,6 +16,7 @@ public class MovieDto {
     private String description;
     private String youtubeTrailerId;
     private Integer releaseYear;
+    private Long genreId;
     private String genre;
     private boolean promoted;
     private String poster;

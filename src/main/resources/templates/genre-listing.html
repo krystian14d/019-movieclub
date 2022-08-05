@@ -34,7 +34,7 @@
     <table class="list-border">
         <tr th:each="genre: ${genres}">
             <td>
-                <a th:href="@{|/genre/${genre.name}|}"
+                <a th:href="@{|/genre/${genre.id}|}"
                    th:text="${genre.name}">
                     Dramat
                 </a>

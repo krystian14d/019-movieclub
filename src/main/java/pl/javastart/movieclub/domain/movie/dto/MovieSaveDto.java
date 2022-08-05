@@ -14,7 +14,7 @@ public class MovieSaveDto {
     private String description;
     private String youtubeTrailerId;
     private Integer releaseYear;
-    private String genre;
+    private Long genreId;
     private boolean promoted;
     private MultipartFile poster;
 }

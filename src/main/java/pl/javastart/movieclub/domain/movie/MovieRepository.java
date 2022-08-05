@@ -13,9 +13,15 @@ public interface MovieRepository extends CrudRepository<Movie, Long> {
     Page<Movie> findAllByGenre_NameIgnoreCase(String genre, Pageable pageable);
 
     @Query("select m from Movie m join m.ratings r group by m order by avg(r.rating) desc")
-    List<Movie> findTopByRating(Pageable page);
+    List<Movie> findTopByRating(Pageable pageable);
+
+    Page<Movie> findAllByGenre_Id(Long id, Pageable pageable);
 
     Set<Movie> findAllByGenre_Id(Long id);
 
     Page<Movie> findAllByPromotedIsTrue(Pageable pageable);
+
+//    @Query("SELECT m FROM Movie m WHERE UPPER(m.title) LIKE CONCAT('%',UPPER(:title),'%') OR m.originalTitle LIKE CONCAT('%',UPPER(:title),'%')")
+    Page<Movie> findAllByTitleContainingIgnoreCaseOrOriginalTitleContainingIgnoreCase(String title, String originalTitle, Pageable pageable);
+
 }

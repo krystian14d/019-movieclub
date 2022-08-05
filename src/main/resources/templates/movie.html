@@ -32,15 +32,16 @@
                     <p class="movie-summary-item" th:text="|Rok: ${movie.releaseYear}|">Rok: 2001</p>
                     <!-- Ustawiamy link do strony gatunku filmowego, np. /gatunek/fantasy -->
                     <p class="movie-summary-item">Gatunek: <a href="#"
-                                                              th:href="@{|/genre/${movie.genre}|}"
+                                                              th:href="@{|/genre/${movie.genreId}|}"
                                                               th:text="${movie.genre}">Fantasy</a>
                     </p>
                     <p class="movie-summary-item" th:text="${movie.shortDescription}">
                         Podróż odważnego hobbita i jego towarzyszy w poszukiwaniu pierścienia.
                     </p>
-                    <!--                    Edycja i usuwanie filmu-->
+<!--                Edycja i usuwanie filmu, przechodzenie do zgłaszanych błędów-->
                     <p class="movie-summary-item"
                        sec:authorize="hasAnyRole('ADMIN','EDITOR')">
+                        <a href="#" th:href="@{|/movie/${movie.id}/error-reports|}">Zgłoszone błędy</a>
                         <a href="#" th:href="@{|/admin/edit-movie/${movie.id}|}">Edytuj film</a>
                         <a class="delete-movie" href="#" th:href="@{|/admin/delete-movie/${movie.id}|}">Usuń film</a>
                     </p>
@@ -115,10 +116,17 @@
             <h2 class="movie-section-heading">Komentarze:</h2>
             <ul th:remove="all-but-first">
                 <li class="single-movie-comment" th:each="comment : ${comments}">
-                    <div>
-                        <p class="comment-author-date" th:text="|Autor: ${comment.user.email}
-                       Data: ${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}|">
-                            Autor: Admin | Data: 2022-07-04</p>
+                    <div class="comment-author-date">
+                        <p>
+<!--                           th:text="|Autor: ${comment.user.email}-->
+<!--                       Data: ${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}|">-->
+
+                            Autor: <a href="#"
+                                      th:href="@{|/user/${comment.user.id}|}"
+                                      th:text="${comment.user.email}">
+                            Autor: admin@example.com</a>
+                            Data: <span th:text="${#temporals.format(comment.dateAdded, 'yyyy-MM-dd')}">Data: 2022-07-15</span>
+                        </p>
                     </div>
                     <div class="comment-content">
                         <p th:text="${comment.commentContent}">Treść komentarza</p>

@@ -11,9 +11,8 @@ import pl.javastart.movieclub.domain.exception.RoleNotFoundException;
 import pl.javastart.movieclub.domain.user.dto.UserCredentialsDto;
 import pl.javastart.movieclub.domain.user.dto.UserRegistrationDto;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -51,7 +50,7 @@ class UserServiceTest {
         userRole.setName(userRoleName);
         userRole.setDescription("User role description");
 
-        Set<UserRole> role = Collections.singleton(userRole);
+        List<UserRole> role = List.of(userRole);
 
         User user = new User();
         user.setId(id);

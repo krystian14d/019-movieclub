@@ -66,7 +66,8 @@ class GenreControllerTest {
         int ratingCount = 123;
         String genreDescription = "Drama genre description";
 
-        GenreDto genre = new GenreDto(1L, genreName, genreDescription);
+        Long genreId = 1L;
+        GenreDto genre = new GenreDto(genreId, genreName, genreDescription);
 
         MovieDto movie = new MovieDto(
                 id,
@@ -76,6 +77,7 @@ class GenreControllerTest {
                 description,
                 youtubeTrailerId,
                 releaseYear,
+                genreId,
                 genreName,
                 promoted,
                 poster,
@@ -85,8 +87,9 @@ class GenreControllerTest {
 
         List<MovieDto> moviesByGenre = List.of(movie);
 
-        given(genreService.findGenreByName(genreName)).willReturn(Optional.of(genre));
-//        given(movieService.findMoviesByGenreName(genreName)).willReturn(moviesByGenre);
+
+        given(genreService.findGenreById(genreId)).willReturn(Optional.of(genre));
+
         int pageNo = 1;
         int pageSize = 5;
 
@@ -95,12 +98,12 @@ class GenreControllerTest {
 
         PageImpl<MovieDto> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
 
-        Mockito.when(movieService.findPagedMoviesByGenreName(Mockito.anyString(),Mockito.anyInt(), Mockito.anyInt())).thenReturn(moviesPageImpl);
+        Mockito.when(movieService.findByGenreId(Mockito.anyLong(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(moviesPageImpl);
 
         //when
         //then
 
-        mockMvc.perform(get("/genre/Drama"))
+        mockMvc.perform(get("/genre/1"))
                 .andExpect(model().attribute("heading", genre.getName()))
                 .andExpect(model().attribute("description", genreDescription))
                 .andExpect(model().attribute("movies", moviesByGenre))
@@ -110,11 +113,11 @@ class GenreControllerTest {
     @Test
     void itShouldThrowExceptionAndSentNotFoundResponse() throws Exception {
         //given
-        String genreName = "Drama";
-        given(genreService.findGenreByName(genreName)).willReturn(Optional.empty());
+        Long genreId = 1L;
+        given(genreService.findGenreById(genreId)).willReturn(Optional.empty());
         //when
         //then
-        mockMvc.perform(get("/genre/Drama"))
+        mockMvc.perform(get("/genre/1"))
                 .andExpect(status().isNotFound());
 
     }

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pl"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
+<head>
+    <!-- Ustawiamy tytuł -->
+    <title>Zgłoszone błędy - MovieClub</title>
+</head>
+<body>
+<div class="container">
+    <main class="main-content" layout:fragment="content">
+        <p class="notification-bar" th:if="${notification}" th:text="${notification}">
+            Belka z powiadomieniami
+        </p>
+        <section class="movie">
+            <!--wyświetlanie błędów - paginacja-->
+            <section class="movie-comments">
+                <h2 class="movie-section-heading">Zgłoszone błędy do filmu:</h2>
+                <ul th:remove="all-but-first">
+                    <li class="single-movie-comment" th:each="error : ${movieErrors}">
+                        <div class="comment-author-date">
+                            <p>
+                                Data: <span th:text="${#temporals.format(error.dateAdded, 'yyyy-MM-dd')}">Data: 2022-07-15</span>
+                            </p>
+                        </div>
+                        <div class="comment-content">
+                            <p th:text="${error.errorDescription}">Treść zgłoszonego błędu</p>
+                        </div>
+                        <div sec:authorize="hasAnyRole('ADMIN', 'EDITOR')" style="display: flex">
+                            <form method="post" th:action="@{|/movie-error-report/delete/${error.id}|}">
+                                <input type="hidden" name="errorId" th:value="${error.id}">
+                                <input type="hidden" name="movieId" th:value="${error.movie.id}">
+                                <button class="delete-comment-button" type="submit">Usuń</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li class="single-movie-comment">
+                        <div>
+                            <p class="comment-author-date">Autor: Admin | Data: 2022-07-05</p>
+                        </div>
+                        <div class="comment-content">
+                            <p>Treść komentarza nr 2</p>
+                        </div>
+                    </li>
+                </ul>
+                <!--            paginacja - nawigacja-->
+                <div>
+                    Zgłoszeń: [[${totalItems}]]
+                </div>
+                <div th:if="${totalPages > 1}">
+                    <div class="row col-sm-10">
+                        <div class="col-sm-1 comment-pages">
+                    <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                        <a th:if="${currentPage != i}"
+                           th:href="@{|/movie/${error.movie.id}/error-reports?pageNo=${i}|}">[[${i}]]</a>
+                        <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                    </span>
+                        </div>
+                        <div>
+                            <a class="comment-nav-button"
+                               th:if="${currentPage > 1}"
+                               th:href="@{|/movie/${movie.id}/error-reports?pageNo=1|}">
+                                <i id="single-comment-nav-button" class="fa-solid fa-angles-left"></i></a>
+                            <span class="comment-nav-button"
+                                  th:unless="${currentPage > 1}">
+                        <i class="fa-solid fa-angles-left"></i></span>
+                            &nbsp;
+                            <a class="comment-nav-button"
+                               th:if="${currentPage > 1}"
+                               th:href="@{|/movie/${movie.id}/error-reports?pageNo=${currentPage - 1}|}">
+                                <i id="single-comment-nav-button" class="fa-solid fa-angle-left"></i></a>
+                            <span class="comment-nav-button"
+                                  th:unless="${currentPage > 1}">
+                        <i class="fa-solid fa-angle-left"></i></span>
+                            &nbsp;
+                            <a class="comment-nav-button"
+                               th:if="${currentPage < totalPages}"
+                               th:href="@{|/movie/${movie.id}/error-reports?pageNo=${currentPage + 1}|}">
+                                <i id="single-comment-nav-button" class="fa-solid fa-angle-right"></i></a>
+                            <span class="comment-nav-button"
+                                  th:unless="${currentPage < totalPages}">
+                        <i class="fa-solid fa-angle-right"></i></span>
+                            &nbsp;
+                            <a class="comment-nav-button"
+                               th:if="${currentPage < totalPages}"
+                               th:href="@{|/movie/${movie.id}/error-reports?pageNo=${totalPages}|}">
+                                <i id="single-comment-nav-button" class="fa-solid fa-angles-right"></i></a>
+                            <span class="comment-nav-button"
+                                  th:unless="${currentPage < totalPages}">
+                        <i class="fa-solid fa-angles-right"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    </main>
+</div>
+</body>
+</html>
