@@ -23,6 +23,7 @@ public class HomeController {
             @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize,
             Model model) {
 
+
         Page<MovieDto> promotedMoviesPaged = movieService.findAllPromotedMovies(pageNo, pageSize);
         List<MovieDto> promotedMovies = promotedMoviesPaged.getContent();
 
@@ -30,6 +31,7 @@ public class HomeController {
         model.addAttribute("description", "Filmy polecane przez nasz zespół");
         model.addAttribute("movies", promotedMovies);
         model.addAttribute("currentPage", pageNo);
+
         model.addAttribute("totalPages", promotedMoviesPaged.getTotalPages());
         model.addAttribute("totalItems", promotedMoviesPaged.getTotalElements());
 

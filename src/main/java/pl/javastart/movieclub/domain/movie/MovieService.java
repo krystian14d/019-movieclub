@@ -26,6 +26,7 @@ public class MovieService {
     private final GenreRepository genreRepository;
     private final FileStorageService fileStorageService;
 
+
     public Page<MovieDto> findAllPromotedMovies(int pageNo, int pageSize){
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize);

@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import pl.javastart.movieclub.domain.genre.GenreService;
 import pl.javastart.movieclub.domain.genre.dto.GenreDto;
+import pl.javastart.movieclub.domain.movie.Movie;
 import pl.javastart.movieclub.domain.movie.MovieService;
 import pl.javastart.movieclub.domain.movie.dto.MovieDto;
 
@@ -44,6 +45,8 @@ class GenreControllerTest {
         underTest = new GenreController(genreService, movieService);
         mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
     }
+
+    //TODO: update test method
 
     @Test
     void itShouldAddGenreAndMovieToAttributesAndReturnViewName() throws Exception {
@@ -83,6 +86,7 @@ class GenreControllerTest {
         );
 
         List<MovieDto> moviesByGenre = List.of(movie);
+
 
         given(genreService.findGenreById(genreId)).willReturn(Optional.of(genre));
 

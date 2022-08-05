@@ -40,6 +40,7 @@ class HomeControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
     }
 
+
     @Test
     void itShouldReturnMovieListingAndLoadPromotedMovies() throws Exception {
         //given
@@ -105,4 +106,5 @@ class HomeControllerTest {
                 .andExpect(model().attribute("heading", "Promowane filmy"))
                 .andExpect(model().attribute("description", "Filmy polecane przez nasz zespół"));
     }
+
 }

@@ -23,9 +23,11 @@ public class GenreController {
     private final GenreService genreService;
     private final MovieService movieService;
 
+
     @GetMapping("/genre/{genreId}")
     public String getGenre(
             @PathVariable long genreId,
+
             @RequestParam(name = "pageNo", required = false, defaultValue = "1") int pageNo,
             @RequestParam(name = "pageSize", required = false, defaultValue = "5") int pageSize,
             Model model){
@@ -34,6 +36,7 @@ public class GenreController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         Page<MovieDto> moviesPaged = movieService.findByGenreId(genreId, pageNo, pageSize);
+
         List<MovieDto> moviesByGenre = moviesPaged.getContent();
 
         model.addAttribute("heading", genre.getName());

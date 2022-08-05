@@ -6,6 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -117,6 +118,7 @@ class MovieServiceTest {
         Mockito.when(movieRepository.findAllByPromotedIsTrue(Mockito.any())).thenReturn(moviesPaged);
 
         //WHEN
+
         Page<MovieDto> moviesPagedFound = underTest.findAllPromotedMovies(pageNo, pageSize);
 
         //THEN
@@ -209,6 +211,7 @@ class MovieServiceTest {
         List<Movie> movieList = List.of(movie);
 
         PageImpl<Movie> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
+
 
         Mockito.when(movieRepository.findAllByGenre_Id(Mockito.anyLong(), Mockito.any())).thenReturn(moviesPageImpl);
 
