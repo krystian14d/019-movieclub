@@ -11,9 +11,8 @@ import pl.javastart.movieclub.domain.exception.RoleNotFoundException;
 import pl.javastart.movieclub.domain.user.dto.UserCredentialsDto;
 import pl.javastart.movieclub.domain.user.dto.UserRegistrationDto;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -37,41 +36,41 @@ class UserServiceTest {
         MockitoAnnotations.openMocks(this);
         underTest = new UserService(userRepository, userRoleRepository, passwordEncoder);
     }
-//TODO: update test
-//    @Test
-//    void itShouldFindCredentialsByEmail() {
-//        //given
-//        Long id = 1L;
-//        String email = "jan@example.com";
-//        String password = "password";
-//
-//        UserRole userRole = new UserRole();
-//        userRole.setId(id);
-//        String userRoleName = "USER";
-//        userRole.setName(userRoleName);
-//        userRole.setDescription("User role description");
-//
-//        Set<UserRole> role = Collections.singleton(userRole);
-//
-//        User user = new User();
-//        user.setId(id);
-//        user.setEmail(email);
-//        user.setPassword(password);
-//        user.setRoles(role);
-//
-//        given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
-//
-//        //when
-//        Optional<UserCredentialsDto> userCredentialsOptional = underTest.findCredentialsByEmail(email);
-//
-//        //then
-//        assertThat(userCredentialsOptional).isNotEmpty();
-//        assertThat(userCredentialsOptional.get())
-//                .isInstanceOf(UserCredentialsDto.class);
-//        assertThat(userCredentialsOptional.get().getEmail()).isEqualTo(email);
-//        assertThat(userCredentialsOptional.get().getPassword()).isEqualTo(password);
-//        assertThat(userCredentialsOptional.get().getRoles()).contains(userRoleName);
-//    }
+
+    @Test
+    void itShouldFindCredentialsByEmail() {
+        //given
+        Long id = 1L;
+        String email = "jan@example.com";
+        String password = "password";
+
+        UserRole userRole = new UserRole();
+        userRole.setId(id);
+        String userRoleName = "USER";
+        userRole.setName(userRoleName);
+        userRole.setDescription("User role description");
+
+        List<UserRole> role = List.of(userRole);
+
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setRoles(role);
+
+        given(userRepository.findByEmail(email)).willReturn(Optional.of(user));
+
+        //when
+        Optional<UserCredentialsDto> userCredentialsOptional = underTest.findCredentialsByEmail(email);
+
+        //then
+        assertThat(userCredentialsOptional).isNotEmpty();
+        assertThat(userCredentialsOptional.get())
+                .isInstanceOf(UserCredentialsDto.class);
+        assertThat(userCredentialsOptional.get().getEmail()).isEqualTo(email);
+        assertThat(userCredentialsOptional.get().getPassword()).isEqualTo(password);
+        assertThat(userCredentialsOptional.get().getRoles()).contains(userRoleName);
+    }
 
     @Test
     void itShouldRegisterUserWithDefaultRole() throws RoleNotFoundException {

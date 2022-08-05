@@ -53,6 +53,5 @@ public class CommentManagementController {
                 "Komentarz został usunięty.");
         return "redirect:" + referer;
     }
-
 }
 

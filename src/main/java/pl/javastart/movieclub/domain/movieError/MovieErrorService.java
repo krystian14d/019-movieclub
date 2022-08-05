@@ -18,4 +18,8 @@ public class MovieErrorService {
         return movieErrorRepository.findAllByMovie_Id(movieId, pageable);
     }
 
+    public void deleteMovieErrorReport(Long id){
+        movieErrorRepository.deleteById(id);
+    }
+
 }

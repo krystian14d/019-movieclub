@@ -172,7 +172,7 @@ class MovieServiceTest {
 
 
     @Test
-    void itShouldFindMovieByGenreNameAndMapToDto() {
+    void itShouldFindMovieByGenreIDAndMapToDto() {
         //given
         long id = 1L;
         String title = "Forrest Gump";
@@ -210,7 +210,7 @@ class MovieServiceTest {
 
         PageImpl<Movie> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
 
-        Mockito.when(movieRepository.findAllByGenre_NameIgnoreCase(Mockito.anyString(), Mockito.any())).thenReturn(moviesPageImpl);
+        Mockito.when(movieRepository.findAllByGenre_Id(Mockito.anyLong(), Mockito.any())).thenReturn(moviesPageImpl);
 
         //when
         Page<MovieDto> moviesPaged = underTest.findByGenreId(genreId, pageNo, pageSize);

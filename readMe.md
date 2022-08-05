@@ -37,7 +37,7 @@ here very basic functionalities (FrontEnd + Backend) were implemented.
 - comment administration (edit/remove) by users with editor or admin role,
 - possibility to search movie,
 - public user profile with possibility to see user comments and ratings.
-- possibility to report errors in movie content - ONGOING
+- possibility to report errors in movie content
 
 ####Further plans for features to be implemented:
  - possibility to administrate users with ability to ban users,

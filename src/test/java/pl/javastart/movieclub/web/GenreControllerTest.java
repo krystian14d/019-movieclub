@@ -45,8 +45,6 @@ class GenreControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(underTest).build();
     }
 
-    //TODO: update test method
-
     @Test
     void itShouldAddGenreAndMovieToAttributesAndReturnViewName() throws Exception {
         //given
@@ -96,12 +94,12 @@ class GenreControllerTest {
 
         PageImpl<MovieDto> moviesPageImpl = new PageImpl<>(movieList, pageable, 2);
 
-        Mockito.when(movieService.findByGenreId(Mockito.anyLong(),Mockito.anyInt(), Mockito.anyInt())).thenReturn(moviesPageImpl);
+        Mockito.when(movieService.findByGenreId(Mockito.anyLong(), Mockito.anyInt(), Mockito.anyInt())).thenReturn(moviesPageImpl);
 
         //when
         //then
 
-        mockMvc.perform(get("/genre/Drama"))
+        mockMvc.perform(get("/genre/1"))
                 .andExpect(model().attribute("heading", genre.getName()))
                 .andExpect(model().attribute("description", genreDescription))
                 .andExpect(model().attribute("movies", moviesByGenre))

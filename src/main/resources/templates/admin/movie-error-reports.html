@@ -29,7 +29,7 @@
                             <p th:text="${error.errorDescription}">Treść zgłoszonego błędu</p>
                         </div>
                         <div sec:authorize="hasAnyRole('ADMIN', 'EDITOR')" style="display: flex">
-                            <form method="post" th:action="@{/admin/delete-comment}">
+                            <form method="post" th:action="@{|/movie-error-report/delete/${error.id}|}">
                                 <input type="hidden" name="errorId" th:value="${error.id}">
                                 <input type="hidden" name="movieId" th:value="${error.movie.id}">
                                 <button class="delete-comment-button" type="submit">Usuń</button>
